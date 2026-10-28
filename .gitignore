@@ -1,0 +1,11 @@
+modelos/
+muestras/
+salidas/
+fotos/
+.venv/
+__pycache__/
+*.pyc
+etiquetas/
+.pytest_cache/
+runs/
+videos/

@@ -1,0 +1,10 @@
+# Instalar torch antes, según la máquina:
+#   sin GPU:     pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+#   GPU NVIDIA:  pip install torch torchvision
+#   GPU AMD:     torch con ROCm (Linux), ver https://pytorch.org
+ultralytics
+huggingface_hub
+opencv-python
+numpy
+dill    # el best.pt de segmentación se guardó con dill
+pytest  # solo para tests/
