@@ -1,5 +1,7 @@
 # Guía: entrenar el detector de baches en AMD Developer Cloud
 
+> **Nota del 2026-11-21:** esta guía todavía no se siguió en una GPU (ver la nota de `PLAN.md`).
+
 Paso a paso, para una MI300X con los 100 USD de crédito. El porqué de cada decisión está en `PLAN.md`.
 
 **Tres reglas de plata:**

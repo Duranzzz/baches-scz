@@ -68,10 +68,21 @@ def descargar_modelos():
             sys.exit(f"{p} pesa {mb:.2f} MB: no es un modelo (¿puntero de Git LFS?). Bórralo y vuelve a correr.")
 
 
+NOMBRES_BACHE = {"POTHOLE", "POTHOLES", "BACHE", "BACHES"}
+
+
 def codigo_det(nombre):
-    """'D40', 'D40 pothole', 'd40_pothole' -> 'D40'; 'Repair' u otra cosa -> None."""
-    codigo = nombre.replace("_", " ").split()[0].upper()
-    return codigo if codigo in DESCRIPCION else None
+    """'D40', 'D40 pothole', 'd40_pothole', 'pothole', 'bache' -> 'D40'; 'Repair' u otra cosa -> None.
+
+    Los detectores de una sola clase "pothole" o "bache" (el YOLO del 1er parcial, el de PeterHdd)
+    cuentan como D40; sin esto, --det-baches los ignoraba sin avisar."""
+    partes = nombre.replace("_", " ").split()
+    if not partes:
+        return None
+    codigo = partes[0].upper()
+    if codigo in DESCRIPCION:
+        return codigo
+    return "D40" if codigo in NOMBRES_BACHE else None
 
 
 def iou(a, b):

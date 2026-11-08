@@ -1,10 +1,11 @@
 {
  "split": "test",
- "detector": "yolo12s_RDD2022_best.pt",
+ "detectores": "yolo12s_RDD2022_best",
  "imgsz": 1280,
  "fotos": 2722,
  "umbrales": {
-  "conf_det": 0.2,
+  "conf_bache": 0.2,
+  "conf_grieta": 0.2,
   "conf_seg": 0.25,
   "conf_seg_solo": 0.55
  },

@@ -1,5 +1,15 @@
 # Detector de baches y grietas (Santa Cruz de la Sierra)
 
+## Estado (21-nov-2026)
+
+- Corre: `preview.py`, `visor.py` y `evaluar.py` con dos modelos públicos (abajo), y la línea base
+  medida en `informes/linea_base.md`, incluido el YOLO del 1.er parcial.
+- **Todavía no hay modelo propio.** El reentrenamiento de `entrenamiento/` (corrida A1 en AMD) no se
+  ejecutó; el armado del dataset y `entrenar.py` se probaron en chico, en CPU. Fuera de este repo
+  hubo un piloto de 2 épocas en Colab, que no se usa.
+- No hay fotos ni video de Santa Cruz etiquetados: todos los números son de datasets de otros países.
+- `calzada.py` tiene pruebas, pero todavía no lo usa ningún script.
+
 Preview que combina dos modelos ya entrenados, sin reentrenar:
 
 - **Detección**: YOLO12s entrenado en RDD2022 ([rezzzq/yolo12s-road-damage-rdd2022](https://huggingface.co/rezzzq/yolo12s-road-damage-rdd2022), MIT).
@@ -29,7 +39,7 @@ videos/       videos para probar en el visor                            (no se s
 ```
 
 Clases de `etiquetas/`: 0 D00, 1 D10, 2 D20, 3 D40 (bache), 4 grieta sin tipo, 5 tapa o rejilla.
-`fotos/` y `etiquetas/` viajan juntas (a Kaggle o a la máquina de entrenamiento).
+`fotos/` y `etiquetas/` no van a git: viajan juntas en el paquete privado de Hugging Face (`entrenamiento/hf.py`).
 
 ## Instalar
 
@@ -57,7 +67,8 @@ La primera vez descarga los dos modelos en `modelos/`. Por cada imagen guarda en
   (verde baja, amarillo media, rojo alta).
 - `<nombre>.json`: lista de `{tipo, severidad, confianza, caja:[x1,y1,x2,y2], area_rel, fuente}`.
 
-Con `--det pesos.pt` usa otro detector (por ejemplo uno reentrenado). Para video o fotos de dashcam
+Con `--det pesos.pt` usa otro detector (por ejemplo uno reentrenado). `--det-baches` acepta cualquier
+detector de una clase llamada D40, pothole o bache (por ejemplo, el YOLO del 1.er parcial). Para video o fotos de dashcam
 (1080p o más) usar `--imgsz 1280`: en la línea base encuentra hasta 3 veces más baches que a 640.
 Con fotos chicas (≤ 640 px) dejar 640 (ver `informes/linea_base.md`).
 

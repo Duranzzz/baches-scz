@@ -1,5 +1,9 @@
 # Plan de entrenamiento
 
+> **Nota del 2026-11-21:** este plan no se ejecutó (ni A1 ni A2; tampoco se bajaron RDD2022 ni HRP4K
+> completos). `armar_dataset.py` y `entrenar.py --prueba` se probaron en CPU con los datos actuales:
+> 7.126 fotos de train (5.315 con bache) y 1.222 de val.
+
 Estado al 2026-10-28. Los pasos concretos, con comandos, están en `GUIA.md`. La línea base está en
 `informes/linea_base.md`: los modelos públicos casi no encuentran baches en cámara frontal (dashcam,
 celular en el parabrisas), que es justo la cámara de los camiones. Reentrenar es obligatorio.
@@ -49,7 +53,7 @@ Otras decisiones de datos:
   `preparar_splits.py`: no cambia la partición de las fotos que ya estaban (probado), suma las nuevas,
   excluye la muestra de dronefreak y vuelve a buscar casi copias contra todo el train. **La línea base
   se vuelve a medir sobre esos splits finales** antes de comparar.
-- Tapas y grietas quedan como fondo: las tapas marcadas de Bucko y Brasil enseñan que no son baches.
+- Tapas y grietas quedan como fondo: las tapas marcadas de Bucko enseñan que no son baches (Brasil no marca tapas).
 - Las fotos se guardan con un lado mayor de 1.280 px como máximo; las etiquetas YOLO son relativas y
   no cambian.
 

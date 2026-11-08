@@ -88,6 +88,24 @@ la que encuentra los baches.
    0,97 contra un 78 % al azar. Sirve para elegir algunos cuadros y revisarlos a mano; para contar
    baches, no.
 
+## El YOLO del 1.er parcial como detector de baches (medido el 2026-11-21)
+
+El modelo de Bisman que se verificó en el 1.er parcial (una clase, "pothole", entrenado a 640 con el
+train de Bisman), copiado de `1st_Parcial/baches/modelo/best.pt` a `modelos/parcial1_bisman/weights/best.pt`.
+Mismo test y 640 px, con `--det-baches`: los baches salen de ese modelo y las grietas siguen saliendo de
+YOLO12s. Umbrales elegidos en val: `CONF_BACHE` 0,25 y `CONF_SEG_SOLO` 0,55.
+
+| Dataset | Cámara | AP50 YOLO12s | AP50 1.er parcial | Por foto R: YOLO12s → 1.er parcial |
+|---|---|---:|---:|---|
+| Bisman | celular, de cerca | 0,153 | **0,681** | 0,76 → 0,95 |
+| Brasil | desde vehículo, ruta | **0,472** | 0,190 | 0,70 → 0,35 |
+| Bucko | dashcam 1080p | **0,156** | 0,006 | 0,39 → 0,13 |
+| Egipto | celular frontal | **0,151** | 0,081 | 0,35 → 0,39 |
+| HRP4K | 4K en perspectiva | **0,035** | 0,009 | 0,26 → 0,14 |
+
+Sirve para fotos de cerca, que es de donde viene, y casi no ve baches desde un vehículo.
+JSON: `eval_yolo12s_RDD2022_best+parcial1_bisman_best_{val,test}_640.json`.
+
 ## Lo que no se mide aquí
 
 - **Baches de RDD2022**: la redistribución de dronefreak marca como "pothole" también sendas y líneas
