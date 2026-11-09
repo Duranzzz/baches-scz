@@ -9,6 +9,11 @@
   hubo un piloto de 2 épocas en Colab, que no se usa.
 - No hay fotos ni video de Santa Cruz etiquetados: todos los números son de datasets de otros países.
 - `calzada.py` tiene pruebas, pero todavía no lo usa ningún script.
+- **App web** (el modelo corre en el teléfono y marca los daños en el mapa de Santa Cruz): repo aparte,
+  [Duranzzz/baches-scz-app](https://github.com/Duranzzz/baches-scz-app), publicada en
+  https://duranzzz.github.io/baches-scz-app/. Los modelos se le pasan con `exportar_web.py`.
+- Los 4 modelos disponibles se comparan sobre los 5 videos de Santa Cruz con `comparar_videos.py`
+  (resultados en `salidas/videos/comparacion_20261121/`; sin etiquetas, son marcas y no aciertos).
 
 Preview que combina dos modelos ya entrenados, sin reentrenar:
 
@@ -22,6 +27,8 @@ Preview que combina dos modelos ya entrenados, sin reentrenar:
 ```
 preview.py            corre los modelos sobre imágenes y dibuja daños y severidad
 visor.py              ventana para probar los modelos sobre videos de videos/
+comparar_videos.py    varios modelos sobre videos sin etiquetas: un video por modelo, uno de 6 paneles y la tabla
+exportar_web.py       exporta los modelos a ONNX para la app web y verifica que den lo mismo que el .pt
 evaluar.py            mide contra las etiquetas, por dataset y clase; busca umbrales en val
 preparar_splits.py    arma splits.csv (train/val/test por video o tramo de ruta, sin casi copias)
 splits.csv            partición congelada de cada foto

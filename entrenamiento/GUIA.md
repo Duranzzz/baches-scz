@@ -1,6 +1,82 @@
 # Guía: entrenar el detector de baches en AMD Developer Cloud
 
-> **Nota del 2026-11-21:** esta guía todavía no se siguió en una GPU (ver la nota de `PLAN.md`).
+> **Nota del 2026-11-21:** la ruta completa de más abajo todavía no se siguió en una GPU (ver la nota
+> de `PLAN.md`). Para presentar al día siguiente, usar la **ruta rápida**.
+
+## Ruta rápida: una corrida con los datos que ya están en Hugging Face
+
+Lo mismo que A1 (YOLO12s de RDD2022, 1 clase "D40", 1280 px), pero sin bajar RDD2022 ni HRP4K: solo las
+12.204 fotos del paquete. Queda **HRP4K fuera del entrenamiento**: su test mide si el modelo generaliza a una
+cámara y un país que no vio. Probado en CPU el 21-nov: `armar_dataset.py` da 7.126 fotos de train
+(5.315 con bache) y 1.222 de val, y `entrenar.py --prueba` corre completo.
+
+| Paso | Tiempo | Costo (1,99 USD/h) |
+|---|---|---|
+| Crear la máquina, entrar, bajar el paquete (1,8 GB) | ~15 min | ~0,5 USD |
+| Prueba de 2 épocas | 10 a 20 min | ~0,5 USD |
+| Corrida + medición + subida | hasta ~4 h (se elige con la prueba) | ~8 USD |
+
+**1. Crear la máquina y entrar:** pasos 1 y 2 de la ruta completa (imagen Quick Start "PyTorch", contenedor `rocm`).
+
+**2. Bajar el paquete y preparar** (dentro del contenedor):
+
+```bash
+export HF_TOKEN=hf_...            # el token de Hugging Face con el que subiste el paquete
+mkdir -p /datos/scz && cd /datos/scz
+pip install -q huggingface_hub
+python -c "from huggingface_hub import snapshot_download as s; s('Duranishhh/baches-scz', repo_type='dataset', local_dir='/datos/_hf', allow_patterns=['paquete/*'])"
+for t in codigo etiquetas fotos; do tar -xf /datos/_hf/paquete/$t.tar; done
+pip install -q "ultralytics==8.4.191" dill
+python -c "import cv2" 2>/dev/null || { pip uninstall -y -q opencv-python; pip install -q opencv-python-headless; }
+python -c "import torch; print(torch.__version__, torch.version.hip, torch.cuda.get_device_name(0))"   # hip no puede salir None
+python entrenamiento/armar_dataset.py --salida /datos/ds_baches     # tiene que decir 7126 train / 1222 val
+```
+
+**3. Prueba de 2 épocas** (mide cuánto tarda una época en esta máquina):
+
+```bash
+python entrenamiento/entrenar.py --datos /datos/ds_baches/data.yaml --modelo yolo12s-rdd --nombre a1 --prueba --cache-ram
+```
+
+Al final imprime "~X s por época completa". Elegir **EPOCAS = 14400 / X** (para que entre en ~4 h), con un
+máximo de 120. Si salen pérdidas `nan` o mAP 0, repetir con `--sin-amp`.
+
+**4. Corrida, medición y subida, todo de una vez** (se puede cerrar la terminal; sigue corriendo):
+
+```bash
+cat > a1.sh <<'EOF'
+set -e
+cd /datos/scz
+python entrenamiento/entrenar.py --datos /datos/ds_baches/data.yaml --modelo yolo12s-rdd --nombre a1 --cache-ram --epocas $EPOCAS
+B=runs/a1/weights/best.pt
+for s in 1280 640; do
+  python evaluar.py --split val  --imgsz $s --barrer
+  python evaluar.py --split test --imgsz $s
+  python evaluar.py --split val  --imgsz $s --barrer --det-baches $B
+  python evaluar.py --split test --imgsz $s --det-baches $B
+done
+python entrenamiento/hf.py subir --repo Duranishhh/baches-scz --runs a1
+python -c "from huggingface_hub import HfApi; HfApi().upload_folder(repo_id='Duranishhh/baches-scz', repo_type='dataset', folder_path='salidas/cache', path_in_repo='resultados/cache')"
+echo "TODO LISTO: ya puedes destruir la maquina"
+EOF
+EPOCAS=120 nohup bash a1.sh > a1.log 2>&1 &      # cambiar 120 por el número del paso 3
+tail -f a1.log                                     # Ctrl+C sale de la vista
+```
+
+Mide la línea base y A1 en la misma máquina, con las mismas fotos, a 1280 y a 640 (el tamaño del teléfono).
+
+**5. Cuando el log diga "TODO LISTO": destruir la máquina** (consola → el droplet → Destroy).
+
+**6. Decidir, con una regla fijada antes de ver los resultados:** A1 reemplaza a YOLO12s para baches solo
+si su AP50 de test supera al de YOLO12s en las cámaras de vehículo (Bucko, Egipto y HRP4K). Si no, se
+presenta la línea base con este resultado. En la laptop:
+
+```powershell
+.venv\Scripts\python entrenamiento\hf.py bajar --repo Duranishhh/baches-scz --que resultados
+.venv\Scripts\python exportar_web.py --app ..\baches-scz-app --modelo a1=salidas\_hf\resultados\a1\weights\best.pt   # si gana
+```
+
+## Ruta completa (plan original del 28-oct)
 
 Paso a paso, para una MI300X con los 100 USD de crédito. El porqué de cada decisión está en `PLAN.md`.
 

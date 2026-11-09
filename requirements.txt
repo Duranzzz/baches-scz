@@ -8,3 +8,5 @@ opencv-python
 numpy
 dill    # el best.pt de segmentación se guardó con dill
 pytest  # solo para tests/
+onnx         # exportar_web.py y comparar_videos.py: modelos en ONNX
+onnxruntime  # ONNX en CPU (3 a 4 veces más rápido que PyTorch en la laptop) y verificación de exportar_web.py
