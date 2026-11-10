@@ -1,52 +1,64 @@
-# Detector de baches y grietas (Santa Cruz de la Sierra)
+# Baches y grietas en Santa Cruz de la Sierra
 
-## Estado (21-nov-2026)
+Detección de baches y grietas en fotos y videos de la calle, tomados a pie o desde un vehículo, para
+ubicarlos en el mapa de Santa Cruz de la Sierra. Proyecto del 2.º parcial de Inteligencia Artificial (UCB).
 
-- Corre: `preview.py`, `visor.py` y `evaluar.py` con dos modelos públicos (abajo), y la línea base
-  medida en `informes/linea_base.md`, incluido el YOLO del 1.er parcial.
-- **Todavía no hay modelo propio.** El reentrenamiento de `entrenamiento/` (corrida A1 en AMD) no se
-  ejecutó; el armado del dataset y `entrenar.py` se probaron en chico, en CPU. Fuera de este repo
-  hubo un piloto de 2 épocas en Colab, que no se usa.
-- No hay fotos ni video de Santa Cruz etiquetados: todos los números son de datasets de otros países.
-- `calzada.py` tiene pruebas, pero todavía no lo usa ningún script.
-- **App web** (el modelo corre en el teléfono y marca los daños en el mapa de Santa Cruz): repo aparte,
-  [Duranzzz/baches-scz-app](https://github.com/Duranzzz/baches-scz-app), publicada en
-  https://duranzzz.github.io/baches-scz-app/. Los modelos se le pasan con `exportar_web.py`.
-- Los 4 modelos disponibles se comparan sobre los 5 videos de Santa Cruz con `comparar_videos.py`
-  (resultados en `salidas/videos/comparacion_20261121/`; sin etiquetas, son marcas y no aciertos).
+- **App web:** detecta en el teléfono y marca cada daño en el mapa de la ciudad:
+  https://duranzzz.github.io/baches-scz-app/ (código en
+  [Duranzzz/baches-scz-app](https://github.com/Duranzzz/baches-scz-app)).
+- **Este repositorio:** los datos y cómo se partieron, la evaluación por dataset y país, las pruebas
+  sobre videos de Santa Cruz y el entrenamiento en GPU.
 
-Preview que combina dos modelos ya entrenados, sin reentrenar:
+## Datos
 
-- **Detección**: YOLO12s entrenado en RDD2022 ([rezzzq/yolo12s-road-damage-rdd2022](https://huggingface.co/rezzzq/yolo12s-road-damage-rdd2022), MIT).
-  Clases D00 grieta longitudinal, D10 transversal, D20 cocodrilo, D40 bache. La clase `Repair` se ignora.
-- **Segmentación**: YOLOv8n-seg de baches ([FarzadNekouee](https://github.com/FarzadNekouee/YOLOv8_Pothole_Segmentation_Road_Damage_Assessment), MIT).
-  Da el contorno de cada bache, y con eso el área real.
+12.204 fotos de seis datasets públicos, con las etiquetas pasadas a un esquema común. Las fotos y las
+etiquetas no se suben aquí: cada dataset se baja de su fuente. La copia ya convertida del equipo está en
+el repositorio privado de Hugging Face `Duranishhh/baches-scz` (`paquete/`).
+
+| Prefijo | País | Cámara | Fotos | Qué marca | Fuente | Licencia |
+|---|---|---|---:|---|---|---|
+| `bisman_` | sin dato | celular, de cerca | 4.719 | baches | [repositorio de Bisman-Singh-Dev en GitHub](https://github.com/Bisman-Singh-Dev/YOLO-Pothole-Detection-Model), versión bd8238b | no documentada |
+| `brazil_` | Brasil | desde vehículo, en ruta | 2.235 | baches y grietas sin tipo | Passos et al., *Cracks and Potholes in Road Images*, Mendeley Data v4, [doi:10.17632/t576ydh9v8.4](https://doi.org/10.17632/t576ydh9v8.4) | CC BY 4.0 |
+| `bucko_` | Eslovaquia | dashcam 1920×1080 | 2.099 | baches y tapas | Bučko et al., Sensors 22:8878 (2022), [doi:10.3390/s22228878](https://doi.org/10.3390/s22228878), figshare 21214400 | CC BY 4.0 |
+| `egypt_` | Egipto | celular frontal (cuadros de video) | 1.951 | baches y grietas sin tipo | Roboflow "rdd-6706t" v8, vía [Hanno100/RoadDamageDetection-Egypt](https://huggingface.co/datasets/Hanno100/RoadDamageDetection-Egypt) | CC BY 4.0 |
+| `hrp4k_` | sin dato | 4K, en perspectiva | 900 | baches | HRP4K (test), Chen et al., Scientific Data 13:961 (2026), [doi:10.1038/s41597-026-07317-w](https://doi.org/10.1038/s41597-026-07317-w) | CC BY 4.0 |
+| `rdd2022_` | Japón, India, Rep. Checa, Noruega, EE. UU., China | celular, dashcam, moto | 300 | grietas de 3 tipos | RDD2022 (muestra del test), Arya et al., [arXiv:2209.08538](https://arxiv.org/abs/2209.08538) | CC BY-SA 4.0 |
+
+Esquema de etiquetas (un `.txt` por foto, una línea por caja: clase, centro x, centro y, ancho y alto,
+relativos a la imagen): 0 grieta longitudinal (D00), 1 transversal
+(D10), 2 cocodrilo (D20), 3 bache (D40), 4 grieta sin tipo, 5 tapa o rejilla. La columna "Qué marca"
+dice qué clases están completas en cada dataset, y solo esas se evalúan.
+
+Cuidado con:
+
+- **Egipto:** Roboflow aumentó todos sus splits (mosaicos, rotaciones, volteos) y los splits comparten
+  videos. Aquí se parte por video y solo se evalúan 216 cuadros reales, revisados uno por uno.
+- **RDD2022:** en esta redistribución, la clase "pothole" también marca sendas, tapas y parches. De
+  RDD2022 solo se evalúan las grietas.
+- **Bucko:** los autores no documentan la clase de tapas; se verificó a ojo.
+- **Bisman:** fotos de primer plano, casi todas con bache.
+
+`splits.csv` fija la partición de cada foto (`foto, dataset, split, grupo, condicion, evaluable, motivo`).
+Se parte por video o tramo de ruta, para que train y test no compartan escena, y sin casi copias (dHash)
+entre train y val/test. HRP4K y RDD2022 van enteros a test. `preparar_splits.py` la reconstruye.
 
 ## Estructura
 
 ```
-preview.py            corre los modelos sobre imágenes y dibuja daños y severidad
-visor.py              ventana para probar los modelos sobre videos de videos/
-comparar_videos.py    varios modelos sobre videos sin etiquetas: un video por modelo, uno de 6 paneles y la tabla
-exportar_web.py       exporta los modelos a ONNX para la app web y verifica que den lo mismo que el .pt
+preview.py            detecta baches y grietas en imágenes; dibuja daño, severidad y confianza
+visor.py              ventana para probar la detección sobre los videos de videos/
+comparar_videos.py    corre uno o varios detectores sobre videos sin etiquetas: un video por detector,
+                      uno de 6 paneles cuadro a cuadro, CSV y tabla
 evaluar.py            mide contra las etiquetas, por dataset y clase; busca umbrales en val
-preparar_splits.py    arma splits.csv (train/val/test por video o tramo de ruta, sin casi copias)
+preparar_splits.py    arma splits.csv
 splits.csv            partición congelada de cada foto
-calzada.py            proyección de píxeles al plano de la calle (para pasar áreas a m²)
-tests/                pruebas de calzada.py (pytest)
-informes/             resultados medidos (línea base, comparaciones)
-entrenamiento/        reentrenamiento en GPU: GUIA.md (pasos), PLAN.md (decisiones) y sus scripts
-
-fotos/        12.204 fotos de datasets públicos, ver fotos/FUENTES.txt   (no se sube a git)
-etiquetas/    una etiqueta YOLO por foto, mismo nombre; _origen/ = fuente, licencia, videos
-modelos/      pesos descargados                                         (no se sube a git)
-muestras/     imágenes de prueba                                        (no se sube a git)
-salidas/      resultados de preview.py y visor.py, caché de evaluar.py  (no se sube a git)
-videos/       videos para probar en el visor                            (no se sube a git)
+exportar_web.py       lleva la detección a la app web (ONNX) y verifica que dé lo mismo
+informes/             resultados (ver abajo)
+entrenamiento/        reentrenamiento en una GPU AMD: GUIA.md (pasos), PLAN.md (decisiones) y sus scripts
+tests/                pruebas (pytest)
 ```
 
-Clases de `etiquetas/`: 0 D00, 1 D10, 2 D20, 3 D40 (bache), 4 grieta sin tipo, 5 tapa o rejilla.
-`fotos/` y `etiquetas/` no van a git: viajan juntas en el paquete privado de Hugging Face (`entrenamiento/hf.py`).
+Quedan en la PC y no se suben: `fotos/` y `etiquetas/` (los datasets), `muestras/`, `videos/` y `salidas/`.
 
 ## Instalar
 
@@ -58,81 +70,71 @@ uv venv --python 3.12 .venv          # o: py -3.12 -m venv .venv
 .venv\Scripts\python -m pip install -r requirements.txt
 ```
 
-Si hay GPU, instalar torch con CUDA o ROCm en vez de la versión CPU; `preview.py` la usa sola.
+Con GPU, instalar torch con CUDA o ROCm en vez de la versión CPU; los scripts la usan solos.
 
-## Correr
-
-```bash
-.venv\Scripts\python preview.py                        # muestras/
-.venv\Scripts\python preview.py --source foto.jpg
-.venv\Scripts\python preview.py --source fotos\         # carpeta entera
-```
-
-La primera vez descarga los dos modelos en `modelos/`. Por cada imagen guarda en `salidas/`:
-
-- `<nombre>.jpg`: máscaras semitransparentes y cajas con `clase | severidad | confianza`
-  (verde baja, amarillo media, rojo alta).
-- `<nombre>.json`: lista de `{tipo, severidad, confianza, caja:[x1,y1,x2,y2], area_rel, fuente}`.
-
-Con `--det pesos.pt` usa otro detector (por ejemplo uno reentrenado). `--det-baches` acepta cualquier
-detector de una clase llamada D40, pothole o bache (por ejemplo, el YOLO del 1.er parcial). Para video o fotos de dashcam
-(1080p o más) usar `--imgsz 1280`: en la línea base encuentra hasta 3 veces más baches que a 640.
-Con fotos chicas (≤ 640 px) dejar 640 (ver `informes/linea_base.md`).
-
-## Probar con video
-
-Copiar los videos en la carpeta `videos/` y abrir el visor:
+## Uso
 
 ```bash
-.venv\Scripts\python visor.py
-.venv\Scripts\python visor.py --det-baches pesos.pt      # suma un detector de baches reentrenado
-```
-
-Muestra, sobre el video, las **cajas** de YOLO12s (un color por clase), las **manchas** de la
-segmentación de baches, las dos juntas, las dos lado a lado, o la combinación con severidad de
-`preview.py`. Se elige la confianza mínima, el tamaño de análisis (640 o 1280 px) y cada cuántos
-cuadros procesar (en CPU, cada cuadro tarda ~0,5 a 1,5 s). Teclas: espacio reproduce o pausa,
-flecha derecha avanza un cuadro, S guarda una captura en `salidas/capturas/`.
-"Exportar video" guarda en `salidas/videos/` el video anotado (H.264 si hay ffmpeg) y un CSV con
-cada detección: cuadro, tiempo, modelo, clase, confianza, caja, área y severidad.
-
-En `videos/` hay un video de prueba armado con 150 cuadros seguidos de una dashcam de Bucko
-(Eslovaquia, split de test).
-
-## Medir
-
-```bash
-.venv\Scripts\python evaluar.py --split val --barrer      # umbrales: se eligen en val
-.venv\Scripts\python evaluar.py --split test              # el número que se informa
-.venv\Scripts\python evaluar.py --split test --imgsz 1280 --det pesos.pt
+.venv\Scripts\python preview.py --source foto.jpg                       # una imagen o una carpeta
+.venv\Scripts\python visor.py                                           # videos de videos/
+.venv\Scripts\python comparar_videos.py videos\scz_02_frontal_avenida.mp4
+.venv\Scripts\python evaluar.py --split val --barrer                     # umbrales: se eligen en val
+.venv\Scripts\python evaluar.py --split test                             # el número que se informa
 .venv\Scripts\python -m pytest tests
 ```
 
-Cada dataset se mide solo en las clases que tiene completas (Bucko, HRP4K y Bisman solo marcan baches).
-El test no se usa para elegir nada: los umbrales salen de val.
+`preview.py` guarda en `salidas/`, por imagen:
 
-## Salida de preview.py
+- `<nombre>.jpg`: cajas y manchas con `clase | severidad | confianza` (verde baja, amarillo media, rojo alta).
+- `<nombre>.json`: `{tipo, severidad, confianza, caja:[x1,y1,x2,y2], area_rel, fuente}`. `fuente` dice
+  qué parte lo vio: `det` (la detección), `seg` (la segmentación de baches) o `det+seg` (las dos).
 
-`fuente` dice qué modelo vio el daño: `det` (solo el detector), `seg` (solo la segmentación: un bache
-que el detector no vio) o `det+seg` (caja D40 emparejada con una máscara). Cuando hay máscara, el área
-sale de la máscara. `area_rel` es la fracción de la imagen.
+Para video o dashcam de 1080p o más, usar `--imgsz 1280`: a 640, el bache lejano queda en pocos píxeles.
+Con imágenes chicas (≤ 640 px), dejar 640.
 
 ## Severidad (provisional)
 
-Los umbrales están al inicio de `preview.py`.
+Los umbrales están al inicio de `preview.py`. No hay etiquetas de severidad: son reglas a calibrar con
+la cámara que se use al final.
 
-- **Baches**: área > 5 % alta, > 1,5 % media, si no baja. El área es la de la máscara si la caja D40
-  se superpone con una (IoU > 0,3 entre la caja y la caja de la máscara); si no, la de la caja.
-- **Grietas**: `puntaje = peso × (1 + área_caja × 10) × confianza`, con peso D00 = D10 = 1 y D20 = 2.
-  ≥ 3 alta, ≥ 1,5 media, si no baja.
+- **Baches:** área > 5 % de la imagen, alta; > 1,5 %, media; si no, baja. El área es la de la mancha
+  si la caja se superpone con una (IoU > 0,3); si no, la de la caja.
+- **Grietas:** `puntaje = factor × (1 + área_caja × 10) × confianza`, con factor 1 para longitudinal y
+  transversal y 2 para cocodrilo. ≥ 3, alta; ≥ 1,5, media; si no, baja.
 
-El área relativa depende de la cámara (altura, ángulo, zoom): los umbrales hay que calibrarlos con
-fotos de la cámara que se use al final.
+## Evaluación y resultados
 
-## Ojo
+Un acierto es una caja con IoU ≥ 0,5 contra una etiqueta de la misma clase. AP50 con 101 puntos de
+recall. Además, "por foto": de las fotos con el daño, cuántas se marcaron, y de las marcadas, cuántas
+lo tenían. Cada dataset se mide solo en las clases que tiene completas. Los umbrales se eligen en val
+y el test se mide una sola vez.
 
-- Los `.pt` son pickles de terceros: cargarlos ejecuta código. Bajarlos solo de las fuentes de arriba.
-- `ultralytics` es AGPL-3.0. Para un uso universitario no importa; si la alcaldía lo despliega como
-  servicio, hay que revisarlo.
-- YOLO12s se entrenó con RDD2022: las fotos `rdd2022_*` pueden ser parte de su entrenamiento y
-  sus resultados ahí salen optimistas.
+- `informes/linea_base.md`: AP50 y P/R por dataset (país) en baches y grietas, a 640 y a 1280 px.
+  Los JSON completos están al lado.
+- `informes/ejemplos/`: una muestra de cada dataset y país (Bisman, Brasil, Bucko/Eslovaquia, Egipto,
+  HRP4K, y RDD2022 de China, Japón y EE. UU.) con lo detectado dibujado, a 640 y a 1280 px, más su JSON.
+- `informes/videos_scz/`: los cinco videos de Santa Cruz. Cuadros con marca y eventos de cada detector,
+  la marca más segura de cada uno y el CSV de cada detección. No tienen etiquetas: son marcas, no aciertos.
+
+## Videos de Santa Cruz
+
+En `videos/` (no se suben: muestran personas y placas). Todos de 848 x 478, comprimidos por WhatsApp.
+
+| Video | Cámara y calle |
+|---|---|
+| `scz_01_lateral_auto_hormigon.mp4` | baja, al costado de un auto; hormigón con grietas y parches |
+| `scz_02_frontal_avenida.mp4` | de frente, desde dentro del auto; avenida de la ciudad |
+| `scz_03_frontal_doble_via.mp4` | de frente, desde dentro del auto; carretera de doble vía |
+| `scz_04_lateral_micro_losas.mp4` | al costado de un micro; losas de hormigón |
+| `scz_05_lateral_micro_hormigon.mp4` | al costado de un micro; hormigón |
+
+## Límites
+
+- No hay fotos ni video de Santa Cruz etiquetados: todos los números son de datasets de otros países.
+- Desde un vehículo, los baches se detectan poco; con la cámara al costado, la carrocería entra en el cuadro.
+- La severidad es provisional.
+
+## Licencias
+
+El código usa [ultralytics](https://github.com/ultralytics/ultralytics) (AGPL-3.0). Las fotos de cada
+dataset tienen su propia licencia (tabla de Datos).

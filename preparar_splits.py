@@ -91,7 +91,7 @@ def filas():
         else:
             fila(p.stem, "rdd2022", "test", p.stem)
 
-    # HRP4K: train y valid oficiales si se importaron (importar_hrp4k.py); el resto es el test oficial
+    # HRP4K: train y valid oficiales si se importaran (no se hizo); el resto es el test oficial
     splits_hrp = ORIGEN / "hrp4k-oficial" / "splits.csv"
     split_hrp = {r["foto"]: r["split"] for r in leer_csv(splits_hrp)} if splits_hrp.exists() else {}
     for p in sorted(FOTOS.glob("hrp4k_*.jpg")):

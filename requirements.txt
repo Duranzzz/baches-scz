@@ -2,7 +2,7 @@
 #   sin GPU:     pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
 #   GPU NVIDIA:  pip install torch torchvision
 #   GPU AMD:     torch con ROCm (Linux), ver https://pytorch.org
-ultralytics==8.4.191   # la misma versión que fija entrenamiento/preparar_maquina.sh
+ultralytics==8.4.191   # la misma versión que instala entrenamiento/GUIA.md en la GPU
 huggingface_hub
 opencv-python
 numpy

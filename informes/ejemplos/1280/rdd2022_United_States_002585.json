@@ -1,0 +1,41 @@
+[
+  {
+    "tipo": "D00",
+    "severidad": "baja",
+    "confianza": 0.795,
+    "caja": [
+      467.6,
+      459.5,
+      626.0,
+      548.7
+    ],
+    "area_rel": 0.0345,
+    "fuente": "det"
+  },
+  {
+    "tipo": "D20",
+    "severidad": "media",
+    "confianza": 0.729,
+    "caja": [
+      256.3,
+      419.9,
+      449.0,
+      639.5
+    ],
+    "area_rel": 0.10328,
+    "fuente": "det"
+  },
+  {
+    "tipo": "D10",
+    "severidad": "baja",
+    "confianza": 0.435,
+    "caja": [
+      98.3,
+      577.5,
+      323.4,
+      640.0
+    ],
+    "area_rel": 0.03436,
+    "fuente": "det"
+  }
+]

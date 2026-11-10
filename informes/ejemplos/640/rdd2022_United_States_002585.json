@@ -1,0 +1,67 @@
+[
+  {
+    "tipo": "D20",
+    "severidad": "alta",
+    "confianza": 0.896,
+    "caja": [
+      251.1,
+      416.3,
+      446.8,
+      639.9
+    ],
+    "area_rel": 0.10683,
+    "fuente": "det"
+  },
+  {
+    "tipo": "D00",
+    "severidad": "baja",
+    "confianza": 0.849,
+    "caja": [
+      460.4,
+      457.4,
+      638.1,
+      559.9
+    ],
+    "area_rel": 0.04443,
+    "fuente": "det"
+  },
+  {
+    "tipo": "D10",
+    "severidad": "baja",
+    "confianza": 0.797,
+    "caja": [
+      131.6,
+      580.3,
+      314.4,
+      638.9
+    ],
+    "area_rel": 0.02614,
+    "fuente": "det"
+  },
+  {
+    "tipo": "D10",
+    "severidad": "baja",
+    "confianza": 0.306,
+    "caja": [
+      0.1,
+      525.2,
+      107.8,
+      548.7
+    ],
+    "area_rel": 0.0062,
+    "fuente": "det"
+  },
+  {
+    "tipo": "D40",
+    "severidad": "baja",
+    "confianza": 0.695,
+    "caja": [
+      3.0,
+      617.8,
+      60.8,
+      639.9
+    ],
+    "area_rel": 0.00274,
+    "fuente": "seg"
+  }
+]

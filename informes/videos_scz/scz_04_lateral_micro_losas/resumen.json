@@ -1,0 +1,96 @@
+{
+ "video": "scz_04_lateral_micro_losas.mp4",
+ "cuadros": 475,
+ "fps": 28.0,
+ "segundos": 17.0,
+ "tamano": "850x478",
+ "imgsz": [
+  512,
+  864
+ ],
+ "conf": 0.25,
+ "iou": 0.7,
+ "modelos": {
+  "yolo12s_rdd2022": {
+   "titulo": "YOLO12s RDD2022 (baches y grietas)",
+   "pesos": "salidas\\onnx_864\\yolo12s_rdd2022.onnx",
+   "cuadros_con_marca": 27,
+   "cuadros_con_bache": 3,
+   "cuadros_con_grieta": 24,
+   "eventos_bache": 1,
+   "eventos_grieta": 1,
+   "observaciones": {
+    "bache": 3,
+    "grieta_longitudinal": 24,
+    "grieta_transversal": 0,
+    "grieta_cocodrilo": 0,
+    "parche": 0
+   },
+   "conf_max": {
+    "bache": 0.682,
+    "grieta_longitudinal": 0.869
+   },
+   "s_por_cuadro": 0.149
+  },
+  "farzad_seg": {
+   "titulo": "Farzad YOLOv8n-seg (baches)",
+   "pesos": "salidas\\onnx_864\\farzad_seg.onnx",
+   "cuadros_con_marca": 3,
+   "cuadros_con_bache": 3,
+   "cuadros_con_grieta": 0,
+   "eventos_bache": 0,
+   "eventos_grieta": 0,
+   "observaciones": {
+    "bache": 3,
+    "grieta_longitudinal": 0,
+    "grieta_transversal": 0,
+    "grieta_cocodrilo": 0,
+    "parche": 0
+   },
+   "conf_max": {
+    "bache": 0.47
+   },
+   "s_por_cuadro": 0.087
+  },
+  "piloto_v1": {
+   "titulo": "Piloto v1: Colab, 2 epocas (baches)",
+   "pesos": "salidas\\onnx_864\\piloto_v1.onnx",
+   "cuadros_con_marca": 13,
+   "cuadros_con_bache": 13,
+   "cuadros_con_grieta": 0,
+   "eventos_bache": 3,
+   "eventos_grieta": 0,
+   "observaciones": {
+    "bache": 13,
+    "grieta_longitudinal": 0,
+    "grieta_transversal": 0,
+    "grieta_cocodrilo": 0,
+    "parche": 0
+   },
+   "conf_max": {
+    "bache": 0.338
+   },
+   "s_por_cuadro": 0.131
+  },
+  "parcial1_bisman": {
+   "titulo": "YOLO del 1er parcial, Bisman (baches)",
+   "pesos": "salidas\\onnx_864\\parcial1_bisman.onnx",
+   "cuadros_con_marca": 77,
+   "cuadros_con_bache": 77,
+   "cuadros_con_grieta": 0,
+   "eventos_bache": 9,
+   "eventos_grieta": 0,
+   "observaciones": {
+    "bache": 77,
+    "grieta_longitudinal": 0,
+    "grieta_transversal": 0,
+    "grieta_cocodrilo": 0,
+    "parche": 0
+   },
+   "conf_max": {
+    "bache": 0.623
+   },
+   "s_por_cuadro": 0.083
+  }
+ }
+}

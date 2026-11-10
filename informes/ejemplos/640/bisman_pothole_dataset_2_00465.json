@@ -1,0 +1,15 @@
+[
+  {
+    "tipo": "D40",
+    "severidad": "baja",
+    "confianza": 0.794,
+    "caja": [
+      201.1,
+      527.8,
+      416.8,
+      584.5
+    ],
+    "area_rel": 0.01143,
+    "fuente": "det+seg"
+  }
+]

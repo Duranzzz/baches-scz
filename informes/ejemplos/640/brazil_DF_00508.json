@@ -1,0 +1,28 @@
+[
+  {
+    "tipo": "D20",
+    "severidad": "alta",
+    "confianza": 0.83,
+    "caja": [
+      9.8,
+      413.5,
+      459.3,
+      628.1
+    ],
+    "area_rel": 0.14951,
+    "fuente": "det"
+  },
+  {
+    "tipo": "D00",
+    "severidad": "baja",
+    "confianza": 0.646,
+    "caja": [
+      719.2,
+      214.9,
+      788.6,
+      274.1
+    ],
+    "area_rel": 0.00637,
+    "fuente": "det"
+  }
+]

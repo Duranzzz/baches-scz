@@ -1,0 +1,98 @@
+{
+ "video": "scz_03_frontal_doble_via.mp4",
+ "cuadros": 4119,
+ "fps": 29.059,
+ "segundos": 141.7,
+ "tamano": "848x478",
+ "imgsz": [
+  512,
+  864
+ ],
+ "conf": 0.25,
+ "iou": 0.7,
+ "modelos": {
+  "yolo12s_rdd2022": {
+   "titulo": "YOLO12s RDD2022 (baches y grietas)",
+   "pesos": "salidas\\onnx_864\\yolo12s_rdd2022.onnx",
+   "cuadros_con_marca": 1026,
+   "cuadros_con_bache": 44,
+   "cuadros_con_grieta": 1002,
+   "eventos_bache": 7,
+   "eventos_grieta": 34,
+   "observaciones": {
+    "bache": 46,
+    "grieta_longitudinal": 1020,
+    "grieta_transversal": 5,
+    "grieta_cocodrilo": 143,
+    "parche": 0
+   },
+   "conf_max": {
+    "bache": 0.832,
+    "grieta_longitudinal": 0.898,
+    "grieta_transversal": 0.686,
+    "grieta_cocodrilo": 0.856
+   },
+   "s_por_cuadro": 0.159
+  },
+  "farzad_seg": {
+   "titulo": "Farzad YOLOv8n-seg (baches)",
+   "pesos": "salidas\\onnx_864\\farzad_seg.onnx",
+   "cuadros_con_marca": 110,
+   "cuadros_con_bache": 110,
+   "cuadros_con_grieta": 0,
+   "eventos_bache": 17,
+   "eventos_grieta": 0,
+   "observaciones": {
+    "bache": 118,
+    "grieta_longitudinal": 0,
+    "grieta_transversal": 0,
+    "grieta_cocodrilo": 0,
+    "parche": 0
+   },
+   "conf_max": {
+    "bache": 0.751
+   },
+   "s_por_cuadro": 0.073
+  },
+  "piloto_v1": {
+   "titulo": "Piloto v1: Colab, 2 epocas (baches)",
+   "pesos": "salidas\\onnx_864\\piloto_v1.onnx",
+   "cuadros_con_marca": 432,
+   "cuadros_con_bache": 432,
+   "cuadros_con_grieta": 0,
+   "eventos_bache": 49,
+   "eventos_grieta": 0,
+   "observaciones": {
+    "bache": 467,
+    "grieta_longitudinal": 0,
+    "grieta_transversal": 0,
+    "grieta_cocodrilo": 0,
+    "parche": 0
+   },
+   "conf_max": {
+    "bache": 0.665
+   },
+   "s_por_cuadro": 0.13
+  },
+  "parcial1_bisman": {
+   "titulo": "YOLO del 1er parcial, Bisman (baches)",
+   "pesos": "salidas\\onnx_864\\parcial1_bisman.onnx",
+   "cuadros_con_marca": 235,
+   "cuadros_con_bache": 235,
+   "cuadros_con_grieta": 0,
+   "eventos_bache": 19,
+   "eventos_grieta": 0,
+   "observaciones": {
+    "bache": 235,
+    "grieta_longitudinal": 0,
+    "grieta_transversal": 0,
+    "grieta_cocodrilo": 0,
+    "parche": 0
+   },
+   "conf_max": {
+    "bache": 0.573
+   },
+   "s_por_cuadro": 0.097
+  }
+ }
+}

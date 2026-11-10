@@ -1,0 +1,4 @@
+﻿modelo,fotogramas,fotogramas_con_marcas,observaciones_bache,observaciones_grieta_longitudinal,observaciones_grieta_transversal,observaciones_grieta_cocodrilo,observaciones_parche,archivo
+YOLO12s RDD2022,2976,1716,308,2247,178,198,0,yolo12s_rdd2022.mp4
+Farzad YOLOv8n-seg,2976,186,214,0,0,0,0,farzad_segmentacion.mp4
+Piloto v1 previo - referencia,2976,676,776,0,0,0,0,piloto_v1_previo.mp4

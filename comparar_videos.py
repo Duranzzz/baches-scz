@@ -67,12 +67,11 @@ def info_video(ruta):
             "cuadros": int(s.get("nb_frames", 0))}
 
 
-def escritor(ruta, ancho, alto, fps_texto, audio_de):
-    """ffmpeg que recibe cuadros BGR por stdin y guarda H.264 con el audio del video original."""
+def escritor(ruta, ancho, alto, fps_texto):
+    """ffmpeg que recibe cuadros BGR por stdin y guarda H.264, sin audio."""
     cmd = ["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "bgr24", "-s", f"{ancho}x{alto}",
-           "-r", fps_texto, "-i", "-", "-i", str(audio_de), "-map", "0:v", "-map", "1:a?", "-c:v", "libx264",
-           "-preset", "veryfast", "-crf", "23", "-pix_fmt", "yuv420p", "-c:a", "copy", "-shortest",
-           "-movflags", "+faststart", str(ruta)]
+           "-r", fps_texto, "-i", "-", "-an", "-c:v", "libx264", "-preset", "veryfast", "-crf", "23",
+           "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(ruta)]
     return subprocess.Popen(cmd, stdin=subprocess.PIPE)
 
 
@@ -203,9 +202,9 @@ def procesar(video, modelos, args, destino):
     alto_panel = alto + CAB
     columnas = 3
     filas_grilla = -(-(len(claves) + 2) // columnas)
-    escritores = {k: escritor(destino / f"{k}.mp4", ancho, alto_panel, info["fps_texto"], video) for k in claves}
+    escritores = {k: escritor(destino / f"{k}.mp4", ancho, alto_panel, info["fps_texto"]) for k in claves}
     escritores["_grilla"] = escritor(destino / "comparacion_6_paneles.mp4", ancho * columnas,
-                                     alto_panel * filas_grilla, info["fps_texto"], video)
+                                     alto_panel * filas_grilla, info["fps_texto"])
     cada_captura = max(1, round(10 * fps))
     cap = cv2.VideoCapture(str(video))
     try:

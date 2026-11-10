@@ -1,11 +1,17 @@
-modelos/
-muestras/
-salidas/
+# Locales: los datasets se bajan de sus fuentes (ver README); los videos y las salidas no se suben
 fotos/
+etiquetas/
+muestras/
+videos/
+salidas/
+runs/
+
+# Entorno
 .venv/
 __pycache__/
 *.pyc
-etiquetas/
 .pytest_cache/
-runs/
-videos/
+
+# En modelos/ van los .pt; no las exportaciones ni la caché de descargas
+modelos/**/*.onnx
+modelos/**/.cache/

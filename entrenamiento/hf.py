@@ -2,7 +2,7 @@
 
 En tu PC, una vez, ANTES de prender la GPU (la subida desde casa es lo lento; así no se paga GPU esperando):
     python entrenamiento/hf.py paquete --repo TU_USUARIO/baches-scz
-En la GPU, después de preparar_maquina.sh (para no repetir descargas e importación en otra sesión):
+En la GPU, si se agregaron fotos o etiquetas (para no repetir la preparación en otra sesión):
     python entrenamiento/hf.py datos --repo TU_USUARIO/baches-scz
 En la GPU, al terminar cada corrida:
     python entrenamiento/hf.py subir --repo TU_USUARIO/baches-scz --runs a1
