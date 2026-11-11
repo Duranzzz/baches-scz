@@ -39,6 +39,19 @@ HIPER = dict(
 )
 
 
+def aumentos_scz():
+    """Aumentos que imitan los videos de Santa Cruz: celular comprimido por WhatsApp (848x478), con movimiento.
+    Reemplazan a los de ultralytics por defecto, que se repiten aquí (Blur, MedianBlur, ToGray y CLAHE con p=0.01).
+    Necesita albumentations (en la máquina: pip install albumentations, con opencv-python-headless)."""
+    import albumentations as A
+    return [
+        A.Blur(p=0.01), A.MedianBlur(p=0.01), A.ToGray(p=0.01), A.CLAHE(p=0.01),
+        A.ImageCompression(quality_range=(20, 60), p=0.3),   # WhatsApp recomprime fuerte
+        A.Downscale(scale_range=(0.4, 0.8), p=0.25),          # video de 848x478 frente a fotos de 1280 o más
+        A.MotionBlur(blur_limit=(3, 9), p=0.15),              # cámara en un vehículo en marcha
+    ]
+
+
 class Cronometro:
     """Mide preparación, entrenamiento y validación por época con los callbacks de ultralytics."""
 
@@ -82,8 +95,16 @@ def main():
     ap.add_argument("--workers", type=int, default=min(16, max(2, (os.cpu_count() or 4) - 4)))
     ap.add_argument("--sin-amp", action="store_true", help="si aparecen pérdidas NaN o mAP 0 (ROCm)")
     ap.add_argument("--cache-ram", action="store_true",
-                    help="guardar las fotos decodificadas en RAM (~110 GB); solo si la GPU espera al disco")
+                    help="guardar las fotos decodificadas en RAM. Ojo: con Python 3.14 (forkserver) cada proceso "
+                         "de carga recibe su propia copia y se acaba la memoria; usar --cache-disco")
+    ap.add_argument("--cache-disco", action="store_true",
+                    help="guardar las fotos decodificadas como .npy en disco (rápido y sin copias en RAM)")
     ap.add_argument("--prueba", action="store_true", help="2 épocas con el 10 %% del train y proyección de costo")
+    ap.add_argument("--fraccion-prueba", type=float, default=0.1, help="fracción del train en --prueba")
+    ap.add_argument("--horas", type=float,
+                    help="freno de seguridad: si se pasa de estas horas, termina al cerrar la época en curso")
+    ap.add_argument("--aumentos-scz", action="store_true",
+                    help="aumentos que imitan video de celular por WhatsApp: compresión, menos resolución, movimiento")
     ap.add_argument("--reanudar", action="store_true")
     ap.add_argument("--device", default="0", help="0 = primera GPU; cpu para probar sin GPU")
     args = ap.parse_args()
@@ -105,19 +126,37 @@ def main():
         sys.path.insert(0, str(comun.RAIZ))
         import preview
         preview.descargar_modelos()
+    cache = "ram" if args.cache_ram else "disk" if args.cache_disco else HIPER["cache"]
     hiper = dict(HIPER, epochs=args.epocas, batch=args.batch, imgsz=args.imgsz, workers=args.workers,
-                 amp=not args.sin_amp, cache="ram" if args.cache_ram else HIPER["cache"])
+                 amp=not args.sin_amp, cache=cache)
     fraccion = 1.0
     if args.prueba:
-        fraccion = 0.1
+        fraccion = args.fraccion_prueba
         hiper.update(epochs=2, close_mosaic=0, save_period=-1, plots=False)
     nombre = args.nombre + ("_prueba" if args.prueba else "")
+    extra = {"augmentations": aumentos_scz()} if args.aumentos_scz else {}
 
     modelo = YOLO(str(pesos))
     crono = Cronometro()
     crono.registrar(modelo)
+    if args.horas and not args.prueba:
+        # Freno de seguridad. No se usa el `time` de ultralytics: ese recalcula las épocas para LLENAR el
+        # tiempo (con 4 h y 49 s por época pasaba de 150 a ~294 épocas), no es un tope.
+        limite = time.time() + args.horas * 3600
+
+        def frenar(tr):
+            if time.time() > limite and not tr.stop:
+                print(f"\nTope de {args.horas} h alcanzado: termina tras la época {tr.epoch + 1}", flush=True)
+                tr.stop = True
+
+        modelo.add_callback("on_fit_epoch_end", frenar)
+        hiper_registro = {"tope_horas": args.horas}
+    else:
+        hiper_registro = {}
     modelo.train(data=str(args.datos), project=str(runs), name=nombre, exist_ok=args.prueba,
-                 fraction=fraccion, device=args.device, **hiper)
+                 fraction=fraccion, device=args.device, **hiper, **extra)
+    hiper["aumentos_scz"] = bool(args.aumentos_scz)
+    hiper.update(hiper_registro)
     carpeta = Path(modelo.trainer.save_dir)  # si runs/<nombre> ya existía, ultralytics le agrega un número
     total = time.time() - crono.t0
     resumen = {"modelo": args.modelo, "datos": str(args.datos), "hiper": hiper, "fraccion": fraccion,

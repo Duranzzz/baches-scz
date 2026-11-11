@@ -1,0 +1,129 @@
+{
+ "video": "scz_02_frontal_avenida.mp4",
+ "cuadros": 2027,
+ "fps": 29.995,
+ "segundos": 67.6,
+ "tamano": "848x478",
+ "imgsz": [
+  512,
+  864
+ ],
+ "conf": 0.25,
+ "iou": 0.7,
+ "modelos": {
+  "yolo12s_rdd2022": {
+   "titulo": "YOLO12s RDD2022 (baches y grietas)",
+   "pesos": "/datos/scz/modelos/yolo12s_rdd2022/yolo12s_RDD2022_best.pt",
+   "conf": 0.25,
+   "umbral": {
+    "bache": 0.25,
+    "grieta": 0.4
+   },
+   "grietas": true,
+   "dispositivo": "cpu",
+   "cuadros_con_marca": 255,
+   "cuadros_con_bache": 108,
+   "cuadros_con_grieta": 162,
+   "eventos_bache": 5,
+   "eventos_grieta": 10,
+   "observaciones": {
+    "bache": 129,
+    "grieta_longitudinal": 118,
+    "grieta_transversal": 0,
+    "grieta_cocodrilo": 57,
+    "parche": 0
+   },
+   "conf_max": {
+    "bache": 0.809,
+    "grieta_longitudinal": 0.901,
+    "grieta_cocodrilo": 0.88
+   },
+   "s_por_cuadro": 0.143
+  },
+  "rdd_yolo26s": {
+   "titulo": "YOLO26s RDD destilado (baches y grietas)",
+   "pesos": "/datos/scz/modelos/rdd_yolo26s/weights/best.pt",
+   "conf": 0.15,
+   "umbral": {
+    "bache": 0.15,
+    "grieta": 0.3
+   },
+   "grietas": true,
+   "dispositivo": "gpu 0",
+   "cuadros_con_marca": 464,
+   "cuadros_con_bache": 155,
+   "cuadros_con_grieta": 336,
+   "eventos_bache": 7,
+   "eventos_grieta": 19,
+   "observaciones": {
+    "bache": 200,
+    "grieta_longitudinal": 286,
+    "grieta_transversal": 0,
+    "grieta_cocodrilo": 67,
+    "parche": 0
+   },
+   "conf_max": {
+    "bache": 0.673,
+    "grieta_longitudinal": 0.785,
+    "grieta_cocodrilo": 0.73
+   },
+   "s_por_cuadro": 0.011
+  },
+  "wise4_a25": {
+   "titulo": "YOLO26s promedio WiSE-FT a=0.25 (baches y grietas)",
+   "pesos": "/datos/scz/modelos/wise4_a25/weights/best.pt",
+   "conf": 0.1,
+   "umbral": {
+    "bache": 0.1,
+    "grieta": 0.25
+   },
+   "grietas": true,
+   "dispositivo": "gpu 0",
+   "cuadros_con_marca": 333,
+   "cuadros_con_bache": 116,
+   "cuadros_con_grieta": 233,
+   "eventos_bache": 8,
+   "eventos_grieta": 17,
+   "observaciones": {
+    "bache": 144,
+    "grieta_longitudinal": 176,
+    "grieta_transversal": 0,
+    "grieta_cocodrilo": 67,
+    "parche": 0
+   },
+   "conf_max": {
+    "bache": 0.616,
+    "grieta_longitudinal": 0.711,
+    "grieta_cocodrilo": 0.637
+   },
+   "s_por_cuadro": 0.011
+  },
+  "a1_y26s": {
+   "titulo": "YOLO26s ajustado con nuestros datos (baches)",
+   "pesos": "/datos/scz/modelos/a1_y26s/weights/best.pt",
+   "conf": 0.15,
+   "umbral": {
+    "bache": 0.15,
+    "grieta": 0.15
+   },
+   "grietas": false,
+   "dispositivo": "gpu 0",
+   "cuadros_con_marca": 305,
+   "cuadros_con_bache": 305,
+   "cuadros_con_grieta": 0,
+   "eventos_bache": 23,
+   "eventos_grieta": 0,
+   "observaciones": {
+    "bache": 362,
+    "grieta_longitudinal": 0,
+    "grieta_transversal": 0,
+    "grieta_cocodrilo": 0,
+    "parche": 0
+   },
+   "conf_max": {
+    "bache": 0.708
+   },
+   "s_por_cuadro": 0.011
+  }
+ }
+}

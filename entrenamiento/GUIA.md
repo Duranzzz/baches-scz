@@ -5,6 +5,18 @@ privado de Hugging Face `Duranishhh/baches-scz` (subidas el 28-oct con `hf.py pa
 Probado en CPU el 21-nov: `armar_dataset.py` da 7.126 fotos de train (5.315 con bache) y 1.222 de val,
 y `entrenar.py --prueba` corre completo.
 
+> **Corrida real del 22-nov-2026 (`informes/entrenamiento_amd.md`), con estos cambios a lo de abajo:**
+> - **Modelo de partida:** `--modelo modelos/rdd_yolo26s/weights/best.pt`, con la clase del `data.yaml` renombrada
+>   a "Pothole (D40)" para que ultralytics reuse su fila de bache.
+> - **Caché:** `--cache-disco`. Con `--cache-ram`, Python 3.14 copia la caché en cada worker y se acaba la RAM
+>   (235 GB).
+> - **Tope de horas:** `--horas` es un freno de seguridad. El `time` de ultralytics estiraba las épocas para
+>   llenar el tiempo.
+> - **Aumentos:** `--aumentos-scz` imita video de celular por WhatsApp.
+> - **Velocidad:** ~49 s por época con 6.507 fotos a 1280 px. a1 hizo 91 épocas en 1,2 h.
+> - **Limpieza:** antes de armar el dataset, `limpieza/aplicar_correcciones.py`.
+> - **HRP4K:** para sumar su train, `importar_hrp4k_hf.py` (copia de Hugging Face; Zenodo bajaba muy lento).
+
 **Reglas de plata**
 
 1. La máquina cobra **mientras exista**, aunque esté apagada. Al terminar, **destruirla**.

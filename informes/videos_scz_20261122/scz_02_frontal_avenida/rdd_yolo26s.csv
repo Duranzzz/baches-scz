@@ -1,0 +1,554 @@
+cuadro,segundo,clase,clase_original,confianza,x1,y1,x2,y2
+78,2.6,grieta_longitudinal,Longitudinal Crack (D00),0.3477,183.8,430.1,253.6,477.2
+79,2.634,grieta_longitudinal,Longitudinal Crack (D00),0.4264,186.4,431.6,251.5,477.1
+80,2.667,grieta_longitudinal,Longitudinal Crack (D00),0.3241,185.5,432.1,250.5,477.2
+82,2.734,grieta_longitudinal,Longitudinal Crack (D00),0.4259,182.4,434.7,246.7,477.4
+83,2.767,grieta_longitudinal,Longitudinal Crack (D00),0.4092,183.1,434.5,248.3,477.5
+87,2.901,grieta_longitudinal,Longitudinal Crack (D00),0.3199,184.7,430.4,252.6,478.0
+88,2.934,grieta_longitudinal,Longitudinal Crack (D00),0.5029,195.2,428.9,252.4,472.7
+89,2.967,grieta_longitudinal,Longitudinal Crack (D00),0.4397,192.0,430.0,249.8,473.7
+90,3.001,grieta_longitudinal,Longitudinal Crack (D00),0.5137,191.1,430.7,249.7,475.5
+91,3.034,grieta_longitudinal,Longitudinal Crack (D00),0.4885,185.2,431.1,247.9,476.8
+92,3.067,grieta_longitudinal,Longitudinal Crack (D00),0.5425,187.1,432.3,248.3,477.4
+95,3.167,grieta_longitudinal,Longitudinal Crack (D00),0.42,183.5,439.4,240.0,478.0
+96,3.201,grieta_longitudinal,Longitudinal Crack (D00),0.4939,184.8,439.8,237.0,477.8
+97,3.234,grieta_longitudinal,Longitudinal Crack (D00),0.4203,177.8,439.0,236.3,477.6
+98,3.267,grieta_longitudinal,Longitudinal Crack (D00),0.3203,174.3,439.0,235.9,477.7
+105,3.501,grieta_longitudinal,Longitudinal Crack (D00),0.3619,189.0,443.9,227.7,477.5
+141,4.701,bache,Pothole (D40),0.1556,302.8,458.5,328.9,478.0
+163,5.434,grieta_longitudinal,Longitudinal Crack (D00),0.3056,185.9,385.8,249.9,442.5
+164,5.468,grieta_longitudinal,Longitudinal Crack (D00),0.6381,179.4,387.7,245.9,445.4
+164,5.468,grieta_longitudinal,Longitudinal Crack (D00),0.3304,296.1,413.0,331.9,474.8
+166,5.534,grieta_longitudinal,Longitudinal Crack (D00),0.4539,142.5,394.4,235.8,467.5
+167,5.568,grieta_longitudinal,Longitudinal Crack (D00),0.4874,136.7,400.0,225.7,467.5
+168,5.601,grieta_longitudinal,Longitudinal Crack (D00),0.5376,124.3,397.7,224.8,475.6
+169,5.634,grieta_longitudinal,Longitudinal Crack (D00),0.6176,108.8,402.0,219.0,476.6
+170,5.668,grieta_longitudinal,Longitudinal Crack (D00),0.5756,109.1,407.6,208.8,477.1
+171,5.701,grieta_longitudinal,Longitudinal Crack (D00),0.5551,123.6,410.1,202.1,475.3
+172,5.734,grieta_longitudinal,Longitudinal Crack (D00),0.4245,123.4,413.6,194.4,475.5
+172,5.734,grieta_longitudinal,Longitudinal Crack (D00),0.3752,304.4,432.4,330.0,466.4
+173,5.768,grieta_longitudinal,Longitudinal Crack (D00),0.4278,112.8,426.4,178.8,477.1
+174,5.801,grieta_longitudinal,Longitudinal Crack (D00),0.4781,100.2,427.2,175.9,477.8
+175,5.834,grieta_longitudinal,Longitudinal Crack (D00),0.3764,104.8,434.7,163.6,478.0
+184,6.134,grieta_longitudinal,Longitudinal Crack (D00),0.4563,165.9,385.1,217.7,435.5
+185,6.168,grieta_longitudinal,Longitudinal Crack (D00),0.6363,146.7,400.9,196.8,450.1
+186,6.201,grieta_longitudinal,Longitudinal Crack (D00),0.7186,117.5,410.4,181.9,467.1
+187,6.234,grieta_longitudinal,Longitudinal Crack (D00),0.4806,89.3,422.5,166.3,478.0
+194,6.468,grieta_longitudinal,Longitudinal Crack (D00),0.3184,393.6,422.3,417.3,464.4
+195,6.501,grieta_longitudinal,Longitudinal Crack (D00),0.3837,392.6,439.9,419.2,477.6
+222,7.401,grieta_longitudinal,Longitudinal Crack (D00),0.4664,575.6,394.6,628.0,476.9
+226,7.535,grieta_longitudinal,Longitudinal Crack (D00),0.3413,557.7,402.8,603.1,461.3
+229,7.635,grieta_longitudinal,Longitudinal Crack (D00),0.4621,515.1,408.2,566.9,465.3
+229,7.635,grieta_longitudinal,Longitudinal Crack (D00),0.4006,168.1,423.0,216.4,477.7
+232,7.735,grieta_longitudinal,Longitudinal Crack (D00),0.5267,84.4,415.5,150.3,468.4
+239,7.968,grieta_longitudinal,Longitudinal Crack (D00),0.326,496.8,420.6,536.5,477.1
+241,8.035,grieta_longitudinal,Longitudinal Crack (D00),0.3073,186.1,345.3,247.3,395.6
+242,8.068,grieta_longitudinal,Longitudinal Crack (D00),0.4699,80.1,346.4,241.4,466.9
+243,8.101,grieta_longitudinal,Longitudinal Crack (D00),0.3913,59.9,344.4,241.5,475.1
+243,8.101,grieta_longitudinal,Longitudinal Crack (D00),0.3483,184.6,346.6,246.0,396.4
+244,8.135,grieta_longitudinal,Longitudinal Crack (D00),0.7834,108.4,346.4,241.3,449.9
+245,8.168,grieta_longitudinal,Longitudinal Crack (D00),0.7646,63.6,350.0,238.7,475.1
+246,8.201,grieta_longitudinal,Longitudinal Crack (D00),0.7459,77.5,354.6,229.3,468.6
+247,8.235,grieta_longitudinal,Longitudinal Crack (D00),0.7003,57.9,362.7,218.1,475.6
+248,8.268,grieta_longitudinal,Longitudinal Crack (D00),0.6671,64.6,378.8,195.2,477.4
+249,8.302,grieta_longitudinal,Longitudinal Crack (D00),0.6015,56.4,398.5,170.3,477.9
+250,8.335,grieta_longitudinal,Longitudinal Crack (D00),0.5525,53.0,410.0,155.6,478.0
+250,8.335,grieta_longitudinal,Longitudinal Crack (D00),0.3513,7.5,407.7,156.7,478.0
+251,8.368,grieta_longitudinal,Longitudinal Crack (D00),0.4307,52.9,418.1,143.6,477.7
+251,8.368,grieta_longitudinal,Longitudinal Crack (D00),0.3402,5.9,417.0,142.9,478.0
+253,8.435,grieta_longitudinal,Longitudinal Crack (D00),0.453,110.2,341.4,247.4,451.5
+254,8.468,grieta_longitudinal,Longitudinal Crack (D00),0.5032,93.7,347.9,238.8,464.2
+259,8.635,grieta_longitudinal,Longitudinal Crack (D00),0.3271,565.8,430.0,604.3,478.0
+260,8.668,grieta_longitudinal,Longitudinal Crack (D00),0.3934,191.2,345.4,248.9,395.7
+261,8.702,grieta_longitudinal,Longitudinal Crack (D00),0.5726,160.9,345.2,251.7,417.0
+262,8.735,grieta_longitudinal,Longitudinal Crack (D00),0.5724,71.4,344.9,249.5,473.7
+263,8.768,grieta_longitudinal,Longitudinal Crack (D00),0.7225,84.5,345.9,249.8,467.8
+264,8.802,grieta_longitudinal,Longitudinal Crack (D00),0.7065,70.7,354.1,241.7,474.0
+265,8.835,grieta_longitudinal,Longitudinal Crack (D00),0.7042,69.1,361.9,230.6,475.5
+266,8.868,grieta_longitudinal,Longitudinal Crack (D00),0.6822,67.6,370.1,220.7,475.7
+267,8.902,grieta_longitudinal,Longitudinal Crack (D00),0.6053,63.5,378.1,210.5,476.7
+268,8.935,grieta_longitudinal,Longitudinal Crack (D00),0.6041,69.8,392.9,193.0,477.9
+269,8.968,grieta_longitudinal,Longitudinal Crack (D00),0.4112,69.7,408.3,174.8,477.7
+269,8.968,grieta_longitudinal,Longitudinal Crack (D00),0.3091,5.5,407.0,173.7,478.0
+270,9.002,grieta_longitudinal,Longitudinal Crack (D00),0.3096,71.9,425.5,152.1,477.8
+271,9.035,grieta_longitudinal,Longitudinal Crack (D00),0.3066,1.2,440.5,128.4,478.0
+273,9.102,grieta_longitudinal,Longitudinal Crack (D00),0.4361,102.2,345.9,239.4,465.7
+275,9.168,grieta_longitudinal,Longitudinal Crack (D00),0.5894,122.5,347.9,251.9,449.9
+277,9.235,grieta_longitudinal,Longitudinal Crack (D00),0.6985,67.3,348.8,253.4,476.3
+278,9.268,grieta_longitudinal,Longitudinal Crack (D00),0.71,70.7,350.0,252.2,476.2
+279,9.302,grieta_longitudinal,Longitudinal Crack (D00),0.7198,73.5,352.7,251.2,476.6
+280,9.335,grieta_longitudinal,Longitudinal Crack (D00),0.7391,75.3,352.0,251.1,475.8
+281,9.368,grieta_longitudinal,Longitudinal Crack (D00),0.7647,81.3,348.6,257.1,475.7
+281,9.368,grieta_longitudinal,Longitudinal Crack (D00),0.5929,512.4,401.3,570.2,476.6
+282,9.402,grieta_longitudinal,Longitudinal Crack (D00),0.7684,80.7,356.8,245.4,475.7
+283,9.435,grieta_longitudinal,Longitudinal Crack (D00),0.7643,80.2,364.3,235.8,476.7
+284,9.468,grieta_longitudinal,Longitudinal Crack (D00),0.7348,80.8,378.5,220.4,476.9
+285,9.502,grieta_longitudinal,Longitudinal Crack (D00),0.6818,79.6,392.7,206.4,477.4
+285,9.502,grieta_longitudinal,Longitudinal Crack (D00),0.3952,529.9,418.3,576.0,477.8
+286,9.535,grieta_longitudinal,Longitudinal Crack (D00),0.7256,84.7,397.1,200.3,478.0
+287,9.568,grieta_longitudinal,Longitudinal Crack (D00),0.7088,87.6,410.0,182.9,477.9
+331,11.035,grieta_longitudinal,Longitudinal Crack (D00),0.6425,240.5,410.8,282.5,463.4
+332,11.069,grieta_longitudinal,Longitudinal Crack (D00),0.5434,214.4,418.6,272.7,478.0
+342,11.402,grieta_longitudinal,Longitudinal Crack (D00),0.4283,527.5,406.8,583.1,477.5
+356,11.869,grieta_longitudinal,Longitudinal Crack (D00),0.3971,203.5,352.8,317.1,477.3
+357,11.902,grieta_longitudinal,Longitudinal Crack (D00),0.7436,192.5,350.2,331.2,472.0
+358,11.936,grieta_longitudinal,Longitudinal Crack (D00),0.7012,198.9,357.0,323.3,475.8
+359,11.969,grieta_longitudinal,Longitudinal Crack (D00),0.6694,237.9,354.4,329.2,465.4
+360,12.002,grieta_longitudinal,Longitudinal Crack (D00),0.6698,230.8,348.9,328.8,475.4
+361,12.036,grieta_longitudinal,Longitudinal Crack (D00),0.658,234.7,352.9,328.4,473.9
+362,12.069,grieta_longitudinal,Longitudinal Crack (D00),0.7189,249.4,355.8,327.9,466.4
+363,12.102,grieta_longitudinal,Longitudinal Crack (D00),0.5912,258.4,354.5,325.6,465.2
+363,12.102,grieta_longitudinal,Longitudinal Crack (D00),0.3338,541.7,413.4,596.2,477.8
+364,12.136,grieta_longitudinal,Longitudinal Crack (D00),0.5578,247.0,363.3,322.3,477.0
+365,12.169,grieta_longitudinal,Longitudinal Crack (D00),0.5208,243.1,371.7,319.4,477.1
+366,12.202,grieta_longitudinal,Longitudinal Crack (D00),0.4351,249.0,398.0,304.0,474.2
+367,12.236,grieta_longitudinal,Longitudinal Crack (D00),0.3221,257.0,358.7,317.4,473.8
+368,12.269,grieta_longitudinal,Longitudinal Crack (D00),0.5192,246.7,373.2,309.8,477.8
+369,12.302,grieta_longitudinal,Longitudinal Crack (D00),0.334,231.6,388.0,303.2,475.8
+370,12.336,grieta_longitudinal,Longitudinal Crack (D00),0.4693,253.5,409.2,290.8,465.6
+371,12.369,grieta_longitudinal,Longitudinal Crack (D00),0.6007,228.4,416.0,279.7,477.7
+372,12.402,grieta_longitudinal,Longitudinal Crack (D00),0.3477,510.1,380.3,568.1,451.4
+377,12.569,grieta_longitudinal,Longitudinal Crack (D00),0.4823,278.5,358.6,330.7,476.5
+377,12.569,grieta_longitudinal,Longitudinal Crack (D00),0.4179,518.1,410.5,598.0,477.1
+379,12.636,grieta_longitudinal,Longitudinal Crack (D00),0.3977,496.1,361.5,542.1,436.4
+380,12.669,grieta_longitudinal,Longitudinal Crack (D00),0.7189,507.7,371.4,558.1,463.9
+381,12.702,grieta_longitudinal,Longitudinal Crack (D00),0.6891,522.0,387.6,571.9,477.5
+382,12.736,grieta_longitudinal,Longitudinal Crack (D00),0.5005,558.0,408.9,596.1,477.9
+383,12.769,grieta_longitudinal,Longitudinal Crack (D00),0.3903,238.1,415.6,287.5,477.7
+388,12.936,grieta_longitudinal,Longitudinal Crack (D00),0.458,533.1,364.6,622.2,477.1
+389,12.969,grieta_longitudinal,Longitudinal Crack (D00),0.5438,546.3,378.0,592.1,454.3
+390,13.002,grieta_longitudinal,Longitudinal Crack (D00),0.4933,561.6,394.0,625.4,477.9
+395,13.169,grieta_longitudinal,Longitudinal Crack (D00),0.3543,511.7,407.3,562.1,477.3
+404,13.469,grieta_longitudinal,Longitudinal Crack (D00),0.5191,253.4,417.9,285.3,467.6
+411,13.703,grieta_cocodrilo,Alligator Crack (D20),0.3586,126.6,393.2,221.6,474.4
+427,14.236,grieta_longitudinal,Longitudinal Crack (D00),0.401,499.4,299.3,631.8,421.6
+429,14.303,grieta_longitudinal,Longitudinal Crack (D00),0.3438,503.7,301.8,674.9,472.1
+430,14.336,grieta_longitudinal,Longitudinal Crack (D00),0.4329,497.4,299.8,677.8,466.8
+432,14.403,grieta_longitudinal,Longitudinal Crack (D00),0.3212,494.4,299.0,679.1,469.1
+435,14.503,grieta_longitudinal,Longitudinal Crack (D00),0.4644,461.4,391.5,502.6,477.9
+441,14.703,grieta_longitudinal,Longitudinal Crack (D00),0.3999,440.3,361.1,490.5,465.8
+442,14.736,grieta_longitudinal,Longitudinal Crack (D00),0.672,447.6,363.9,490.9,463.8
+505,16.836,grieta_longitudinal,Longitudinal Crack (D00),0.3051,441.0,294.1,546.4,463.1
+509,16.97,grieta_longitudinal,Longitudinal Crack (D00),0.3769,437.3,294.0,549.8,468.4
+519,17.303,grieta_longitudinal,Longitudinal Crack (D00),0.4574,431.2,300.8,513.7,450.3
+520,17.336,grieta_longitudinal,Longitudinal Crack (D00),0.6863,433.5,304.6,526.3,472.2
+521,17.37,grieta_longitudinal,Longitudinal Crack (D00),0.6393,433.8,305.5,524.9,473.0
+522,17.403,grieta_longitudinal,Longitudinal Crack (D00),0.6731,434.1,307.0,522.3,473.8
+523,17.437,grieta_longitudinal,Longitudinal Crack (D00),0.6849,432.9,309.0,521.5,474.1
+524,17.47,grieta_longitudinal,Longitudinal Crack (D00),0.6995,435.3,312.3,520.3,474.8
+525,17.503,grieta_longitudinal,Longitudinal Crack (D00),0.5379,432.9,311.7,516.2,475.0
+574,19.137,grieta_longitudinal,Longitudinal Crack (D00),0.4562,470.9,408.2,499.9,459.6
+575,19.17,grieta_longitudinal,Longitudinal Crack (D00),0.4098,193.8,296.1,295.2,352.5
+576,19.204,grieta_longitudinal,Longitudinal Crack (D00),0.5194,174.4,296.6,291.6,363.5
+577,19.237,grieta_longitudinal,Longitudinal Crack (D00),0.6629,160.2,297.2,293.0,372.0
+578,19.27,grieta_longitudinal,Longitudinal Crack (D00),0.7195,144.6,298.9,290.0,378.5
+579,19.304,grieta_longitudinal,Longitudinal Crack (D00),0.7186,120.8,301.2,288.0,395.9
+580,19.337,grieta_longitudinal,Longitudinal Crack (D00),0.7495,114.4,302.1,284.3,398.0
+581,19.37,grieta_longitudinal,Longitudinal Crack (D00),0.7414,104.5,303.0,284.5,402.7
+582,19.404,grieta_longitudinal,Longitudinal Crack (D00),0.7452,105.1,304.8,284.1,403.6
+583,19.437,grieta_longitudinal,Longitudinal Crack (D00),0.7818,112.5,311.0,268.5,398.5
+584,19.47,grieta_longitudinal,Longitudinal Crack (D00),0.7786,93.3,313.5,265.8,407.1
+585,19.504,grieta_longitudinal,Longitudinal Crack (D00),0.7577,86.8,313.6,265.8,409.3
+586,19.537,grieta_longitudinal,Longitudinal Crack (D00),0.7847,83.0,317.4,255.4,411.3
+587,19.57,grieta_longitudinal,Longitudinal Crack (D00),0.75,82.1,320.2,246.3,411.6
+588,19.604,grieta_longitudinal,Longitudinal Crack (D00),0.7409,79.1,322.5,243.3,411.9
+589,19.637,grieta_longitudinal,Longitudinal Crack (D00),0.5466,79.0,349.4,192.9,414.5
+590,19.67,grieta_longitudinal,Longitudinal Crack (D00),0.4239,78.0,352.5,185.9,415.4
+591,19.704,grieta_longitudinal,Longitudinal Crack (D00),0.3846,77.4,347.5,199.5,416.9
+592,19.737,grieta_longitudinal,Longitudinal Crack (D00),0.5712,73.8,351.2,191.4,417.1
+593,19.77,grieta_longitudinal,Longitudinal Crack (D00),0.5618,71.3,351.3,192.3,420.7
+605,20.17,bache,Pothole (D40),0.1954,128.5,415.2,185.2,437.9
+610,20.337,grieta_cocodrilo,Alligator Crack (D20),0.3263,243.6,372.1,358.6,476.2
+612,20.404,grieta_longitudinal,Longitudinal Crack (D00),0.565,252.1,393.8,333.6,472.4
+614,20.47,grieta_longitudinal,Longitudinal Crack (D00),0.3417,256.8,343.2,377.1,476.2
+614,20.47,bache,Pothole (D40),0.2937,5.3,397.9,68.3,430.4
+616,20.537,grieta_longitudinal,Longitudinal Crack (D00),0.3354,294.1,405.0,343.0,477.5
+616,20.537,bache,Pothole (D40),0.1548,296.3,408.3,343.1,478.0
+618,20.604,grieta_longitudinal,Longitudinal Crack (D00),0.5528,279.3,368.0,347.3,477.2
+619,20.637,grieta_longitudinal,Longitudinal Crack (D00),0.4739,274.5,383.7,339.0,477.2
+620,20.67,grieta_longitudinal,Longitudinal Crack (D00),0.5461,273.7,393.5,330.5,476.9
+623,20.77,bache,Pothole (D40),0.2327,369.2,396.7,412.0,470.3
+637,21.237,grieta_longitudinal,Longitudinal Crack (D00),0.3623,197.5,376.4,260.2,427.9
+638,21.271,grieta_longitudinal,Longitudinal Crack (D00),0.434,166.5,376.7,258.6,455.8
+639,21.304,grieta_longitudinal,Longitudinal Crack (D00),0.3646,132.3,406.3,220.1,477.5
+641,21.371,bache,Pothole (D40),0.165,273.8,437.0,319.5,478.0
+643,21.437,grieta_longitudinal,Longitudinal Crack (D00),0.415,180.1,365.5,269.8,464.3
+645,21.504,grieta_longitudinal,Longitudinal Crack (D00),0.3122,153.6,388.9,233.8,476.1
+654,21.804,bache,Pothole (D40),0.1666,186.1,345.4,228.2,372.1
+663,22.104,grieta_cocodrilo,Alligator Crack (D20),0.3204,5.4,363.1,171.3,462.0
+691,23.038,grieta_longitudinal,Longitudinal Crack (D00),0.4573,215.3,298.8,342.6,471.4
+694,23.138,bache,Pothole (D40),0.4208,477.2,303.6,537.6,333.8
+695,23.171,bache,Pothole (D40),0.3709,481.8,308.7,547.5,339.5
+696,23.204,bache,Pothole (D40),0.4632,486.9,316.0,557.6,348.1
+696,23.204,grieta_cocodrilo,Alligator Crack (D20),0.362,11.8,313.4,634.0,477.9
+697,23.238,grieta_cocodrilo,Alligator Crack (D20),0.4703,7.8,322.5,527.0,465.3
+697,23.238,bache,Pothole (D40),0.4506,497.0,326.1,564.8,358.9
+698,23.271,bache,Pothole (D40),0.4717,502.7,334.9,578.9,373.8
+699,23.304,bache,Pothole (D40),0.4751,510.2,346.9,600.6,387.8
+700,23.338,bache,Pothole (D40),0.4274,521.2,363.5,624.4,412.7
+701,23.371,bache,Pothole (D40),0.6224,527.0,380.6,651.7,444.4
+702,23.404,bache,Pothole (D40),0.354,549.3,406.8,687.8,454.3
+705,23.504,grieta_cocodrilo,Alligator Crack (D20),0.3016,3.1,329.0,572.2,467.7
+711,23.704,bache,Pothole (D40),0.1616,427.4,314.4,471.6,340.4
+712,23.738,bache,Pothole (D40),0.3742,425.6,321.5,477.2,352.2
+713,23.771,bache,Pothole (D40),0.499,423.3,332.9,480.0,365.0
+713,23.771,bache,Pothole (D40),0.2242,3.1,368.6,233.7,459.3
+714,23.804,bache,Pothole (D40),0.3246,421.2,345.7,486.5,380.6
+715,23.838,bache,Pothole (D40),0.3628,421.8,360.7,490.9,402.0
+716,23.871,bache,Pothole (D40),0.2096,415.7,379.3,504.6,440.5
+717,23.904,bache,Pothole (D40),0.4259,412.8,403.6,505.1,455.6
+720,24.004,bache,Pothole (D40),0.2209,491.4,368.6,526.8,391.3
+720,24.004,bache,Pothole (D40),0.1791,445.0,348.7,551.6,464.7
+721,24.038,bache,Pothole (D40),0.387,498.4,388.3,537.3,414.2
+721,24.038,bache,Pothole (D40),0.2186,440.7,357.1,787.2,474.9
+722,24.071,bache,Pothole (D40),0.168,508.9,413.0,552.1,443.0
+722,24.071,bache,Pothole (D40),0.1647,438.9,367.1,790.9,474.4
+727,24.238,grieta_longitudinal,Longitudinal Crack (D00),0.3151,193.9,273.2,288.2,349.8
+728,24.271,grieta_cocodrilo,Alligator Crack (D20),0.5116,125.1,273.9,283.8,357.1
+729,24.304,grieta_cocodrilo,Alligator Crack (D20),0.6743,107.6,279.6,278.8,366.7
+730,24.338,grieta_cocodrilo,Alligator Crack (D20),0.6177,112.7,281.4,274.8,371.2
+731,24.371,grieta_cocodrilo,Alligator Crack (D20),0.672,109.2,283.6,269.4,384.8
+732,24.404,grieta_cocodrilo,Alligator Crack (D20),0.4617,69.6,294.4,263.2,395.3
+733,24.438,grieta_cocodrilo,Alligator Crack (D20),0.4647,47.0,299.6,245.9,405.4
+734,24.471,grieta_cocodrilo,Alligator Crack (D20),0.6343,7.3,308.0,241.0,419.4
+735,24.504,grieta_cocodrilo,Alligator Crack (D20),0.7301,0.0,311.5,270.0,439.9
+736,24.538,grieta_cocodrilo,Alligator Crack (D20),0.5685,0.1,320.8,252.3,451.8
+736,24.538,bache,Pothole (D40),0.177,300.2,274.2,328.1,294.6
+737,24.571,grieta_cocodrilo,Alligator Crack (D20),0.4591,0.1,331.6,237.2,454.5
+739,24.638,grieta_cocodrilo,Alligator Crack (D20),0.3115,0.8,295.9,250.2,453.8
+741,24.705,bache,Pothole (D40),0.2807,157.8,284.3,317.3,336.3
+741,24.705,bache,Pothole (D40),0.267,398.3,275.6,487.6,444.8
+742,24.738,grieta_cocodrilo,Alligator Crack (D20),0.4282,0.3,296.1,290.4,455.1
+742,24.738,bache,Pothole (D40),0.2051,140.5,289.0,311.9,340.4
+742,24.738,bache,Pothole (D40),0.1852,399.6,284.6,492.1,455.8
+743,24.771,grieta_cocodrilo,Alligator Crack (D20),0.471,0.4,298.9,289.8,451.7
+744,24.805,grieta_cocodrilo,Alligator Crack (D20),0.5643,0.4,300.8,286.9,451.9
+745,24.838,grieta_cocodrilo,Alligator Crack (D20),0.6116,0.3,304.1,282.4,454.4
+746,24.871,grieta_cocodrilo,Alligator Crack (D20),0.4814,0.3,312.0,271.8,453.3
+746,24.871,bache,Pothole (D40),0.2764,0.5,310.5,269.7,451.2
+747,24.905,bache,Pothole (D40),0.5223,0.5,321.9,260.9,450.3
+747,24.905,grieta_cocodrilo,Alligator Crack (D20),0.3243,368.8,315.9,488.0,448.7
+748,24.938,grieta_cocodrilo,Alligator Crack (D20),0.5902,0.1,329.6,244.7,452.8
+749,24.971,grieta_cocodrilo,Alligator Crack (D20),0.3779,354.4,337.4,498.0,449.9
+749,24.971,bache,Pothole (D40),0.2809,0.3,338.0,227.0,453.8
+765,25.505,bache,Pothole (D40),0.1614,212.4,296.8,456.4,454.9
+766,25.538,bache,Pothole (D40),0.1714,219.1,298.5,467.7,454.1
+768,25.605,bache,Pothole (D40),0.293,146.5,309.9,447.5,452.9
+769,25.638,bache,Pothole (D40),0.1992,132.0,317.3,588.4,455.0
+769,25.638,bache,Pothole (D40),0.1971,143.5,321.9,464.3,452.9
+770,25.671,bache,Pothole (D40),0.3051,113.8,323.3,607.4,458.9
+771,25.705,bache,Pothole (D40),0.327,50.6,327.4,590.9,461.8
+772,25.738,bache,Pothole (D40),0.2437,51.3,346.7,615.4,462.2
+773,25.771,bache,Pothole (D40),0.1536,280.2,390.6,421.5,451.8
+774,25.805,bache,Pothole (D40),0.4293,279.0,413.1,409.1,455.5
+776,25.871,bache,Pothole (D40),0.2176,427.2,283.5,655.1,456.0
+777,25.905,bache,Pothole (D40),0.1746,430.2,288.7,638.3,448.3
+778,25.938,bache,Pothole (D40),0.4156,432.8,293.7,626.7,449.1
+778,25.938,bache,Pothole (D40),0.309,437.2,337.6,622.8,449.5
+778,25.938,bache,Pothole (D40),0.3075,47.1,352.5,131.6,397.7
+779,25.971,bache,Pothole (D40),0.2672,431.6,291.9,599.4,439.6
+780,26.005,bache,Pothole (D40),0.3396,434.9,296.3,652.1,449.2
+780,26.005,bache,Pothole (D40),0.335,435.3,297.1,589.8,446.7
+781,26.038,bache,Pothole (D40),0.33,435.8,301.0,590.1,446.7
+781,26.038,bache,Pothole (D40),0.2278,434.8,299.3,652.2,447.8
+782,26.071,bache,Pothole (D40),0.2606,440.6,312.2,596.5,445.5
+783,26.105,bache,Pothole (D40),0.3079,441.3,308.4,600.9,445.7
+784,26.138,bache,Pothole (D40),0.3615,441.1,321.6,610.1,444.3
+785,26.171,bache,Pothole (D40),0.1591,151.1,271.0,270.4,321.4
+786,26.205,bache,Pothole (D40),0.2418,137.9,275.2,264.3,329.0
+786,26.205,bache,Pothole (D40),0.1627,593.8,298.0,653.5,323.4
+787,26.238,bache,Pothole (D40),0.3044,123.8,279.7,254.8,326.7
+787,26.238,bache,Pothole (D40),0.2698,202.7,349.0,285.8,427.2
+788,26.271,bache,Pothole (D40),0.4753,187.1,365.9,268.8,430.1
+788,26.271,bache,Pothole (D40),0.223,109.3,289.2,200.3,327.6
+788,26.271,bache,Pothole (D40),0.2131,606.2,309.7,681.0,340.4
+788,26.271,bache,Pothole (D40),0.1535,448.4,352.7,600.5,436.6
+788,26.271,bache,Pothole (D40),0.1508,105.3,284.1,235.6,328.9
+789,26.305,bache,Pothole (D40),0.3707,620.6,318.1,690.2,348.3
+789,26.305,bache,Pothole (D40),0.3116,173.9,384.2,251.2,431.4
+789,26.305,bache,Pothole (D40),0.1752,97.4,298.0,188.6,332.7
+790,26.338,bache,Pothole (D40),0.3632,81.9,293.5,231.4,360.2
+790,26.338,bache,Pothole (D40),0.1812,630.2,324.6,712.9,359.1
+791,26.371,bache,Pothole (D40),0.2961,639.3,333.6,727.7,371.0
+791,26.371,bache,Pothole (D40),0.1612,63.4,272.7,228.2,353.1
+791,26.371,bache,Pothole (D40),0.1584,65.7,308.9,167.8,346.3
+792,26.405,bache,Pothole (D40),0.4175,654.1,338.9,757.9,384.6
+792,26.405,bache,Pothole (D40),0.262,41.3,313.0,151.4,357.8
+792,26.405,bache,Pothole (D40),0.1863,39.0,280.8,211.8,360.3
+793,26.438,bache,Pothole (D40),0.5461,675.3,353.6,778.5,398.1
+793,26.438,bache,Pothole (D40),0.2579,40.8,289.7,197.8,373.4
+793,26.438,bache,Pothole (D40),0.2036,41.6,314.0,198.7,379.7
+793,26.438,bache,Pothole (D40),0.1516,43.1,322.6,132.1,364.4
+794,26.471,bache,Pothole (D40),0.2961,29.4,317.0,184.4,394.9
+794,26.471,bache,Pothole (D40),0.2927,687.5,365.2,804.9,415.9
+794,26.471,bache,Pothole (D40),0.2297,30.2,286.5,190.4,398.0
+795,26.505,bache,Pothole (D40),0.3586,14.8,298.8,162.7,416.4
+795,26.505,bache,Pothole (D40),0.2331,715.2,373.8,848.0,475.0
+795,26.505,bache,Pothole (D40),0.1921,710.9,375.0,845.6,442.0
+796,26.538,bache,Pothole (D40),0.3771,739.6,392.8,848.0,475.6
+796,26.538,bache,Pothole (D40),0.1689,0.2,309.1,144.0,419.4
+797,26.572,bache,Pothole (D40),0.2602,763.4,409.9,847.9,477.9
+797,26.572,bache,Pothole (D40),0.2494,0.0,317.4,124.6,431.3
+797,26.572,bache,Pothole (D40),0.1966,13.2,364.3,123.6,429.8
+798,26.605,bache,Pothole (D40),0.2208,0.0,331.0,96.5,433.5
+802,26.738,bache,Pothole (D40),0.1837,367.9,318.8,473.8,374.2
+806,26.872,bache,Pothole (D40),0.1519,350.6,367.8,491.0,424.4
+807,26.905,bache,Pothole (D40),0.2814,390.8,384.1,496.6,423.9
+811,27.038,bache,Pothole (D40),0.1793,11.3,354.6,112.6,420.0
+821,27.372,bache,Pothole (D40),0.3836,401.9,246.6,467.3,274.0
+822,27.405,bache,Pothole (D40),0.2004,397.9,246.8,469.6,276.3
+823,27.438,bache,Pothole (D40),0.3972,397.9,253.8,469.4,281.9
+823,27.438,bache,Pothole (D40),0.2156,175.1,250.8,222.7,274.1
+824,27.472,bache,Pothole (D40),0.3523,395.1,256.3,469.7,284.9
+824,27.472,bache,Pothole (D40),0.2028,166.7,253.7,217.1,278.3
+825,27.505,bache,Pothole (D40),0.4605,395.5,256.2,470.3,286.4
+826,27.538,bache,Pothole (D40),0.5111,391.8,259.0,469.7,290.8
+827,27.572,bache,Pothole (D40),0.4936,387.8,260.7,468.3,294.3
+828,27.605,bache,Pothole (D40),0.4011,385.8,269.6,465.1,298.9
+829,27.638,bache,Pothole (D40),0.5498,383.5,271.5,470.1,308.5
+830,27.672,bache,Pothole (D40),0.6651,380.1,275.7,469.9,313.8
+831,27.705,bache,Pothole (D40),0.6185,375.5,279.5,470.4,317.3
+832,27.738,bache,Pothole (D40),0.6132,372.4,283.0,470.9,322.8
+833,27.772,bache,Pothole (D40),0.5964,369.1,285.5,470.7,327.1
+834,27.805,bache,Pothole (D40),0.5616,366.5,290.2,473.2,335.3
+834,27.805,bache,Pothole (D40),0.1983,6.7,285.0,109.3,332.0
+835,27.838,bache,Pothole (D40),0.5099,359.5,297.8,475.7,348.1
+835,27.838,bache,Pothole (D40),0.1774,0.0,289.8,64.7,333.6
+836,27.872,bache,Pothole (D40),0.5986,350.3,304.0,477.5,358.8
+836,27.872,bache,Pothole (D40),0.1775,354.6,310.8,454.4,356.9
+837,27.905,bache,Pothole (D40),0.6259,350.0,311.5,481.1,366.3
+837,27.905,bache,Pothole (D40),0.1569,0.0,292.5,118.4,374.2
+838,27.938,bache,Pothole (D40),0.6726,342.4,317.9,482.9,379.5
+839,27.972,bache,Pothole (D40),0.6347,337.7,325.2,480.1,389.9
+839,27.972,bache,Pothole (D40),0.2437,55.5,238.0,134.4,272.7
+840,28.005,bache,Pothole (D40),0.4399,332.5,332.8,481.4,393.1
+841,28.038,bache,Pothole (D40),0.5837,402.2,349.9,482.4,391.8
+844,28.138,bache,Pothole (D40),0.1795,352.4,320.1,416.4,367.9
+845,28.172,bache,Pothole (D40),0.3887,343.8,329.8,412.0,372.8
+846,28.205,bache,Pothole (D40),0.3257,335.5,341.9,405.0,378.6
+862,28.739,bache,Pothole (D40),0.1904,450.0,260.2,487.4,282.8
+863,28.772,bache,Pothole (D40),0.1829,447.5,262.4,487.6,289.1
+864,28.805,bache,Pothole (D40),0.1688,446.8,265.9,486.2,291.7
+865,28.839,grieta_cocodrilo,Alligator Crack (D20),0.4853,355.3,221.2,528.7,368.0
+866,28.872,bache,Pothole (D40),0.2233,359.9,223.8,511.6,365.0
+867,28.905,grieta_cocodrilo,Alligator Crack (D20),0.3393,346.5,219.2,521.5,366.7
+867,28.905,bache,Pothole (D40),0.2486,353.3,220.0,504.5,367.8
+868,28.939,grieta_cocodrilo,Alligator Crack (D20),0.3434,346.0,222.5,517.0,368.9
+868,28.939,bache,Pothole (D40),0.2101,361.3,223.9,498.0,369.6
+869,28.972,grieta_cocodrilo,Alligator Crack (D20),0.3442,339.0,224.9,511.5,369.1
+869,28.972,bache,Pothole (D40),0.2365,359.7,227.9,497.2,369.1
+870,29.005,bache,Pothole (D40),0.3149,356.1,230.9,498.7,367.9
+870,29.005,bache,Pothole (D40),0.1719,313.6,224.7,515.8,368.5
+871,29.039,grieta_cocodrilo,Alligator Crack (D20),0.4281,278.7,224.4,516.0,368.3
+871,29.039,bache,Pothole (D40),0.167,353.0,231.9,496.6,367.9
+872,29.072,grieta_cocodrilo,Alligator Crack (D20),0.4882,274.3,227.3,505.6,366.9
+872,29.072,bache,Pothole (D40),0.1741,352.8,235.9,494.7,366.8
+873,29.105,grieta_cocodrilo,Alligator Crack (D20),0.6335,251.9,223.3,499.8,363.2
+874,29.139,grieta_cocodrilo,Alligator Crack (D20),0.6638,256.2,225.6,499.7,361.3
+875,29.172,grieta_cocodrilo,Alligator Crack (D20),0.6916,239.2,223.9,492.8,358.0
+876,29.205,grieta_cocodrilo,Alligator Crack (D20),0.6738,247.8,224.3,499.3,356.2
+877,29.239,grieta_cocodrilo,Alligator Crack (D20),0.5321,233.8,220.9,487.2,351.5
+878,29.272,grieta_cocodrilo,Alligator Crack (D20),0.6281,219.3,224.0,479.6,350.5
+879,29.305,grieta_cocodrilo,Alligator Crack (D20),0.6211,207.4,223.8,481.1,351.2
+880,29.339,grieta_cocodrilo,Alligator Crack (D20),0.6173,199.0,221.7,472.2,350.0
+881,29.372,grieta_cocodrilo,Alligator Crack (D20),0.6648,197.7,216.8,469.3,349.3
+882,29.405,grieta_cocodrilo,Alligator Crack (D20),0.5574,178.2,220.5,460.9,347.5
+883,29.439,grieta_cocodrilo,Alligator Crack (D20),0.5514,163.4,222.1,459.3,342.7
+884,29.472,grieta_cocodrilo,Alligator Crack (D20),0.4117,159.9,221.2,453.0,338.1
+886,29.539,grieta_cocodrilo,Alligator Crack (D20),0.5638,200.5,214.8,432.3,332.1
+887,29.572,grieta_cocodrilo,Alligator Crack (D20),0.5275,186.0,213.4,433.6,331.6
+888,29.605,grieta_cocodrilo,Alligator Crack (D20),0.4475,228.5,214.7,437.2,330.1
+889,29.639,grieta_cocodrilo,Alligator Crack (D20),0.4779,228.4,215.2,432.3,331.3
+890,29.672,grieta_cocodrilo,Alligator Crack (D20),0.5386,154.6,218.5,428.3,332.5
+891,29.705,grieta_cocodrilo,Alligator Crack (D20),0.43,166.1,217.9,428.9,335.1
+892,29.739,grieta_cocodrilo,Alligator Crack (D20),0.3505,218.7,215.7,424.2,334.3
+893,29.772,grieta_cocodrilo,Alligator Crack (D20),0.5935,234.3,213.8,402.3,334.1
+894,29.805,grieta_cocodrilo,Alligator Crack (D20),0.6282,224.8,216.8,403.3,333.4
+895,29.839,grieta_cocodrilo,Alligator Crack (D20),0.6757,231.3,216.0,408.3,334.7
+896,29.872,grieta_cocodrilo,Alligator Crack (D20),0.6341,213.0,219.5,406.1,335.0
+897,29.905,grieta_cocodrilo,Alligator Crack (D20),0.5406,179.3,217.1,401.7,335.0
+898,29.939,grieta_cocodrilo,Alligator Crack (D20),0.4676,163.6,217.7,400.0,334.8
+899,29.972,grieta_cocodrilo,Alligator Crack (D20),0.3647,157.3,220.8,389.2,336.5
+900,30.005,grieta_cocodrilo,Alligator Crack (D20),0.3275,172.5,225.2,387.3,335.4
+918,30.606,bache,Pothole (D40),0.1631,390.7,247.5,645.4,308.0
+1008,33.606,bache,Pothole (D40),0.2138,3.8,346.3,366.1,473.6
+1091,36.373,grieta_longitudinal,Longitudinal Crack (D00),0.3612,577.0,280.4,745.5,390.6
+1094,36.473,grieta_longitudinal,Longitudinal Crack (D00),0.3251,571.2,290.7,737.3,403.0
+1095,36.507,grieta_longitudinal,Longitudinal Crack (D00),0.3506,514.2,260.4,710.5,396.7
+1096,36.54,grieta_longitudinal,Longitudinal Crack (D00),0.5583,509.4,258.1,705.6,398.1
+1097,36.573,grieta_longitudinal,Longitudinal Crack (D00),0.4405,506.2,258.3,697.2,394.8
+1098,36.607,grieta_longitudinal,Longitudinal Crack (D00),0.5543,505.2,259.5,695.4,397.1
+1099,36.64,grieta_longitudinal,Longitudinal Crack (D00),0.5619,500.6,260.7,686.3,396.8
+1100,36.673,grieta_longitudinal,Longitudinal Crack (D00),0.6379,497.9,265.0,673.2,396.3
+1101,36.707,grieta_longitudinal,Longitudinal Crack (D00),0.6697,497.3,267.8,668.6,398.3
+1102,36.74,grieta_longitudinal,Longitudinal Crack (D00),0.7062,492.8,267.8,661.0,402.6
+1103,36.773,grieta_longitudinal,Longitudinal Crack (D00),0.6408,488.2,271.6,660.6,407.8
+1104,36.807,grieta_longitudinal,Longitudinal Crack (D00),0.701,483.2,272.9,647.9,408.7
+1105,36.84,grieta_longitudinal,Longitudinal Crack (D00),0.7296,478.3,273.5,636.5,409.2
+1106,36.873,grieta_longitudinal,Longitudinal Crack (D00),0.6698,472.6,277.2,619.0,409.2
+1107,36.907,grieta_longitudinal,Longitudinal Crack (D00),0.6525,467.5,278.2,614.2,410.3
+1108,36.94,grieta_longitudinal,Longitudinal Crack (D00),0.7321,464.7,284.6,595.0,406.6
+1109,36.973,grieta_longitudinal,Longitudinal Crack (D00),0.6331,456.5,285.9,581.0,400.6
+1110,37.007,grieta_longitudinal,Longitudinal Crack (D00),0.7038,451.5,289.4,558.1,401.2
+1111,37.04,grieta_longitudinal,Longitudinal Crack (D00),0.7013,443.1,294.3,552.3,408.0
+1112,37.073,grieta_longitudinal,Longitudinal Crack (D00),0.7132,435.5,299.5,532.6,403.3
+1113,37.107,grieta_longitudinal,Longitudinal Crack (D00),0.7206,427.0,304.6,520.3,407.5
+1114,37.14,grieta_longitudinal,Longitudinal Crack (D00),0.6989,416.5,307.5,497.7,403.1
+1115,37.173,grieta_longitudinal,Longitudinal Crack (D00),0.6766,407.5,311.1,486.1,408.5
+1116,37.207,grieta_longitudinal,Longitudinal Crack (D00),0.6822,398.3,320.4,465.9,406.6
+1117,37.24,grieta_longitudinal,Longitudinal Crack (D00),0.6282,387.6,325.5,449.5,405.5
+1118,37.273,grieta_longitudinal,Longitudinal Crack (D00),0.6452,375.5,330.9,432.3,406.6
+1119,37.307,grieta_longitudinal,Longitudinal Crack (D00),0.6089,364.9,336.6,416.2,408.4
+1120,37.34,grieta_longitudinal,Longitudinal Crack (D00),0.4193,353.2,340.1,395.4,408.4
+1121,37.373,grieta_longitudinal,Longitudinal Crack (D00),0.5012,340.4,351.6,380.9,410.6
+1136,37.874,grieta_longitudinal,Longitudinal Crack (D00),0.3518,269.0,290.8,389.2,396.0
+1137,37.907,grieta_longitudinal,Longitudinal Crack (D00),0.5633,250.6,295.8,374.5,407.3
+1138,37.94,grieta_longitudinal,Longitudinal Crack (D00),0.6466,245.7,307.8,351.4,411.2
+1139,37.974,grieta_longitudinal,Longitudinal Crack (D00),0.6855,207.6,292.9,318.7,409.8
+1140,38.007,grieta_longitudinal,Longitudinal Crack (D00),0.5422,184.9,291.7,288.8,411.2
+1141,38.04,grieta_longitudinal,Longitudinal Crack (D00),0.6894,168.8,301.1,259.3,416.8
+1142,38.074,grieta_longitudinal,Longitudinal Crack (D00),0.7126,148.7,304.5,228.3,419.5
+1143,38.107,grieta_longitudinal,Longitudinal Crack (D00),0.6786,126.4,303.5,194.5,419.5
+1144,38.14,grieta_longitudinal,Longitudinal Crack (D00),0.6893,106.2,308.2,163.5,422.7
+1145,38.174,grieta_longitudinal,Longitudinal Crack (D00),0.7101,81.5,314.5,129.8,428.8
+1146,38.207,grieta_longitudinal,Longitudinal Crack (D00),0.71,55.0,318.0,97.9,431.6
+1147,38.24,grieta_longitudinal,Longitudinal Crack (D00),0.605,28.1,314.3,64.0,434.0
+1209,40.307,grieta_longitudinal,Longitudinal Crack (D00),0.3042,268.1,261.0,557.5,437.7
+1210,40.341,grieta_longitudinal,Longitudinal Crack (D00),0.4237,281.1,264.8,552.0,437.9
+1211,40.374,grieta_longitudinal,Longitudinal Crack (D00),0.429,286.2,266.1,551.7,437.8
+1212,40.407,grieta_longitudinal,Longitudinal Crack (D00),0.3382,292.6,266.1,550.4,438.0
+1213,40.441,grieta_longitudinal,Longitudinal Crack (D00),0.5472,566.0,289.4,700.4,409.2
+1213,40.441,grieta_longitudinal,Longitudinal Crack (D00),0.305,299.4,267.1,541.8,438.2
+1214,40.474,grieta_longitudinal,Longitudinal Crack (D00),0.5908,563.2,297.1,694.9,419.2
+1214,40.474,grieta_longitudinal,Longitudinal Crack (D00),0.3473,305.2,271.4,532.0,437.5
+1215,40.507,grieta_longitudinal,Longitudinal Crack (D00),0.5829,566.8,301.4,693.6,423.6
+1215,40.507,grieta_longitudinal,Longitudinal Crack (D00),0.4778,312.5,274.8,523.4,435.7
+1216,40.541,grieta_longitudinal,Longitudinal Crack (D00),0.4743,319.2,262.4,539.4,432.5
+1216,40.541,grieta_longitudinal,Longitudinal Crack (D00),0.3647,578.8,305.7,697.2,419.7
+1217,40.574,grieta_longitudinal,Longitudinal Crack (D00),0.402,607.8,309.4,703.1,413.0
+1217,40.574,grieta_longitudinal,Longitudinal Crack (D00),0.3193,329.7,261.4,537.3,429.6
+1218,40.607,grieta_longitudinal,Longitudinal Crack (D00),0.6257,611.1,315.7,701.5,423.6
+1219,40.641,grieta_longitudinal,Longitudinal Crack (D00),0.5178,618.3,322.2,701.7,426.5
+1220,40.674,grieta_longitudinal,Longitudinal Crack (D00),0.4898,628.5,330.3,701.9,430.3
+1221,40.707,grieta_longitudinal,Longitudinal Crack (D00),0.429,637.1,338.4,705.5,435.2
+1222,40.741,grieta_longitudinal,Longitudinal Crack (D00),0.4827,573.0,318.5,614.1,436.6
+1231,41.041,grieta_longitudinal,Longitudinal Crack (D00),0.3106,322.3,266.2,476.8,463.6
+1232,41.074,grieta_longitudinal,Longitudinal Crack (D00),0.3957,322.1,266.2,475.6,464.0
+1233,41.108,grieta_longitudinal,Longitudinal Crack (D00),0.4205,320.5,268.3,473.8,464.4
+1235,41.174,grieta_longitudinal,Longitudinal Crack (D00),0.504,318.7,270.0,468.7,465.4
+1236,41.208,grieta_longitudinal,Longitudinal Crack (D00),0.7016,322.3,273.3,464.0,464.1
+1237,41.241,grieta_longitudinal,Longitudinal Crack (D00),0.348,317.8,270.4,467.0,470.7
+1238,41.274,grieta_longitudinal,Longitudinal Crack (D00),0.4572,318.5,268.3,465.9,470.3
+1239,41.308,grieta_longitudinal,Longitudinal Crack (D00),0.3775,320.4,268.7,462.4,470.8
+1240,41.341,grieta_longitudinal,Longitudinal Crack (D00),0.3611,319.4,275.1,454.5,471.1
+1242,41.408,grieta_longitudinal,Longitudinal Crack (D00),0.3187,315.1,278.2,448.8,471.3
+1253,41.774,bache,Pothole (D40),0.1611,472.9,261.2,579.4,298.7
+1259,41.974,bache,Pothole (D40),0.2389,475.0,271.4,596.5,312.5
+1260,42.008,bache,Pothole (D40),0.3143,472.7,271.4,598.7,316.1
+1261,42.041,bache,Pothole (D40),0.4038,478.3,272.5,605.2,318.9
+1262,42.074,bache,Pothole (D40),0.364,475.3,273.6,608.7,322.3
+1263,42.108,bache,Pothole (D40),0.4822,477.9,274.4,616.5,325.8
+1264,42.141,bache,Pothole (D40),0.4542,481.8,276.2,619.2,329.2
+1264,42.141,grieta_longitudinal,Longitudinal Crack (D00),0.3592,360.4,311.8,466.6,474.1
+1265,42.174,bache,Pothole (D40),0.2189,480.7,292.3,586.7,333.0
+1265,42.174,bache,Pothole (D40),0.1882,480.6,276.4,630.4,333.2
+1266,42.208,bache,Pothole (D40),0.4075,479.1,278.1,638.2,336.1
+1266,42.208,grieta_longitudinal,Longitudinal Crack (D00),0.3138,369.1,327.5,465.9,473.1
+1267,42.241,bache,Pothole (D40),0.5728,483.2,281.1,645.1,341.2
+1267,42.241,grieta_cocodrilo,Alligator Crack (D20),0.3075,484.7,281.9,644.6,340.9
+1268,42.274,bache,Pothole (D40),0.5262,489.3,282.1,651.3,344.0
+1269,42.308,bache,Pothole (D40),0.3966,491.5,283.3,659.3,350.3
+1269,42.308,grieta_cocodrilo,Alligator Crack (D20),0.3116,491.1,295.2,612.7,350.7
+1270,42.341,bache,Pothole (D40),0.3725,494.0,284.6,664.3,354.8
+1270,42.341,grieta_cocodrilo,Alligator Crack (D20),0.3165,493.6,298.3,624.6,354.2
+1270,42.341,bache,Pothole (D40),0.2694,494.4,295.9,626.4,353.8
+1271,42.374,grieta_cocodrilo,Alligator Crack (D20),0.3726,499.3,285.6,679.2,357.9
+1271,42.374,grieta_cocodrilo,Alligator Crack (D20),0.3543,495.9,295.4,636.3,359.7
+1271,42.374,bache,Pothole (D40),0.1677,500.6,284.6,681.1,360.6
+1272,42.408,grieta_cocodrilo,Alligator Crack (D20),0.3226,505.6,287.7,689.3,364.6
+1272,42.408,bache,Pothole (D40),0.3135,505.0,298.5,644.8,364.5
+1272,42.408,bache,Pothole (D40),0.2946,505.4,287.9,682.9,365.1
+1273,42.441,grieta_cocodrilo,Alligator Crack (D20),0.5554,503.3,303.4,657.5,373.4
+1273,42.441,bache,Pothole (D40),0.3407,506.0,303.6,661.8,372.8
+1274,42.474,grieta_cocodrilo,Alligator Crack (D20),0.3777,500.5,304.5,673.1,380.0
+1274,42.474,bache,Pothole (D40),0.2751,503.5,302.7,676.9,379.8
+1275,42.508,bache,Pothole (D40),0.3477,509.5,306.9,686.7,386.1
+1276,42.541,bache,Pothole (D40),0.4109,515.9,312.6,700.3,395.9
+1277,42.574,bache,Pothole (D40),0.2083,518.0,309.0,718.2,405.4
+1291,43.041,grieta_longitudinal,Longitudinal Crack (D00),0.3611,758.1,388.1,846.9,453.0
+1293,43.108,bache,Pothole (D40),0.2989,791.1,370.5,848.0,459.0
+1297,43.241,grieta_longitudinal,Longitudinal Crack (D00),0.4929,676.1,320.3,776.7,401.7
+1298,43.275,grieta_longitudinal,Longitudinal Crack (D00),0.4984,681.8,322.5,807.7,418.8
+1299,43.308,grieta_longitudinal,Longitudinal Crack (D00),0.5384,704.1,336.3,841.5,435.4
+1300,43.341,grieta_longitudinal,Longitudinal Crack (D00),0.5884,714.9,338.7,847.6,465.1
+1301,43.375,grieta_longitudinal,Longitudinal Crack (D00),0.7061,726.2,342.8,847.9,470.9
+1302,43.408,grieta_longitudinal,Longitudinal Crack (D00),0.5252,736.9,349.2,847.9,465.3
+1303,43.441,grieta_longitudinal,Longitudinal Crack (D00),0.6209,761.6,365.3,848.0,465.9
+1304,43.475,grieta_longitudinal,Longitudinal Crack (D00),0.4942,775.6,370.0,848.0,464.5
+1344,44.808,grieta_longitudinal,Longitudinal Crack (D00),0.3693,250.2,330.1,297.0,448.5
+1345,44.842,grieta_longitudinal,Longitudinal Crack (D00),0.3567,238.6,335.6,286.5,449.9
+1370,45.675,grieta_longitudinal,Longitudinal Crack (D00),0.4508,234.1,289.5,296.5,426.1
+1372,45.742,grieta_longitudinal,Longitudinal Crack (D00),0.4222,216.7,309.0,275.2,448.4
+1375,45.842,grieta_longitudinal,Longitudinal Crack (D00),0.3146,178.7,341.7,241.9,458.1
+1378,45.942,grieta_longitudinal,Longitudinal Crack (D00),0.3032,125.9,354.1,218.8,469.5
+1386,46.208,grieta_longitudinal,Longitudinal Crack (D00),0.3173,484.5,331.2,686.5,472.8
+1419,47.309,bache,Pothole (D40),0.2152,0.0,382.1,80.3,470.7
+1425,47.509,grieta_longitudinal,Longitudinal Crack (D00),0.3297,47.6,344.0,134.6,424.5
+1445,48.175,grieta_cocodrilo,Alligator Crack (D20),0.322,530.3,367.7,847.2,472.4
+1481,49.376,bache,Pothole (D40),0.1755,216.8,322.5,275.9,352.1
+1482,49.409,bache,Pothole (D40),0.4003,217.2,324.7,274.9,353.3
+1483,49.442,bache,Pothole (D40),0.3403,213.9,327.4,273.8,356.6
+1485,49.509,bache,Pothole (D40),0.1644,211.5,331.2,275.1,362.5
+1486,49.542,bache,Pothole (D40),0.2035,210.6,334.1,274.3,365.4
+1487,49.576,bache,Pothole (D40),0.1946,208.2,336.0,275.0,369.0
+1488,49.609,bache,Pothole (D40),0.2819,207.3,338.3,276.2,370.3
+1489,49.642,bache,Pothole (D40),0.2458,206.7,342.2,274.8,374.9
+1490,49.676,bache,Pothole (D40),0.4945,207.7,343.9,275.7,377.3
+1491,49.709,bache,Pothole (D40),0.4314,204.9,347.6,277.2,382.1
+1492,49.742,bache,Pothole (D40),0.5279,204.3,350.1,279.4,384.6
+1493,49.776,bache,Pothole (D40),0.4049,205.1,352.4,280.0,388.9
+1494,49.809,bache,Pothole (D40),0.4364,203.1,355.7,281.4,393.6
+1495,49.842,grieta_longitudinal,Longitudinal Crack (D00),0.3539,204.6,359.0,283.5,396.8
+1495,49.842,bache,Pothole (D40),0.241,204.2,358.1,284.5,397.4
+1496,49.876,grieta_longitudinal,Longitudinal Crack (D00),0.3681,204.2,361.9,285.2,401.5
+1497,49.909,grieta_longitudinal,Longitudinal Crack (D00),0.341,203.4,365.2,287.5,410.1
+1497,49.909,bache,Pothole (D40),0.3296,203.3,364.2,287.4,409.3
+1498,49.942,grieta_longitudinal,Longitudinal Crack (D00),0.4331,201.7,369.6,289.4,413.3
+1499,49.976,grieta_longitudinal,Longitudinal Crack (D00),0.4422,203.8,373.9,293.6,417.0
+1499,49.976,bache,Pothole (D40),0.1788,206.2,375.6,291.1,416.8
+1500,50.009,bache,Pothole (D40),0.3852,204.5,379.7,295.0,421.7
+1501,50.042,bache,Pothole (D40),0.3634,203.0,383.9,298.6,428.8
+1501,50.042,grieta_longitudinal,Longitudinal Crack (D00),0.3056,203.7,383.3,298.6,429.4
+1502,50.076,grieta_longitudinal,Longitudinal Crack (D00),0.3878,205.2,387.4,301.5,435.3
+1503,50.109,bache,Pothole (D40),0.4704,205.4,392.2,307.4,445.6
+1504,50.142,bache,Pothole (D40),0.4139,208.9,397.5,311.4,449.4
+1505,50.176,bache,Pothole (D40),0.5101,209.7,401.2,316.7,462.5
+1506,50.209,bache,Pothole (D40),0.5334,210.9,406.8,321.9,472.4
+1507,50.243,bache,Pothole (D40),0.5128,212.0,412.1,329.1,475.2
+1508,50.276,bache,Pothole (D40),0.6314,212.3,415.7,333.7,476.8
+1509,50.309,bache,Pothole (D40),0.6357,215.9,423.8,338.2,478.0
+1510,50.343,bache,Pothole (D40),0.5809,235.9,431.5,344.4,478.0
+1511,50.376,bache,Pothole (D40),0.5225,247.8,438.9,352.2,477.8
+1512,50.409,bache,Pothole (D40),0.3662,279.6,447.8,357.4,478.0
+1513,50.443,bache,Pothole (D40),0.2039,308.7,453.3,373.0,478.0
+1834,61.144,grieta_longitudinal,Longitudinal Crack (D00),0.3035,434.3,386.3,555.2,472.3
+1835,61.178,grieta_longitudinal,Longitudinal Crack (D00),0.3782,433.3,385.3,537.4,464.5
+1836,61.211,grieta_longitudinal,Longitudinal Crack (D00),0.4669,432.2,386.9,535.4,464.6
+1837,61.245,grieta_longitudinal,Longitudinal Crack (D00),0.4511,433.7,388.5,535.1,465.6
+1838,61.278,grieta_longitudinal,Longitudinal Crack (D00),0.4731,433.3,389.1,541.1,473.0
+1839,61.311,grieta_longitudinal,Longitudinal Crack (D00),0.4439,431.9,389.7,540.8,472.6
+1840,61.345,grieta_longitudinal,Longitudinal Crack (D00),0.4943,432.4,390.9,536.7,470.8
+1841,61.378,grieta_longitudinal,Longitudinal Crack (D00),0.5385,432.3,393.7,540.5,474.9
+1842,61.411,grieta_longitudinal,Longitudinal Crack (D00),0.5073,434.1,395.7,542.1,476.1
+1843,61.445,grieta_longitudinal,Longitudinal Crack (D00),0.4842,434.0,396.2,541.0,475.9
+1844,61.478,grieta_longitudinal,Longitudinal Crack (D00),0.3934,435.6,397.7,539.4,475.4
+1845,61.511,grieta_longitudinal,Longitudinal Crack (D00),0.4752,435.3,398.4,537.8,476.1
+1846,61.545,grieta_longitudinal,Longitudinal Crack (D00),0.4395,438.6,401.0,536.5,475.8
+1847,61.578,grieta_longitudinal,Longitudinal Crack (D00),0.5338,436.4,401.1,534.7,476.6
+1848,61.611,grieta_longitudinal,Longitudinal Crack (D00),0.5251,436.2,402.6,537.4,477.2
+1849,61.645,grieta_longitudinal,Longitudinal Crack (D00),0.4532,439.4,404.2,536.4,477.3
+1850,61.678,grieta_longitudinal,Longitudinal Crack (D00),0.405,440.8,407.5,535.5,477.2
+1851,61.711,grieta_longitudinal,Longitudinal Crack (D00),0.3973,440.8,409.7,533.5,477.0
+1852,61.745,grieta_longitudinal,Longitudinal Crack (D00),0.4952,439.2,409.7,531.3,477.1
+1853,61.778,grieta_longitudinal,Longitudinal Crack (D00),0.3944,438.5,409.2,531.3,477.4
+1854,61.811,grieta_longitudinal,Longitudinal Crack (D00),0.3196,438.3,411.1,528.9,477.6

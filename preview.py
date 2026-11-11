@@ -11,6 +11,7 @@ Con --det-baches, los baches salen de ese modelo y las grietas del detector gene
 """
 import argparse
 import json
+import re
 import sys
 import urllib.request
 from collections import Counter
@@ -69,19 +70,24 @@ def descargar_modelos():
 
 
 NOMBRES_BACHE = {"POTHOLE", "POTHOLES", "BACHE", "BACHES"}
+CODIGO_EN_NOMBRE = re.compile(r"\bD(00|10|20|40)\b", re.IGNORECASE)
 
 
 def codigo_det(nombre):
-    """'D40', 'D40 pothole', 'd40_pothole', 'pothole', 'bache' -> 'D40'; 'Repair' u otra cosa -> None.
+    """Nombre de clase de un detector -> código RDD ('D00', 'D10', 'D20', 'D40') o None (Repair, tapas, etc.).
 
-    Los detectores de una sola clase "pothole" o "bache" (el YOLO del 1er parcial, el de PeterHdd)
-    cuentan como D40; sin esto, --det-baches los ignoraba sin avisar."""
+    'D40', 'D40 pothole', 'd40_pothole' -> 'D40'; 'Longitudinal Crack (D00)', 'Pothole (D40)' -> el código
+    entre paréntesis; 'pothole' o 'bache' -> 'D40' (detectores de una sola clase, como el YOLO del 1er
+    parcial: sin esto, --det-baches los ignoraba sin avisar)."""
     partes = nombre.replace("_", " ").split()
     if not partes:
         return None
     codigo = partes[0].upper()
     if codigo in DESCRIPCION:
         return codigo
+    m = CODIGO_EN_NOMBRE.search(nombre)
+    if m:
+        return "D" + m.group(1)
     return "D40" if codigo in NOMBRES_BACHE else None
 
 

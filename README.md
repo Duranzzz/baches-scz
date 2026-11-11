@@ -40,7 +40,14 @@ Cuidado con:
 
 `splits.csv` fija la partición de cada foto (`foto, dataset, split, grupo, condicion, evaluable, motivo`).
 Se parte por video o tramo de ruta, para que train y test no compartan escena, y sin casi copias (dHash)
-entre train y val/test. HRP4K y RDD2022 van enteros a test. `preparar_splits.py` la reconstruye.
+entre train y val/test. RDD2022 y el test oficial de HRP4K van enteros a test. `preparar_splits.py` la
+reconstruye.
+
+- **Limpieza (1-nov):** del train salieron 619 fotos (596 montajes de Egipto, 11 duplicados, 11 con
+  superposiciones y 1 sin pavimento), que figuran como "excluida". Además se corrigieron 14 etiquetas: correr
+  `entrenamiento/limpieza/aplicar_correcciones.py` después de bajar los datos.
+- **HRP4K:** el train y el valid oficiales de HRP4K se suman al train con `entrenamiento/importar_hrp4k_hf.py`.
+  Una foto de su test era casi copia de una de ellas y dejó de evaluarse.
 
 ## Estructura
 
@@ -48,7 +55,7 @@ entre train y val/test. HRP4K y RDD2022 van enteros a test. `preparar_splits.py`
 preview.py            detecta baches y grietas en imágenes; dibuja daño, severidad y confianza
 visor.py              ventana para probar la detección sobre los videos de videos/
 comparar_videos.py    corre uno o varios detectores sobre videos sin etiquetas: un video por detector,
-                      uno de 6 paneles cuadro a cuadro, CSV y tabla
+                      una grilla de paneles cuadro a cuadro, CSV y tabla
 evaluar.py            mide contra las etiquetas, por dataset y clase; busca umbrales en val
 preparar_splits.py    arma splits.csv
 splits.csv            partición congelada de cada foto
@@ -115,6 +122,9 @@ y el test se mide una sola vez.
   HRP4K, y RDD2022 de China, Japón y EE. UU.) con lo detectado dibujado, a 640 y a 1280 px, más su JSON.
 - `informes/videos_scz/`: los cinco videos de Santa Cruz. Cuadros con marca y eventos de cada detector,
   la marca más segura de cada uno y el CSV de cada detección. No tienen etiquetas: son marcas, no aciertos.
+- `informes/entrenamiento_amd.md`: el entrenamiento en GPU del 22-nov. Incluye datos, receta, resultados por
+  dataset, la regla para elegir lo que usa la app (fijada antes de ver resultados) y sus límites.
+- `informes/videos_scz_20261122/`: la comparación de videos con lo entrenado ese día.
 
 ## Videos de Santa Cruz
 

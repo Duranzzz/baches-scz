@@ -1,5 +1,15 @@
 # Plan de entrenamiento
 
+> **Estado (22-nov-2026): ejecutado en una MI300X, con cambios. Resultados en `informes/entrenamiento_amd.md`.**
+> - **Punto de partida:** el YOLO26s destilado de TamAko783 en vez de YOLO12s. Fue el mejor modelo público en
+>   val (0,31 contra 0,20).
+> - **Datos:** se usaron las 6.507 fotos de train limpias (`limpieza/`).
+> - **Resultado del ajuste (a1):** subió mucho en los datasets que vio y bajó en HRP4K, que no vio.
+> - **Modelo de la app:** el promedio de pesos WiSE-FT (α = 0,25) entre el de partida y a1, elegido con una regla
+>   fijada antes. Conserva las 4 clases del de partida, así que resuelve "dos detectores" con un solo modelo:
+>   grietas del de partida y baches promediados.
+> - **Corrida 2 (a2):** con el train de HRP4K.
+
 Los pasos, con comandos, están en `GUIA.md`. La línea base está en `informes/linea_base.md`: con cámara
 frontal (dashcam, celular en el parabrisas) los baches casi no se detectan, y esa es la cámara de los
 vehículos. Por eso se reentrena.

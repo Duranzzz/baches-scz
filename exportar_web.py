@@ -23,6 +23,17 @@ import preview as pv
 
 RAIZ = Path(__file__).resolve().parent
 MODELOS = {
+    # El de la app: promedio WiSE-FT (alfa 0,25) del YOLO26s descargado y el ajustado a1, con sus 4 clases
+    # (entrenamiento/promediar_pesos.py). Umbrales elegidos en val, solo detector, a 640 px.
+    "yolo26s_ajustado": {
+        "titulo": "YOLO26s ajustado (baches y grietas)", "pesos": RAIZ / "modelos/wise4_a25/weights/best.pt",
+        "uso": "vehiculo", "conf": {"bache": 0.10, "grieta": 0.25},
+        "licencia": "AGPL-3.0: promedio de pesos (WiSE-FT, alfa 0,25) entre TamAko783/YOLO26s_RDD_FRDC_Distilled_v2 "
+                    "y el mismo ajustado con las fotos del proyecto (ultralytics, AGPL-3.0)"},
+    "rdd_yolo26s": {
+        "titulo": "YOLO26s descargado (baches y grietas)", "pesos": RAIZ / "modelos/rdd_yolo26s/weights/best.pt",
+        "uso": "vehiculo", "conf": {"bache": 0.15, "grieta": 0.30},
+        "licencia": "AGPL-3.0, TamAko783/YOLO26s_RDD_FRDC_Distilled_v2 (entrenado con ultralytics, AGPL-3.0)"},
     "yolo12s_rdd2022": {
         "titulo": "YOLO12s RDD2022 (baches y grietas)", "pesos": RAIZ / "modelos/yolo12s_rdd2022/yolo12s_RDD2022_best.pt",
         "uso": "vehiculo", "licencia": "MIT, rezzzq/yolo12s-road-damage-rdd2022 (entrenado con ultralytics, AGPL-3.0)"},
@@ -31,7 +42,7 @@ MODELOS = {
         "uso": "cerca", "licencia": "modelo de Bisman Singh verificado en el 1er parcial (entrenado con ultralytics, AGPL-3.0)"},
 }
 NOMBRE = {"D00": "grieta_longitudinal", "D10": "grieta_transversal", "D20": "grieta_cocodrilo", "D40": "bache"}
-CONF = {"bache": 0.25, "grieta": 0.40}   # de partida; la app deja moverlos
+CONF = {"bache": 0.25, "grieta": 0.40}   # si el modelo no trae los suyos; la app deja moverlos
 
 
 def letterbox(img, lado):
@@ -131,7 +142,7 @@ def main():
             clases[str(k)] = NOMBRE[c] if c else None
         entrada = {"id": clave, "titulo": cfg["titulo"], "archivo": f"{clave}.onnx", "uso": cfg["uso"],
                    "clases": clases, "nombres_originales": {str(k): v for k, v in nombres.items()},
-                   "conf": CONF, "mb": round((destino / f"{clave}.onnx").stat().st_size / 1e6, 1),
+                   "conf": cfg.get("conf", CONF), "mb": round((destino / f"{clave}.onnx").stat().st_size / 1e6, 1),
                    "licencia": cfg["licencia"]}
         indice["modelos"] = [e for e in indice["modelos"] if e["id"] != clave] + [entrada]
         print(f"  -> {destino / entrada['archivo']} ({entrada['mb']} MB), clases {clases}")
