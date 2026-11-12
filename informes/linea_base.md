@@ -5,9 +5,9 @@ Detector: YOLO12s RDD2022 (rezzzq). Segmentación: YOLOv8n-seg de baches (Farzad
 Umbrales de `preview.py` elegidos en val (ver abajo). Reproducir:
 
 ```bash
-python evaluar.py --split val --barrer
-python evaluar.py --split test
-python evaluar.py --split test --imgsz 1280
+python herramientas/evaluar.py --split val --barrer
+python herramientas/evaluar.py --split test
+python herramientas/evaluar.py --split test --imgsz 1280
 ```
 
 Un acierto es una caja con IoU ≥ 0,5 contra una etiqueta de la misma clase. AP50 con 101 puntos de
@@ -91,7 +91,7 @@ la que encuentra los baches.
 ## El YOLO del 1.er parcial como detector de baches (medido el 2026-11-21)
 
 El modelo de Bisman que se verificó en el 1.er parcial (una clase, "pothole", entrenado a 640 con el
-train de Bisman), copiado de `1st_Parcial/baches/modelo/best.pt` a `modelos/parcial1_bisman/weights/best.pt`.
+train de Bisman), copiado de `1st_Parcial/baches/modelo/best.pt` (ya no se guarda en este repositorio).
 Mismo test y 640 px, con `--det-baches`: los baches salen de ese modelo y las grietas siguen saliendo de
 YOLO12s. Umbrales elegidos en val: `CONF_BACHE` 0,25 y `CONF_SEG_SOLO` 0,55.
 

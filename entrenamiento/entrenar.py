@@ -1,7 +1,7 @@
 """Entrena el detector de baches (1 clase) con la configuración de entrenamiento/PLAN.md.
 
-    python entrenamiento/entrenar.py --datos /datos/ds_baches/data.yaml --modelo yolo12s-rdd --nombre a1 --prueba
-    python entrenamiento/entrenar.py --datos /datos/ds_baches/data.yaml --modelo yolo12s-rdd --nombre a1
+    python entrenamiento/entrenar.py --datos /datos/ds_baches/data.yaml --modelo baches-scz-v1 --nombre a1 --prueba
+    python entrenamiento/entrenar.py --datos /datos/ds_baches/data.yaml --modelo baches-scz-v1 --nombre a1
     python entrenamiento/entrenar.py --nombre a1 --reanudar           # si se cortó: sigue desde last.pt
 
 --prueba: 2 épocas con el 10 % del train. Mide por separado el entrenamiento y la validación de la
@@ -22,8 +22,8 @@ import comun  # noqa: E402
 
 PRECIO_HORA = 1.99   # USD por hora de una MI300X en AMD Developer Cloud (confirmar en la consola)
 MODELOS = {
-    # YOLO12s ya ajustado a RDD2022 (rezzzq): conoce la calzada. Ultralytics rehace la cabeza para 1 clase.
-    "yolo12s-rdd": comun.RAIZ / "modelos" / "yolo12s_rdd2022" / "yolo12s_RDD2022_best.pt",
+    # El modelo del proyecto: punto de partida para seguir ajustando (ultralytics rehace la cabeza si cambian las clases)
+    "baches-scz-v1": comun.RAIZ / "modelos" / "baches_scz_v1.pt",
     # Controles desde COCO (ultralytics los baja solo)
     "yolo26s": "yolo26s.pt",
     "yolo12s": "yolo12s.pt",
@@ -87,7 +87,7 @@ def resumen_resultados(carpeta):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--datos", type=Path, help="data.yaml de armar_dataset.py")
-    ap.add_argument("--modelo", default="yolo12s-rdd", help=f"{', '.join(MODELOS)} o una ruta .pt")
+    ap.add_argument("--modelo", default="baches-scz-v1", help=f"{', '.join(MODELOS)} o una ruta .pt")
     ap.add_argument("--nombre", required=True, help="carpeta en runs/")
     ap.add_argument("--epocas", type=int, default=HIPER["epochs"])
     ap.add_argument("--batch", type=int, default=HIPER["batch"])
@@ -122,10 +122,6 @@ def main():
         sys.exit("falta --datos (el data.yaml de armar_dataset.py)")
 
     pesos = MODELOS.get(args.modelo, args.modelo)
-    if args.modelo == "yolo12s-rdd" and not Path(pesos).exists():
-        sys.path.insert(0, str(comun.RAIZ))
-        import preview
-        preview.descargar_modelos()
     cache = "ram" if args.cache_ram else "disk" if args.cache_disco else HIPER["cache"]
     hiper = dict(HIPER, epochs=args.epocas, batch=args.batch, imgsz=args.imgsz, workers=args.workers,
                  amp=not args.sin_amp, cache=cache)

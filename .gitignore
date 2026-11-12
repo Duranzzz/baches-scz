@@ -12,6 +12,14 @@ __pycache__/
 *.pyc
 .pytest_cache/
 
-# En modelos/ van los .pt; no las exportaciones ni la caché de descargas
-modelos/**/*.onnx
-modelos/**/.cache/
+# En modelos/ solo se sube el modelo del proyecto; los demás quedan en la PC (y en Hugging Face)
+modelos/*
+!modelos/baches_scz_v1.pt
+!modelos/baches_scz_v1.onnx
+
+# Temporal: el artículo espera el ORCID de la coautora
+docs/
+
+# Cuadros de los videos de Santa Cruz (personas y placas): solo en salidas/
+informes/**/capturas/
+informes/**/*.mp4

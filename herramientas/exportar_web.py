@@ -1,8 +1,8 @@
 """Exporta los detectores a ONNX para la app web (ONNX Runtime Web) y escribe modelos.json.
 
-    python exportar_web.py --app ../baches-scz-app          # carpeta de la app (repo aparte)
-    python exportar_web.py --app RUTA --solo yolo12s_rdd2022
-    python exportar_web.py --app RUTA --modelo a1=runs/a1/weights/best.pt   # sumar el modelo reentrenado
+    python herramientas/exportar_web.py --app ../baches-scz-app          # carpeta de la app (repo aparte)
+    python herramientas/exportar_web.py --app RUTA --solo baches_scz_v1
+    python herramientas/exportar_web.py --app RUTA --modelo a1=runs/a1/weights/best.pt   # sumar el modelo reentrenado
 
 Exporta con tamaño de entrada dinámico (la app elige 640, 864 o 1280 de lado mayor según el teléfono) y
 verifica, con ONNX Runtime de Python, que el ONNX da las mismas cajas que el .pt en un cuadro de prueba,
@@ -21,25 +21,12 @@ from ultralytics import YOLO
 
 import preview as pv
 
-RAIZ = Path(__file__).resolve().parent
+RAIZ = Path(__file__).resolve().parents[1]
 MODELOS = {
-    # El de la app: promedio WiSE-FT (alfa 0,25) del YOLO26s descargado y el ajustado a1, con sus 4 clases
-    # (entrenamiento/promediar_pesos.py). Umbrales elegidos en val, solo detector, a 640 px.
-    "yolo26s_ajustado": {
-        "titulo": "YOLO26s ajustado (baches y grietas)", "pesos": RAIZ / "modelos/wise4_a25/weights/best.pt",
-        "uso": "vehiculo", "conf": {"bache": 0.10, "grieta": 0.25},
-        "licencia": "AGPL-3.0: promedio de pesos (WiSE-FT, alfa 0,25) entre TamAko783/YOLO26s_RDD_FRDC_Distilled_v2 "
-                    "y el mismo ajustado con las fotos del proyecto (ultralytics, AGPL-3.0)"},
-    "rdd_yolo26s": {
-        "titulo": "YOLO26s descargado (baches y grietas)", "pesos": RAIZ / "modelos/rdd_yolo26s/weights/best.pt",
-        "uso": "vehiculo", "conf": {"bache": 0.15, "grieta": 0.30},
-        "licencia": "AGPL-3.0, TamAko783/YOLO26s_RDD_FRDC_Distilled_v2 (entrenado con ultralytics, AGPL-3.0)"},
-    "yolo12s_rdd2022": {
-        "titulo": "YOLO12s RDD2022 (baches y grietas)", "pesos": RAIZ / "modelos/yolo12s_rdd2022/yolo12s_RDD2022_best.pt",
-        "uso": "vehiculo", "licencia": "MIT, rezzzq/yolo12s-road-damage-rdd2022 (entrenado con ultralytics, AGPL-3.0)"},
-    "parcial1_bisman": {
-        "titulo": "YOLO del 1er parcial (baches de cerca)", "pesos": RAIZ / "modelos/parcial1_bisman/weights/best.pt",
-        "uso": "cerca", "licencia": "modelo de Bisman Singh verificado en el 1er parcial (entrenado con ultralytics, AGPL-3.0)"},
+    # Umbrales elegidos en validación, solo con el detector, a 640 px.
+    "baches_scz_v1": {
+        "titulo": "Baches SCZ v1 (baches y grietas)", "pesos": RAIZ / "modelos" / "baches_scz_v1.pt",
+        "uso": "vehiculo", "conf": {"bache": 0.10, "grieta": 0.25}, "licencia": "AGPL-3.0 (ver MODEL_CARD.md)"},
 }
 NOMBRE = {"D00": "grieta_longitudinal", "D10": "grieta_transversal", "D20": "grieta_cocodrilo", "D40": "bache"}
 CONF = {"bache": 0.25, "grieta": 0.40}   # si el modelo no trae los suyos; la app deja moverlos

@@ -2,11 +2,12 @@
 #   sin GPU:     pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
 #   GPU NVIDIA:  pip install torch torchvision
 #   GPU AMD:     torch con ROCm (Linux), ver https://pytorch.org
-ultralytics==8.4.191   # la misma versión que instala entrenamiento/GUIA.md en la GPU
-huggingface_hub
-opencv-python
-numpy
-dill    # el best.pt de segmentación se guardó con dill
-pytest  # solo para tests/
-onnx         # exportar_web.py y comparar_videos.py: modelos en ONNX
-onnxruntime  # ONNX en CPU (3 a 4 veces más rápido que PyTorch en la laptop) y verificación de exportar_web.py
+# Probado con torch 2.15.0 y torchvision 0.29.2 (CPU, Python 3.12).
+ultralytics==8.4.191     # la misma versión que en la GPU de entrenamiento
+huggingface_hub==2.3.0   # datos y resultados en Hugging Face
+opencv-python==5.0.0.93
+numpy==2.5.4
+dill==0.4.1              # la segmentación de baches se guardó con dill
+onnx==1.23.2             # exportar_web.py y comparar_videos.py
+onnxruntime==1.31.1      # ONNX en CPU y verificación de exportar_web.py
+pytest==9.2.0            # solo para tests/

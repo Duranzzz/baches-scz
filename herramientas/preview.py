@@ -1,12 +1,13 @@
-"""Preview: detección de daños (YOLO12s, RDD2022) + segmentación de baches (YOLOv8n-seg).
+"""Preview: detección de baches y grietas con el modelo del proyecto (modelos/baches_scz_v1.pt), más una
+segmentación de baches que da su área.
 
 Uso:
-    python preview.py                       # todas las imágenes de muestras/
-    python preview.py --source foto.jpg     # una imagen
-    python preview.py --source carpeta/     # todas las imágenes de una carpeta (sin subcarpetas)
-    python preview.py --det-baches pesos/baches.pt --imgsz 1280   # con un detector de baches reentrenado
+    python herramientas/preview.py                       # todas las imágenes de muestras/
+    python herramientas/preview.py --source foto.jpg     # una imagen
+    python herramientas/preview.py --source carpeta/     # todas las imágenes de una carpeta (sin subcarpetas)
+    python herramientas/preview.py --det-baches pesos/baches.pt --imgsz 1280   # con un detector de baches reentrenado
 
-Si faltan los modelos, los descarga en modelos/. Guarda en salidas/ la imagen anotada y un JSON por imagen.
+Si falta la segmentación de baches, la descarga en modelos/. Guarda en salidas/ la imagen anotada y un JSON por imagen.
 Con --det-baches, los baches salen de ese modelo y las grietas del detector general.
 """
 import argparse
@@ -40,9 +41,8 @@ GRIETA_ALTA = 3.0          # puntaje = peso * (1 + área_caja * 10) * confianza
 GRIETA_MEDIA = 1.5
 
 # --- Modelos ---
-RAIZ = Path(__file__).resolve().parent
-DET_REPO = "rezzzq/yolo12s-road-damage-rdd2022"
-DET_PT = RAIZ / "modelos" / "yolo12s_rdd2022" / "yolo12s_RDD2022_best.pt"
+RAIZ = Path(__file__).resolve().parents[1]
+DET_PT = RAIZ / "modelos" / "baches_scz_v1.pt"
 SEG_URL = ("https://github.com/FarzadNekouee/YOLOv8_Pothole_Segmentation_Road_Damage_Assessment"
            "/raw/master/model/best.pt")
 SEG_PT = RAIZ / "modelos" / "farzad_pothole_seg" / "best.pt"
@@ -54,9 +54,7 @@ EXTENSIONES = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
 
 def descargar_modelos():
     if not DET_PT.exists():
-        from huggingface_hub import hf_hub_download
-        print(f"Descargando {DET_REPO} ...")
-        hf_hub_download(DET_REPO, DET_PT.name, local_dir=DET_PT.parent)
+        sys.exit(f"falta {DET_PT}: viene con el repositorio")
     if not SEG_PT.exists():
         print("Descargando segmentación de FarzadNekouee ...")
         SEG_PT.parent.mkdir(parents=True, exist_ok=True)

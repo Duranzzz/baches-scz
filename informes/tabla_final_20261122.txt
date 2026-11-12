@@ -1,0 +1,24 @@
+HRP4K test: 467 fotos en la mitad A, 432 en la B
+
+=== 1280 px === AP50 de baches. val: todos; test: por dataset; HRP4K-A (elegir) y HRP4K-B (informar)
+modelo                    val |  bisman  brazil   bucko   egypt   hrp4k   todos |  H4K-A  H4K-B
+YOLO12s (app hoy)       0.103 |   0.087   0.478   0.233   0.098   0.089   0.145 |  0.079  0.104
+B0 YOLO26s destilado    0.154 |   0.113   0.590   0.392   0.264   0.095   0.200 |  0.073  0.125
+WiSE a=0,25             0.276 |   0.249   0.646   0.519   0.443   0.098   0.294 |  0.084  0.113
+WiSE a=0,50             0.497 |   0.550   0.707   0.586   0.535   0.089   0.418 |  0.087  0.094
+WiSE a=0,75             0.698 |   0.793   0.733   0.667   0.561   0.068   0.520 |  0.069  0.069
+a1 ajustado             0.743 |   0.828   0.703   0.658   0.541   0.050   0.517 |  0.054  0.054
+a2 ajustado +HRP4K      0.757 |   0.865   0.699   0.663   0.602   0.471   0.677 |  0.461  0.484  (vio HRP4K)
+
+=== 640 px === AP50 de baches. val: todos; test: por dataset; HRP4K-A (elegir) y HRP4K-B (informar)
+modelo                    val |  bisman  brazil   bucko   egypt   hrp4k   todos |  H4K-A  H4K-B
+YOLO12s (app hoy)       0.142 |   0.153   0.472   0.150   0.151   0.032   0.128 |  0.023  0.044
+B0 YOLO26s destilado    0.191 |   0.187   0.588   0.306   0.356   0.048   0.196 |  0.034  0.065
+WiSE a=0,25             0.299 |   0.366   0.613   0.409   0.471   0.040   0.282 |  0.029  0.059
+WiSE a=0,50             0.478 |   0.623   0.653   0.509   0.534   0.030   0.393 |  0.025  0.040
+WiSE a=0,75             0.680 |   0.791   0.683   0.598   0.484   0.018   0.472 |  0.015  0.019
+a1 ajustado             0.732 |   0.834   0.662   0.629   0.442   0.017   0.496 |  0.011  0.019
+a2 ajustado +HRP4K      0.736 |   0.863   0.706   0.632   0.385   0.367   0.634 |  0.366  0.370  (vio HRP4K)
+
+Regla (640 px): HRP4K-A del B0 = 0.034; aptos (HRP4K-A >= 0.029): wise_a25_best (val 0.299), rdd_yolo26s_dist_best (val 0.191)
+ELEGIDO: yolo12s_RDD2022_best+wise_a25_best

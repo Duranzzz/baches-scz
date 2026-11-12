@@ -22,7 +22,7 @@ import numpy as np
 from huggingface_hub import snapshot_download
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "herramientas"))
 import comun  # noqa: E402
 from preparar_splits import DHASH_MAX, dhash  # noqa: E402
 

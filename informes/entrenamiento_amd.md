@@ -1,6 +1,6 @@
 # Entrenamiento en AMD MI300X (22-nov-2026)
 
-Una MI300X de AMD Developer Cloud (ROCm, PyTorch 2.15, ultralytics 8.4.191), de 16:11 a ~23:30 UTC, a
+Una MI300X de AMD Developer Cloud (ROCm, PyTorch 2.15, ultralytics 8.4.191), de 16:11 a ~23:00 UTC, a
 1,99 USD/h. Todo lo de abajo se midió con `evaluar.py` sobre `splits.csv` (grupos y dHash, test congelado).
 Los JSON completos están en `informes/eval_*.json`.
 
@@ -95,7 +95,7 @@ que no vio. No se puede asumir que el ajuste ayude en Santa Cruz.
 - **Cuidado:** a 640 px HRP4K está casi en el piso para todos (baches lejanos y chicos), así que esa señal es
   débil.
 
-**Versión de la app (`modelos/wise4_a25`):** el mismo promedio, pero con las 4 clases de B0. Las filas de grietas
+**Versión de la app (`modelos/baches_scz_v1.pt`, antes `wise4_a25`):** el mismo promedio, pero con las 4 clases de B0. Las filas de grietas
 quedan las de B0 y la de bache se promedia.
 
 | A 640 px | val baches | test baches | test grietas Egipto / Brasil |
@@ -109,9 +109,24 @@ Umbrales de la app, elegidos en val solo con el detector:
 
 ## a2: B0 ajustado con nuestros datos + HRP4K
 
-Pendiente: se completa al terminar la corrida. Suma al train el train y el valid oficiales de HRP4K (3.186
-fotos, copia de Hugging Face; `entrenamiento/importar_hrp4k_hf.py`). Una foto del test de HRP4K era casi copia y
-dejó de evaluarse para todos. Para a2, HRP4K ya no es un dominio nuevo: no compite en la regla de arriba.
+La misma receta que a1, sumando al train el train y el valid oficiales de HRP4K: 3.186 fotos, de la copia de
+Hugging Face (`entrenamiento/importar_hrp4k_hf.py`). En total son 9.693 fotos.
+- **Partición:** una foto del test de HRP4K era casi copia de una de ellas y dejó de evaluarse para todos.
+- **Corrida:** 82 épocas en 1,58 h; la paciencia la cortó.
+- **Regla:** para a2, HRP4K ya no es un dominio nuevo, así que no compite en la regla de arriba.
+
+| AP50 de baches | val | Bisman | Brasil | Bucko | Egipto | HRP4K | test todos |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| a1, 640 px | 0,732 | 0,834 | 0,662 | 0,629 | 0,442 | 0,017 | 0,496 |
+| a2, 640 px | 0,736 | 0,863 | 0,706 | 0,632 | 0,385 | 0,367 | 0,634 |
+| a1, 1280 px | 0,743 | 0,828 | 0,703 | 0,658 | 0,541 | 0,050 | 0,517 |
+| a2, 1280 px | 0,757 | 0,865 | 0,699 | 0,663 | 0,602 | 0,471 | 0,677 |
+
+- **HRP4K:** sube de 0,017 a 0,367 a 640 px, como era de esperar, porque ahora lo vio.
+- **Egipto:** a 640 px baja de 0,442 a 0,385, por debajo del promedio α = 0,25 (0,471). A 1280 px sube de 0,541 a 0,602.
+- **Umbral:** en val, solo con el detector, el mejor es 0,10, con F1 0,567 (a1: 0,616).
+- **No se usa en la app:** no hay forma de medir su robustez fuera de dominio, y en los videos marca mucho más
+  (ver abajo).
 
 ## Videos de Santa Cruz (sin etiquetas)
 
@@ -126,6 +141,7 @@ de la app. Tabla completa en `informes/videos_scz_20261122/RESULTADOS.md`.
 | B0 descargado | 4 % (14) | 8 % (7) | 5 % (28) | 1 % (1) | 1 % (1) |
 | **WiSE α = 0,25 (app)** | 4 % (12) | 6 % (8) | 5 % (42) | 1 % (1) | 1 % (0) |
 | a1 ajustado | 21 % (31) | 15 % (23) | 38 % (48) | 3 % (2) | 8 % (6) |
+| a2 ajustado + HRP4K | 49 % (16) | 18 % (20) | 35 % (45) | 27 % (7) | 6 % (7) |
 
 Revisado a ojo en scz_03:
 - Las marcas más seguras de los modelos nuevos son daños reales: a1 marca un área de asfalto desprendido
@@ -151,15 +167,17 @@ Revisado a ojo en scz_03:
 
 ## Reproducir
 
+`PESOS_DE_PARTIDA.pt` son los pesos de B0 (ver `MODEL_CARD.md`); ya no se guardan en este repositorio.
+
 ```bash
 python entrenamiento/limpieza/aplicar_correcciones.py
 python entrenamiento/armar_dataset.py --salida /datos/ds_baches
-python entrenamiento/entrenar.py --datos /datos/ds_baches/data.yaml --modelo modelos/rdd_yolo26s/weights/best.pt \
+python entrenamiento/entrenar.py --datos /datos/ds_baches/data.yaml --modelo PESOS_DE_PARTIDA.pt \
     --nombre a1_y26s --cache-disco --aumentos-scz --epocas 150 --horas 3
-python entrenamiento/promediar_pesos.py modelos/rdd_yolo26s/weights/best.pt runs/a1_y26s/weights/best.pt 0.25 \
+python entrenamiento/promediar_pesos.py PESOS_DE_PARTIDA.pt runs/a1_y26s/weights/best.pt 0.25 \
     sopas/wise_a25/weights/best.pt
-python entrenamiento/promediar_pesos.py modelos/rdd_yolo26s/weights/best.pt runs/a1_y26s/weights/best.pt 0.25 \
+python entrenamiento/promediar_pesos.py PESOS_DE_PARTIDA.pt runs/a1_y26s/weights/best.pt 0.25 \
     sopas/wise4_a25/weights/wise4_a25.pt --clases partida
-python evaluar.py --split val --imgsz 640 --barrer --det-baches sopas/wise_a25/weights/best.pt   # y test, 1280
+python herramientas/evaluar.py --split val --imgsz 640 --barrer --det-baches sopas/wise_a25/weights/best.pt   # y test, 1280
 python entrenamiento/elegir_modelo.py
 ```

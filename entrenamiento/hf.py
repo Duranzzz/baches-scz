@@ -24,7 +24,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import comun  # noqa: E402
 
 # "carpeta/**/*" y no "carpeta/**": en Python < 3.13, "**" al final solo devuelve carpetas.
-CODIGO = ["*.py", "splits.csv", "requirements.txt", "README.md", "informes/**/*", "entrenamiento/**/*",
+CODIGO = ["herramientas/**/*", "splits.csv", "requirements.txt", "README.md", "informes/**/*", "entrenamiento/**/*",
           "tests/**/*", "modelos/**/*"]
 
 

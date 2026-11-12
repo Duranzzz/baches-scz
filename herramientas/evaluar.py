@@ -1,9 +1,9 @@
 """Mide detector, segmentación y la combinación de preview.py contra las etiquetas, por dataset y clase.
 
-    python evaluar.py --split test                         # línea base sobre el test congelado
-    python evaluar.py --split val --barrer                 # además busca umbrales (solo en val)
-    python evaluar.py --split test --det pesos/best.pt     # un detector reentrenado, mismo test
-    python evaluar.py --split test --imgsz 1280 --det-baches runs/a1/weights/best.pt   # + detector de baches
+    python herramientas/evaluar.py --split test                         # línea base sobre el test congelado
+    python herramientas/evaluar.py --split val --barrer                 # además busca umbrales (solo en val)
+    python herramientas/evaluar.py --split test --det pesos/best.pt     # un detector reentrenado, mismo test
+    python herramientas/evaluar.py --split test --imgsz 1280 --det-baches runs/a1/weights/best.pt   # + detector de baches
 
 Lee splits.csv (solo fotos evaluables) y etiquetas/. Un acierto es una caja con IoU >= 0,5 con una
 etiqueta de la misma clase. Cada dataset se mide solo en las clases que tiene completas: en Bucko solo

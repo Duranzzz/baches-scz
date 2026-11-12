@@ -126,6 +126,33 @@
     "bache": 0.606
    },
    "s_por_cuadro": 0.011
+  },
+  "a2_y26s_hrp4k": {
+   "titulo": "YOLO26s ajustado + HRP4K (baches)",
+   "pesos": "/datos/scz/modelos/a2_y26s_hrp4k/weights/best.pt",
+   "conf": 0.15,
+   "umbral": {
+    "bache": 0.15,
+    "grieta": 0.15
+   },
+   "grietas": false,
+   "dispositivo": "gpu 0",
+   "cuadros_con_marca": 32,
+   "cuadros_con_bache": 32,
+   "cuadros_con_grieta": 0,
+   "eventos_bache": 7,
+   "eventos_grieta": 0,
+   "observaciones": {
+    "bache": 32,
+    "grieta_longitudinal": 0,
+    "grieta_transversal": 0,
+    "grieta_cocodrilo": 0,
+    "parche": 0
+   },
+   "conf_max": {
+    "bache": 0.664
+   },
+   "s_por_cuadro": 0.009
   }
  }
 }

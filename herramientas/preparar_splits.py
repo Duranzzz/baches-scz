@@ -1,8 +1,8 @@
 """Arma splits.csv: a qué partición va cada foto de fotos/, separando por grupo (video, tramo de ruta)
 para que fotogramas casi iguales no queden a la vez en train y en test.
 
-    python preparar_splits.py
-    python preparar_splits.py --raiz /otra/copia     # para probar en otra carpeta
+    python herramientas/preparar_splits.py
+    python herramientas/preparar_splits.py --raiz /otra/copia     # para probar en otra carpeta
 
 Lee etiquetas/_origen/ (sources.csv, listas) y escribe splits.csv con las columnas
 foto, dataset, split (train | val | test | excluida), grupo, condicion, evaluable, motivo.
@@ -20,7 +20,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-RAIZ = Path(__file__).resolve().parent
+RAIZ = Path(__file__).resolve().parents[1]
 FOTOS = RAIZ / "fotos"
 ORIGEN = RAIZ / "etiquetas" / "_origen"
 SALIDA = RAIZ / "splits.csv"

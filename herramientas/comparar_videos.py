@@ -1,14 +1,14 @@
 """Compara detectores de baches y grietas sobre videos sin etiquetas.
 
-    python comparar_videos.py videos/scz_02_frontal_avenida.mp4 videos/scz_03_frontal_doble_via.mp4
-    python comparar_videos.py videos/scz_*.mp4 --salida salidas/videos/comparacion_20261121
-    python comparar_videos.py VIDEO --modelo a1=runs/a1/weights/best.pt     # sumar o cambiar un modelo
-    python comparar_videos.py VIDEO --max-cuadros 60                         # prueba corta
+    python herramientas/comparar_videos.py videos/scz_02_frontal_avenida.mp4 videos/scz_03_frontal_doble_via.mp4
+    python herramientas/comparar_videos.py videos/scz_*.mp4 --salida salidas/videos/comparacion_20261121
+    python herramientas/comparar_videos.py VIDEO --modelo a1=runs/a1/weights/best.pt     # sumar o cambiar un modelo
+    python herramientas/comparar_videos.py VIDEO --max-cuadros 60                         # prueba corta
 
 En dos máquinas (la inferencia en una GPU, el dibujo donde están los videos):
-    python comparar_videos.py videos/*.mp4 --solo rdd_yolo26s --modelo rdd_yolo26s=RUTA.pt --conf 0.10 \\
+    python herramientas/comparar_videos.py videos/*.mp4 --solo rdd_yolo26s --modelo rdd_yolo26s=RUTA.pt --conf 0.10 \\
         --device 0 --solo-detectar --salida DET            # deja DET/<video>/<modelo>.csv y .json
-    python comparar_videos.py videos/*.mp4 --solo yolo12s_rdd2022,rdd_yolo26s --reusar DET \\
+    python herramientas/comparar_videos.py videos/*.mp4 --solo yolo12s_rdd2022,rdd_yolo26s --reusar DET \\
         --reusar salidas/videos/comparacion_20261121 --conf-modelo rdd_yolo26s=0.15 --salida SALIDA
 --reusar toma las detecciones ya guardadas de un modelo si se hicieron al mismo tamaño y con una confianza
 mínima menor o igual a la suya (--conf-modelo, o --conf); así no se vuelve a correr el modelo.
@@ -39,17 +39,9 @@ from ultralytics import YOLO
 
 import preview as pv
 
-RAIZ = Path(__file__).resolve().parent
-MODELOS = {  # clave: (título en el video, pesos)
-    "yolo12s_rdd2022": ("YOLO12s RDD2022 (baches y grietas)", RAIZ / "modelos/yolo12s_rdd2022/yolo12s_RDD2022_best.pt"),
-    "farzad_seg": ("Farzad YOLOv8n-seg (baches)", RAIZ / "modelos/farzad_pothole_seg/best.pt"),
-    "piloto_v1": ("Piloto v1: Colab, 2 epocas (baches)", RAIZ / "modelos/piloto_v1/weights/best.pt"),
-    "parcial1_bisman": ("YOLO del 1er parcial, Bisman (baches)", RAIZ / "modelos/parcial1_bisman/weights/best.pt"),
-    "rdd_yolo26s": ("YOLO26s RDD destilado (baches y grietas)", RAIZ / "modelos/rdd_yolo26s/weights/best.pt"),
-    "a1_y26s": ("YOLO26s ajustado con nuestros datos (baches)", RAIZ / "modelos/a1_y26s/weights/best.pt"),
-    "wise_a50": ("YOLO26s promedio WiSE-FT a=0.5 (baches)", RAIZ / "modelos/wise_a50/weights/best.pt"),
-    "wise4_a25": ("YOLO26s promedio WiSE-FT a=0.25 (baches y grietas)", RAIZ / "modelos/wise4_a25/weights/best.pt"),
-    "a2_y26s_hrp4k": ("YOLO26s ajustado + HRP4K (baches)", RAIZ / "modelos/a2_y26s_hrp4k/weights/best.pt"),
+RAIZ = Path(__file__).resolve().parents[1]
+MODELOS = {  # clave: (título en el video, pesos). Otros modelos, para comparar: --modelo clave=pesos.pt
+    "baches_scz_v1": ("Baches SCZ v1 (baches y grietas)", RAIZ / "modelos" / "baches_scz_v1.pt"),
 }
 NOMBRE = {"D00": "grieta_longitudinal", "D10": "grieta_transversal", "D20": "grieta_cocodrilo", "D40": "bache"}
 GRIETAS = ("grieta_longitudinal", "grieta_transversal", "grieta_cocodrilo")

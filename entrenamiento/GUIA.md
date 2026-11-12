@@ -6,7 +6,7 @@ Probado en CPU el 21-nov: `armar_dataset.py` da 7.126 fotos de train (5.315 con 
 y `entrenar.py --prueba` corre completo.
 
 > **Corrida real del 22-nov-2026 (`informes/entrenamiento_amd.md`), con estos cambios a lo de abajo:**
-> - **Modelo de partida:** `--modelo modelos/rdd_yolo26s/weights/best.pt`, con la clase del `data.yaml` renombrada
+> - **Modelo de partida:** el 22-nov fueron unos pesos públicos preentrenados (ver `MODEL_CARD.md`); desde ahora, por defecto, `modelos/baches_scz_v1.pt`. La clase del `data.yaml` se renombra
 >   a "Pothole (D40)" para que ultralytics reuse su fila de bache.
 > - **Caché:** `--cache-disco`. Con `--cache-ram`, Python 3.14 copia la caché en cada worker y se acaba la RAM
 >   (235 GB).
@@ -64,7 +64,7 @@ Si `hip` sale `None`, pip cambió el torch de ROCm: recrear el contenedor.
 Mide cuánto tarda una época en esta máquina:
 
 ```bash
-python entrenamiento/entrenar.py --datos /datos/ds_baches/data.yaml --modelo yolo12s-rdd --nombre a1 --prueba --cache-ram
+python entrenamiento/entrenar.py --datos /datos/ds_baches/data.yaml --modelo baches-scz-v1 --nombre a1 --prueba --cache-disco
 ```
 
 Al final imprime "~X s por época completa". Elegir **EPOCAS = 14400 / X** (para que entre en ~4 h),
@@ -78,13 +78,13 @@ Se puede cerrar la terminal: sigue corriendo.
 cat > a1.sh <<'EOF'
 set -e
 cd /datos/scz
-python entrenamiento/entrenar.py --datos /datos/ds_baches/data.yaml --modelo yolo12s-rdd --nombre a1 --cache-ram --epocas $EPOCAS
+python entrenamiento/entrenar.py --datos /datos/ds_baches/data.yaml --modelo baches-scz-v1 --nombre a1 --cache-disco --epocas $EPOCAS
 B=runs/a1/weights/best.pt
 for s in 1280 640; do
-  python evaluar.py --split val  --imgsz $s --barrer
-  python evaluar.py --split test --imgsz $s
-  python evaluar.py --split val  --imgsz $s --barrer --det-baches $B
-  python evaluar.py --split test --imgsz $s --det-baches $B
+  python herramientas/evaluar.py --split val  --imgsz $s --barrer
+  python herramientas/evaluar.py --split test --imgsz $s
+  python herramientas/evaluar.py --split val  --imgsz $s --barrer --det-baches $B
+  python herramientas/evaluar.py --split test --imgsz $s --det-baches $B
 done
 python entrenamiento/hf.py subir --repo Duranishhh/baches-scz --runs a1
 python -c "from huggingface_hub import HfApi; HfApi().upload_folder(repo_id='Duranishhh/baches-scz', repo_type='dataset', folder_path='salidas/cache', path_in_repo='resultados/cache')"
@@ -110,7 +110,7 @@ con este resultado. En la laptop:
 
 ```powershell
 .venv\Scripts\python entrenamiento\hf.py bajar --repo Duranishhh/baches-scz --que resultados
-.venv\Scripts\python exportar_web.py --app ..\baches-scz-app --modelo a1=salidas\_hf\resultados\a1\weights\best.pt   # si gana
+.venv\Scripts\python herramientas\exportar_web.py --app ..\baches-scz-app --modelo a1=salidas\_hf\resultados\a1\weights\best.pt   # si gana
 ```
 
 Y copiar `best.pt` a `modelos/a1/weights/best.pt` para que quede en el repo.

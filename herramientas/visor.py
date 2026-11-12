@@ -1,8 +1,8 @@
 """Visor de video: prueba los modelos sobre un video y muestra las cajas (detección) y las manchas
 (segmentación de baches).
 
-    python visor.py                                          # videos en la carpeta videos/
-    python visor.py --det-baches runs/a1/weights/best.pt     # suma el detector de baches reentrenado
+    python herramientas/visor.py                                          # videos en la carpeta videos/
+    python herramientas/visor.py --det-baches runs/a1/weights/best.pt     # suma el detector de baches reentrenado
 
 Modos:
   Cajas        YOLO12s (RDD2022): grietas D00, D10, D20, baches D40 y parches (Repair), un color por clase.

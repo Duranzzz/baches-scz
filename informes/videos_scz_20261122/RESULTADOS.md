@@ -11,6 +11,7 @@ Sin etiquetas: son marcas, no aciertos. Más marcas puede ser más falsos positi
 | YOLO26s RDD destilado (baches y grietas) (bache ≥ 0.15, grieta ≥ 0.3) | 4 % (14) | 8 % (7) | 5 % (28) | 1 % (1) | 1 % (1) |
 | YOLO26s promedio WiSE-FT a=0.25 (baches y grietas) (bache ≥ 0.1, grieta ≥ 0.25) | 4 % (12) | 6 % (8) | 5 % (42) | 1 % (1) | 1 % (0) |
 | YOLO26s ajustado con nuestros datos (baches) (conf ≥ 0.15) | 21 % (31) | 15 % (23) | 38 % (48) | 3 % (2) | 8 % (6) |
+| YOLO26s ajustado + HRP4K (baches) (conf ≥ 0.15) | 49 % (16) | 18 % (20) | 35 % (45) | 27 % (7) | 6 % (7) |
 
 ## Grietas (modelos que las detectan): % de cuadros con marca (eventos)
 
@@ -30,6 +31,7 @@ Sin etiquetas: son marcas, no aciertos. Más marcas puede ser más falsos positi
 | YOLO26s RDD destilado (baches y grietas) | 109 (4 %) | 14 | 0.71 | 1445 | 0.02 (gpu 0) |
 | YOLO26s promedio WiSE-FT a=0.25 (baches y grietas) | 106 (4 %) | 12 | 0.70 | 716 | 0.01 (gpu 0) |
 | YOLO26s ajustado con nuestros datos (baches) | 634 (21 %) | 31 | 0.81 | 0 | 0.01 (gpu 0) |
+| YOLO26s ajustado + HRP4K (baches) | 1460 (49 %) | 16 | 0.86 | 0 | 0.01 (gpu 0) |
 
 ### scz_02_frontal_avenida.mp4 (67.6 s, 2027 cuadros, 848x478)
 
@@ -39,6 +41,7 @@ Sin etiquetas: son marcas, no aciertos. Más marcas puede ser más falsos positi
 | YOLO26s RDD destilado (baches y grietas) | 155 (8 %) | 7 | 0.67 | 336 | 0.01 (gpu 0) |
 | YOLO26s promedio WiSE-FT a=0.25 (baches y grietas) | 116 (6 %) | 8 | 0.62 | 233 | 0.01 (gpu 0) |
 | YOLO26s ajustado con nuestros datos (baches) | 305 (15 %) | 23 | 0.71 | 0 | 0.01 (gpu 0) |
+| YOLO26s ajustado + HRP4K (baches) | 367 (18 %) | 20 | 0.81 | 0 | 0.01 (gpu 0) |
 
 ### scz_03_frontal_doble_via.mp4 (141.7 s, 4119 cuadros, 848x478)
 
@@ -48,6 +51,7 @@ Sin etiquetas: son marcas, no aciertos. Más marcas puede ser más falsos positi
 | YOLO26s RDD destilado (baches y grietas) | 203 (5 %) | 28 | 0.62 | 1469 | 0.01 (gpu 0) |
 | YOLO26s promedio WiSE-FT a=0.25 (baches y grietas) | 220 (5 %) | 42 | 0.56 | 787 | 0.01 (gpu 0) |
 | YOLO26s ajustado con nuestros datos (baches) | 1559 (38 %) | 48 | 0.80 | 0 | 0.01 (gpu 0) |
+| YOLO26s ajustado + HRP4K (baches) | 1438 (35 %) | 45 | 0.85 | 0 | 0.01 (gpu 0) |
 
 ### scz_04_lateral_micro_losas.mp4 (17.0 s, 475 cuadros, 850x478)
 
@@ -57,6 +61,7 @@ Sin etiquetas: son marcas, no aciertos. Más marcas puede ser más falsos positi
 | YOLO26s RDD destilado (baches y grietas) | 5 (1 %) | 1 | 0.43 | 105 | 0.01 (gpu 0) |
 | YOLO26s promedio WiSE-FT a=0.25 (baches y grietas) | 5 (1 %) | 1 | 0.44 | 8 | 0.01 (gpu 0) |
 | YOLO26s ajustado con nuestros datos (baches) | 12 (3 %) | 2 | 0.47 | 0 | 0.01 (gpu 0) |
+| YOLO26s ajustado + HRP4K (baches) | 129 (27 %) | 7 | 0.80 | 0 | 0.01 (gpu 0) |
 
 ### scz_05_lateral_micro_hormigon.mp4 (20.2 s, 565 cuadros, 850x478)
 
@@ -66,4 +71,5 @@ Sin etiquetas: son marcas, no aciertos. Más marcas puede ser más falsos positi
 | YOLO26s RDD destilado (baches y grietas) | 6 (1 %) | 1 | 0.46 | 361 | 0.01 (gpu 0) |
 | YOLO26s promedio WiSE-FT a=0.25 (baches y grietas) | 4 (1 %) | 0 | 0.21 | 100 | 0.01 (gpu 0) |
 | YOLO26s ajustado con nuestros datos (baches) | 46 (8 %) | 6 | 0.61 | 0 | 0.01 (gpu 0) |
+| YOLO26s ajustado + HRP4K (baches) | 32 (6 %) | 7 | 0.66 | 0 | 0.01 (gpu 0) |
 
