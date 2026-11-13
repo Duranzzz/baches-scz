@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "Si usa este trabajo, cítelo con estos datos."
+type: software
+title: "Baches SCZ: detección de baches y grietas en el teléfono, con mapa de Santa Cruz de la Sierra"
+abstract: >-
+  Detector de baches y grietas (Baches SCZ v1, YOLO26s) entrenado con fotografías de seis conjuntos públicos y
+  evaluado en una prueba congelada y en videos de Santa Cruz de la Sierra, con una aplicación web que detecta en
+  el teléfono y marca cada daño en el mapa de la ciudad.
+authors:
+  - given-names: "Leonardo"
+    family-names: "Duran Cuenca"
+    affiliation: 'Universidad Católica Boliviana "San Pablo"'
+    orcid: "https://orcid.org/0009-0001-1608-5788"
+  - given-names: "Dana Gabriela"
+    family-names: "Quisberth Sursi"
+    affiliation: 'Universidad Católica Boliviana "San Pablo"'
+    orcid: "https://orcid.org/0009-0005-4240-7452"
+version: "1.1.0"
+date-released: "2026-11-22"
+license: AGPL-3.0
+repository-code: "https://github.com/Duranzzz/baches-scz"
+url: "https://duranzzz.github.io/baches-scz-app/"
+keywords:
+  - baches
+  - grietas
+  - detección de objetos
+  - YOLO
+  - Santa Cruz de la Sierra

@@ -1,12 +1,17 @@
 # Baches y grietas en Santa Cruz de la Sierra
 
 Detección de baches y grietas en fotos y videos de la calle, tomados a pie o desde un vehículo, para
-ubicarlos en el mapa de Santa Cruz de la Sierra. Proyecto del 2.º parcial de Inteligencia Artificial (UCB).
+ubicarlos en el mapa de Santa Cruz de la Sierra. Proyecto del 2.º parcial de Inteligencia Artificial (UCB), de
+Leonardo Duran Cuenca y Dana Gabriela Quisberth Sursi.
 
 - **App web:** detecta en el teléfono y marca cada daño en el mapa de la ciudad:
   https://duranzzz.github.io/baches-scz-app/ (código en
   [Duranzzz/baches-scz-app](https://github.com/Duranzzz/baches-scz-app)).
 - **Modelo del proyecto:** Baches SCZ v1, en `modelos/` (ficha en [`MODEL_CARD.md`](MODEL_CARD.md)).
+- **Datos:** en Hugging Face, [Duranishhh/baches-scz](https://huggingface.co/datasets/Duranishhh/baches-scz), con una
+  vista previa de 300 fotos del test y sus cajas.
+- **Artículo:** [`docs/articulo_2do_parcial.pdf`](docs/articulo_2do_parcial.pdf), en el formato de la Revista 3i
+  (también en `.docx`).
 - **Este repositorio:**
   - los datos y cómo se partieron;
   - la limpieza y el entrenamiento;
@@ -49,11 +54,12 @@ AP50 en el test congelado (`splits.csv`), a 640 px, el tamaño de la app:
 
 ## Datos
 
-Todo está en Hugging Face, en el repositorio privado `Duranishhh/baches-scz`. Para pedir acceso, escribir al
-equipo.
+Todo está en Hugging Face, en [Duranishhh/baches-scz](https://huggingface.co/datasets/Duranishhh/baches-scz). Su
+pestaña de datos muestra 300 fotos del test con sus cajas.
 
 | Carpeta | Contenido |
 |---|---|
+| `muestra/` | la vista previa: 50 fotos del test por fuente, con sus cajas (la arma `entrenamiento/hf_muestra.py`) |
 | `paquete/` | 12.204 fotos de seis conjuntos públicos (reducidas a 1.280 px) y sus etiquetas en un esquema común |
 | `correcciones/` | las 14 etiquetas corregidas y la lista de las 619 fotos retiradas del train |
 | `videos_scz/` | los cinco videos de Santa Cruz, sin etiquetas (ver abajo) |
@@ -114,9 +120,11 @@ entrenamiento/        limpieza de datos y entrenamiento en GPU: GUIA.md (pasos),
 modelos/              el modelo del proyecto: baches_scz_v1.pt y baches_scz_v1.onnx
 informes/             evaluaciones, curvas de entrenamiento y pruebas en videos (ver abajo)
 tests/                pruebas (pytest)
+docs/                 el artículo (.docx y .pdf), su plantilla y los scripts que lo arman con sus figuras
 splits.csv            partición congelada de cada foto
 MODEL_CARD.md         ficha del modelo
 CHANGELOG.md          cambios por versión
+CITATION.cff          cómo citar el proyecto
 LICENSE               AGPL-3.0
 ```
 
@@ -169,8 +177,7 @@ y el test se mide una sola vez.
 
 ## Videos de Santa Cruz
 
-En `videos/` y en Hugging Face (`videos_scz/`, privado). No se suben a este repositorio porque muestran personas
-y placas. Todos son de 848 × 478, comprimidos por WhatsApp.
+En `videos/` y en Hugging Face (`videos_scz/`). No se suben a este repositorio porque muestran personas y placas. Todos son de 848 × 478, comprimidos por WhatsApp.
 
 | Video | Cámara y calle |
 |---|---|
@@ -188,7 +195,13 @@ y placas. Todos son de 848 × 478, comprimidos por WhatsApp.
   pueden salir como grietas.
 - **Severidad:** es provisional.
 
+## Cómo citar
+
+Los datos para citar el proyecto están en [`CITATION.cff`](CITATION.cff); GitHub los muestra en "Cite this
+repository".
+
 ## Licencia
 
-Código y modelo, AGPL-3.0 (`LICENSE`); el origen del modelo está en `MODEL_CARD.md`. Las fotos de cada conjunto
-de datos tienen su propia licencia (tabla de Datos).
+Código y modelo, AGPL-3.0 (`LICENSE`); el origen del modelo está en `MODEL_CARD.md`. El texto y las figuras del
+artículo, CC BY 4.0, como dice el propio artículo. Las fotos de cada conjunto de datos tienen su propia licencia
+(tabla de Datos).

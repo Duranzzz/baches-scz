@@ -8,6 +8,7 @@
 | Arquitectura | YOLO26s (Ultralytics 8.4.191), 9.466.763 parámetros |
 | Entrada | Imagen RGB: 640 px de lado mayor en la app; 1280 px para video de 1080p o más |
 | Versión | 1.0.0, 22 de noviembre de 2026 |
+| Autores | Leonardo Duran Cuenca y Dana Gabriela Quisberth Sursi (Universidad Católica Boliviana "San Pablo") |
 | Licencia | AGPL-3.0 (ver [Origen y licencia](#origen-y-licencia)) |
 
 | Archivo | SHA256 |

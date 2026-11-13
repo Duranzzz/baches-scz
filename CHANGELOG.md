@@ -1,5 +1,13 @@
 # Cambios
 
+## [1.1.0] - 2026-11-22
+
+- **Artículo** en `docs/`, en el formato de la Revista 3i (`.docx` y `.pdf`), con sus figuras y los scripts que lo
+  arman.
+- **Cita:** `CITATION.cff`, con los dos autores, Leonardo Duran Cuenca y Dana Gabriela Quisberth Sursi, y sus ORCID.
+- **Datos:** el repositorio de Hugging Face pasa a ser público. Tiene una vista previa de 300 fotos del test
+  (`entrenamiento/hf_muestra.py`).
+
 ## [1.0.0] - 2026-11-22
 
 - **Modelo:** el del proyecto pasa a ser **Baches SCZ v1** (baches y grietas).
