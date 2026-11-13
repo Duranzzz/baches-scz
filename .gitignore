@@ -17,8 +17,8 @@ modelos/*
 !modelos/baches_scz_v1.pt
 !modelos/baches_scz_v1.onnx
 
-# Temporal: el artículo espera el ORCID de la coautora
-docs/
+# Copias temporales de Word mientras el artículo está abierto
+~$*
 
 # Cuadros de los videos de Santa Cruz (personas y placas): solo en salidas/
 informes/**/capturas/
