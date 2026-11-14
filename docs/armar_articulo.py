@@ -20,6 +20,8 @@ d = Document(DOCS / "plantilla_articulo_2do_parcial.docx")
 CUERPO = d._body
 COAUTORA = "Dana Gabriela Quisberth Sursi"
 ORCID_COAUTORA = "https://orcid.org/0009-0005-4240-7452"
+CARRERA_COAUTORA = "Ingeniería Mecatrónica"
+CORREO_COAUTORA = "dquisberth@ucb.edu.bo"
 
 
 def buscar(prefijo):
@@ -214,6 +216,8 @@ for i, original in enumerate(bloque):
     if i == 0:
         poner(p, COAUTORA)
         p.paragraph_format.space_before = Pt(10)
+    elif i == 1:
+        poner(p, CARRERA_COAUTORA)
     elif i == 4:   # ORCID: el mismo ícono y un enlace nuevo
         h = nuevo.find(qn("w:hyperlink"))
         h.set(qn("r:id"), d.part.relate_to(ORCID_COAUTORA, RT.HYPERLINK, is_external=True))
@@ -222,7 +226,7 @@ for i, original in enumerate(bloque):
         for extra in ts[1:]:
             extra.text = ""
     elif i == 5:
-        poner(p, "[correo institucional de la coautora]")
+        poner(p, CORREO_COAUTORA)
 
 RESUMEN = (
     "El objetivo es implementar y evaluar una aplicación web que detecta baches y grietas con inteligencia artificial "
@@ -679,8 +683,8 @@ poner(autor,
       "de los últimos 26 años (Adquisición, Procesamiento y Análisis de Datos, 2026), con datos históricos de "
       "Open-Meteo, y un prototipo de detección de baches con inteligencia artificial (Inteligencia Artificial, primer "
       "parcial, 2026).")
-Cursor(autor).parrafo(f"{COAUTORA} es estudiante de Ingeniería en Inteligencia Artificial de la Universidad "
-                      "Católica Boliviana “San Pablo”.")
+Cursor(autor).parrafo(f"{COAUTORA} es estudiante de {CARRERA_COAUTORA} de la Universidad Católica Boliviana "
+                      "“San Pablo”.")
 poner(buscar("Con recursos propios"), "Con recursos propios. El cómputo en GPU se realizó con créditos gratuitos de AMD "
                                        "Developer Cloud.")
 poner(buscar("Declara no tener"), "Declaran no tener ningún conflicto de intereses, que puedan haber influido en los "
