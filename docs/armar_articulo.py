@@ -192,6 +192,17 @@ filas_v.append(["Total", miles(tot_cuadros)] + [
 pct = {k: coma(100 * tot[k][0] / tot_cuadros, 1) for k in MODELOS_V}
 pctg = {k: coma(100 * tot[k][2] / tot_cuadros, 1) for k in MODELOS_V}
 v3 = videos["scz_03_frontal_doble_via"]["modelos"]
+# Revisión a ciegas de los eventos de bache (herramientas/revisar_eventos.py)
+rev = json.loads((INF / "videos_scz_20261122" / "revision" / "resultados.json").read_text(encoding="utf-8"))
+REV = {f["modelo"]: f for f in rev["modelos"]}
+REV_ORDEN = [("YOLO12s (referencia)", "Referencia"), ("B0 (pesos iniciales)", "Iniciales"),
+             ("Baches SCZ v1 (final)", "Final"), ("a1 (entrenado)", "Entrenado"), ("a2 (con HRP4K)", "Con HRP4K")]
+rfin, ra1, ra2, rref = (REV[k] for k in ("Baches SCZ v1 (final)", "a1 (entrenado)", "a2 (con HRP4K)",
+                                         "YOLO12s (referencia)"))
+n_rev = sum(f["eventos"] for f in rev["modelos"])
+p100 = lambda x: f"{round(100 * x)} %"
+for cota in (lambda f: f["B"] / f["eventos"], lambda f: (f["B"] + f["D"]) / f["eventos"]):
+    assert max(rev["modelos"], key=cota) is rfin, "el modelo final ya no es el primero con alguna cota de los dudosos"
 a2_01 = videos["scz_01_lateral_auto_hormigon"]["modelos"]["a2_y26s_hrp4k"]
 
 # ---------------------------------------------------------------- título, autores y resúmenes
@@ -231,39 +242,40 @@ for i, original in enumerate(bloque):
 RESUMEN = (
     "El objetivo es implementar y evaluar una aplicación web que detecta baches y grietas con inteligencia artificial "
     "en el teléfono móvil y registra cada daño como un punto en la cartografía de Santa Cruz de la Sierra. Se "
-    "recopilaron 12.204 fotografías de seis conjuntos públicos de daños viales, se depuraron y, con 6.507 de "
-    "entrenamiento, se entrenó en una GPU AMD MI300X un detector YOLO26s; el modelo final promedia sus pesos con los "
-    "iniciales en una proporción elegida con una regla fijada antes de conocer los resultados. La evaluación usa una "
-    "prueba congelada de 2.721 fotografías y cinco videos de la ciudad sin etiquetas. El modelo final obtiene un AP50 "
-    "de 0,276 en baches, frente a 0,128 del detector que usaba la aplicación, y de 0,472 frente a 0,151 en el conjunto "
-    "más limpio; el modelo entrenado sin promediar llega a 0,496, pero baja de 0,048 a 0,017 en un conjunto que no "
-    "vio. La aplicación procesa entre 8 y 12 cuadros por segundo en una laptop sin tarjeta gráfica dedicada y guarda "
-    "los puntos en el dispositivo. En conclusión, el promedio de pesos mejora la detección sin perder robustez, aunque "
-    "la precisión en calles cruceñas no está medida.")
+    "recopilaron 12.204 fotografías de seis conjuntos públicos, se depuraron y, con 6.507 de entrenamiento, se entrenó "
+    "en una GPU AMD MI300X un detector YOLO26s; el modelo final promedia sus pesos con los iniciales según una regla "
+    f"fijada de antemano. La evaluación usa una prueba congelada de 2.721 fotografías y una revisión a ciegas de {n_rev} "
+    "marcas en cinco videos de la ciudad. El modelo final obtiene un AP50 de 0,276 en baches, frente a 0,128 del "
+    "detector anterior, y de 0,472 frente a 0,151 en el conjunto más limpio; el modelo sin promediar llega a "
+    f"0,496, pero baja de 0,048 a 0,017 en un conjunto que no vio. En los videos, el {p100(rfin['precision_bache'])} de "
+    f"las marcas del modelo final son baches, frente al {p100(ra1['precision_bache'])} del modelo sin promediar, que no "
+    "encuentra más baches. La aplicación procesa entre 8 y 12 cuadros por segundo en una laptop sin GPU dedicada. En "
+    "conclusión, promediar pesos mejora la detección sin perder robustez.")
 ABSTRACT = (
     "The objective is to implement and evaluate a web application that detects potholes and cracks with artificial "
     "intelligence on the mobile phone and records each damage as a point on the cartography of Santa Cruz de la Sierra. "
-    "We collected 12,204 photographs from six public road damage datasets, curated them and, with 6,507 training "
-    "photographs, trained a YOLO26s detector on an AMD MI300X GPU; the final model averages its weights with the "
-    "initial ones in a proportion chosen with a rule fixed before the results were known. The evaluation uses a "
-    "frozen test set of 2,721 photographs and five unlabeled videos of the city. The final model obtains an AP50 of "
-    "0.276 for potholes, compared with 0.128 for the detector the application used, and 0.472 compared with 0.151 on "
-    "the cleanest dataset; the model trained without averaging reaches 0.496 but drops from 0.048 to 0.017 on a "
-    "dataset it did not see. The application processes between 8 and 12 frames per second on a laptop without a "
-    "dedicated graphics card and stores the points on the device. In conclusion, weight averaging improves detection "
-    "without losing robustness, although precision on the streets of Santa Cruz has not been measured.")
+    "We collected 12,204 photographs from six public datasets, curated them and, with 6,507 training photographs, "
+    "trained a YOLO26s detector on an AMD MI300X GPU; the final model averages its weights with the initial ones "
+    f"according to a rule fixed in advance. The evaluation uses a frozen test set of 2,721 photographs and a blind "
+    f"review of {n_rev} detections in five videos of the city. The final model obtains an AP50 of 0.276 for potholes, "
+    "compared with 0.128 for the previous detector, and 0.472 compared with 0.151 on the cleanest dataset; the model "
+    "trained without averaging reaches 0.496 but drops from 0.048 to 0.017 on a dataset it did not see. In the videos, "
+    f"{round(100 * rfin['precision_bache'])}% of the final model's detections are potholes, compared with "
+    f"{round(100 * ra1['precision_bache'])}% for the model without averaging, which finds no more potholes. The "
+    "application processes between 8 and 12 frames per second on a laptop without a dedicated GPU. In conclusion, "
+    "weight averaging improves detection without losing robustness.")
 RESUMO = (
     "O objetivo é implementar e avaliar uma aplicação web que detecta buracos e fissuras com inteligência artificial "
     "no telefone celular e registra cada dano como um ponto na cartografia de Santa Cruz de la Sierra. Foram reunidas "
-    "12.204 fotografias de seis conjuntos públicos de danos viários, que foram depuradas e, com 6.507 de treinamento, "
-    "foi treinado em uma GPU AMD MI300X um detector YOLO26s; o modelo final faz a média de seus pesos com os iniciais "
-    "em uma proporção escolhida com uma regra fixada antes de conhecer os resultados. A avaliação usa um teste "
-    "congelado de 2.721 fotografias e cinco vídeos da cidade sem rótulos. O modelo final obtém AP50 de 0,276 em "
-    "buracos, frente a 0,128 do detector que a aplicação usava, e de 0,472 frente a 0,151 no conjunto mais limpo; o "
-    "modelo treinado sem média chega a 0,496, mas cai de 0,048 para 0,017 em um conjunto que não viu. A aplicação "
-    "processa entre 8 e 12 quadros por segundo em um laptop sem placa de vídeo e guarda os pontos no dispositivo. Em "
-    "conclusão, a média de pesos melhora a detecção sem perder robustez, embora a precisão nas ruas de Santa Cruz "
-    "não tenha sido medida.")
+    "12.204 fotografias de seis conjuntos públicos, que foram depuradas e, com 6.507 de treinamento, foi treinado em "
+    "uma GPU AMD MI300X um detector YOLO26s; o modelo final faz a média de seus pesos com os iniciais segundo uma regra "
+    f"fixada de antemão. A avaliação usa um teste congelado de 2.721 fotografias e uma revisão às cegas de {n_rev} "
+    "marcações em cinco vídeos da cidade. O modelo final obtém AP50 de 0,276 em buracos, frente a 0,128 do detector "
+    "anterior, e de 0,472 frente a 0,151 no conjunto mais limpo; o modelo treinado sem média chega a 0,496, mas cai de "
+    f"0,048 para 0,017 em um conjunto que não viu. Nos vídeos, {p100(rfin['precision_bache'])} das marcações do modelo "
+    f"final são buracos, frente a {p100(ra1['precision_bache'])} do modelo sem média, que não encontra mais buracos. A "
+    "aplicação processa entre 8 e 12 quadros por segundo em um laptop sem GPU dedicada. Em conclusão, a média de pesos "
+    "melhora a detecção sem perder robustez.")
 poner(buscar("[Resumen:"), RESUMEN)
 poner(buscar("Palabras clave:"), " inteligencia artificial, cartografía, teléfono móvil", desde=1)
 poner(buscar("[Abstract:"), ABSTRACT)
@@ -375,8 +387,10 @@ for t in [
     "Se analizan cinco videos de calles de Santa Cruz de la Sierra grabados con celular y enviados por "
     "WhatsApp, con 10.162 cuadros de unos 848 × 478 píxeles: dos con la cámara al frente desde un auto y tres al costado "
     "de un auto o de un micro. Cada modelo procesa todos los cuadros a 864 × 512 píxeles con sus umbrales. Como no "
-    "tienen etiquetas, se cuentan los cuadros con marca y los eventos, tramos de al menos 3 cuadros con marca, y se "
-    "revisan a ojo las marcas de mayor confianza.",
+    "tienen etiquetas, se cuentan los cuadros con marca y los eventos, tramos de al menos 3 cuadros con marca. "
+    "Además, la marca más segura de cada evento se revisa a ojo, sin saber qué modelo la hizo, y se clasifica como "
+    "bache, otro daño del pavimento (grieta, parche roto o desgaste), algo que no es daño (junta, mancha, sombra, "
+    "vehículo o marca vial) o dudosa.",
 ]:
     c.parrafo(t)
 c.parrafo("El código, el modelo y los informes están disponibles en https://github.com/Duranzzz/baches-scz; la "
@@ -516,6 +530,27 @@ c.parrafo(
     f"al {pctg['yolo12s_rdd2022']} % ({miles(tot['yolo12s_rdd2022'][2])}) del detector de referencia y al "
     f"{pctg['rdd_yolo26s']} % ({miles(tot['rdd_yolo26s'][2])}) de los pesos iniciales. Las juntas de las losas de "
     "hormigón y la carrocería del propio vehículo, visible en los videos laterales, aparecen a veces como grietas.")
+n_t5 = Cursor.n_tabla + 1
+c.parrafo(
+    f"Para estimar la precisión en la ciudad, se revisó la marca más segura de cada uno de los {n_rev} eventos de los "
+    f"cinco modelos, mezclados al azar y sin saber qué modelo los había marcado (tabla {n_t5}). El "
+    f"{p100(rfin['precision_bache'])} de los eventos del modelo final son baches, frente al "
+    f"{p100(ra1['precision_bache'])} del modelo entrenado sin promediar, el {p100(ra2['precision_bache'])} de la "
+    f"segunda corrida y el {p100(rref['precision_bache'])} del detector de referencia, que marca sobre todo grietas "
+    f"como si fueran baches. Entre todos los modelos aparecen {rev['baches_distintos']} baches distintos: el modelo "
+    f"final encuentra {rfin['baches_hallados']}; el modelo sin promediar, {ra1['baches_hallados']}, con casi el doble "
+    f"de eventos ({ra1['eventos']} frente a {rfin['eventos']}), y la segunda corrida, {ra2['baches_hallados']}. Las "
+    "marcas adicionales del modelo sin promediar no son baches nuevos, sino sobre todo grietas, manchas y juntas.")
+c.tabla("Revisión a ciegas de los eventos de bache en los videos de Santa Cruz de la Sierra",
+        ["Modelo", "Eventos", "Bache", "Otro daño", "No es daño", "Dudoso", "Precisión", "Baches hallados"],
+        [[nombre, str(REV[k]["eventos"]), str(REV[k]["B"]), str(REV[k]["O"]), str(REV[k]["N"]), str(REV[k]["D"]),
+          p100(REV[k]["precision_bache"]), str(REV[k]["baches_hallados"])] for k, nombre in REV_ORDEN],
+        [2.6, 1.6, 1.5, 1.9, 2.1, 1.7, 2.0, 2.6],
+        "Precisión: eventos con un bache entre los juzgados, sin contar los dudosos. Si los dudosos se cuentan como "
+        f"errores o como baches, el modelo final sigue primero ({p100(rfin['B'] / rfin['eventos'])} a "
+        f"{p100((rfin['B'] + rfin['D']) / rfin['eventos'])}). Baches hallados: de los {rev['baches_distintos']} "
+        "baches distintos que marcó al menos un modelo, cuántos marcó cada uno; los que ningún modelo marcó no "
+        "cuentan. Un solo revisor, con video de 848 × 478 píxeles.", tam=8.5)
 
 c.sub("Discusión")
 for t in [
@@ -541,10 +576,11 @@ for t in [
     "teléfono como sensor. La confirmación en 2 de 3 cuadros reduce las marcas aisladas, y el recorrido de prueba "
     "permite mostrar el mapa con videos grabados, aunque entonces la posición del punto es simulada.",
     "Las limitaciones son la falta de fotografías etiquetadas de Santa Cruz de la Sierra, por lo que en los videos se "
-    "cuentan marcas y no aciertos; el uso de una mitad de HRP4K para elegir; las 243 fotografías dudosas que siguen en "
+    "mide la precisión de las marcas, con un solo revisor, pero no los baches que ningún modelo marcó; el uso de una "
+    "mitad de HRP4K para elegir; las 243 fotografías dudosas que siguen en "
     "el entrenamiento; las etiquetas de Brasil, que marcan solo el carril propio; la severidad, estimada por el área de "
     "la caja, y el error de varios metros del GPS del teléfono. Etiquetar fotografías de calles cruceñas, por ejemplo "
-    "las de los puntos que la aplicación ya registra, permitiría medir la precisión local y entrenar con ese dominio.",
+    "las de los puntos que la aplicación ya registra, permitiría medir también los baches que se pierden y entrenar con ese dominio.",
 ]:
     c.parrafo(t)
 
@@ -558,7 +594,9 @@ poner(p, "El trabajo cumple su objetivo: la aplicación detecta baches y grietas
 cc = Cursor(p)
 cc.parrafo("El entrenamiento con datos propios especializa el modelo: mejora en los conjuntos que vio y empeora en uno "
            "que no vio. Promediar sus pesos con los iniciales, con una regla fijada de antemano, aprovecha el "
-           "entrenamiento sin perder robustez, algo útil para una ciudad sin datos etiquetados propios. Sumar más "
+           "entrenamiento sin perder robustez, algo útil para una ciudad sin datos etiquetados propios. En los videos de la "
+           "ciudad, sus marcas son baches con más frecuencia que las de los demás modelos, y encuentra tantos baches "
+           "como el modelo sin promediar con poco más de la mitad de las marcas. Sumar más "
            "fotografías de otra fuente, como en la segunda corrida, mejora esa fuente, pero no garantiza una mejora en "
            "las demás.")
 cc.parrafo("La aplicación funciona como propuesta de un sistema de inspección: cualquier teléfono con navegador puede "

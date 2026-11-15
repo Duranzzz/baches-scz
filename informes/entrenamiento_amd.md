@@ -149,9 +149,16 @@ Revisado a ojo en scz_03:
 - a1 marca 5 a 8 veces más porque además toma manchas y desgaste chico con confianza baja (0,2 a 0,3).
 - Las grietas longitudinales grandes las marcan los tres modelos de grietas.
 
+**Revisión a ciegas de los 355 eventos** (`videos_scz_20261122/revision/RESULTADOS.md`, 23-nov):
+- **Precisión:** son baches el 64 % de los eventos de WiSE α = 0,25, el 50 % de B0, el 41 % del YOLO12s, el 32 % de
+  a1 y el 31 % de a2.
+- **Cobertura:** WiSE y a1 encuentran 21 de los 47 baches distintos que marcó algún modelo; a2 encuentra 22.
+- Las marcas de más de a1 y a2 no son baches nuevos, sino grietas, manchas y juntas.
+
 ## Límites
 
-- No hay fotos de Santa Cruz etiquetadas: lo de los videos son marcas, no aciertos.
+- No hay fotos de Santa Cruz etiquetadas. La revisión a ciegas mide la precisión de las marcas (un solo revisor),
+  pero no los baches que ningún modelo marcó.
 - Para elegir el modelo se usó la mitad A del test de HRP4K. Es la única señal fuera de dominio y por eso
   quedó separada la mitad B para informar. El resto del test se miró una sola vez.
 - En val hay fuga (Bucko, Brasil y Bisman), así que val favorece a los modelos más ajustados. Por eso la regla

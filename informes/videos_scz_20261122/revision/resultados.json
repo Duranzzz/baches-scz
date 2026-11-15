@@ -1,0 +1,65 @@
+{
+ "baches_distintos": 47,
+ "modelos": [
+  {
+   "modelo": "YOLO12s (referencia)",
+   "eventos": 36,
+   "B": 12,
+   "O": 14,
+   "N": 3,
+   "D": 7,
+   "precision_bache": 0.41379310344827586,
+   "precision_dano": 0.896551724137931,
+   "baches_hallados": 10,
+   "cobertura": 0.2127659574468085
+  },
+  {
+   "modelo": "B0 (pesos iniciales)",
+   "eventos": 51,
+   "B": 18,
+   "O": 11,
+   "N": 7,
+   "D": 15,
+   "precision_bache": 0.5,
+   "precision_dano": 0.8055555555555556,
+   "baches_hallados": 18,
+   "cobertura": 0.3829787234042553
+  },
+  {
+   "modelo": "Baches SCZ v1 (final)",
+   "eventos": 63,
+   "B": 23,
+   "O": 8,
+   "N": 5,
+   "D": 27,
+   "precision_bache": 0.6388888888888888,
+   "precision_dano": 0.8611111111111112,
+   "baches_hallados": 21,
+   "cobertura": 0.44680851063829785
+  },
+  {
+   "modelo": "a1 (entrenado)",
+   "eventos": 110,
+   "B": 25,
+   "O": 29,
+   "N": 23,
+   "D": 33,
+   "precision_bache": 0.3246753246753247,
+   "precision_dano": 0.7012987012987013,
+   "baches_hallados": 21,
+   "cobertura": 0.44680851063829785
+  },
+  {
+   "modelo": "a2 (con HRP4K)",
+   "eventos": 95,
+   "B": 22,
+   "O": 27,
+   "N": 22,
+   "D": 24,
+   "precision_bache": 0.30985915492957744,
+   "precision_dano": 0.6901408450704225,
+   "baches_hallados": 22,
+   "cobertura": 0.46808510638297873
+  }
+ ]
+}
