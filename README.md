@@ -48,6 +48,10 @@ AP50 en el test congelado (`splits.csv`), a 640 px, el tamaño de la app:
 
 - **Contra el detector anterior:** el que usaba la app antes obtiene 0,128 en baches, así que el actual duplica
   el total y triplica Egipto, el conjunto más limpio.
+- **En los videos de Santa Cruz**, que no tienen etiquetas, se revisaron a ciegas las marcas de cinco modelos:
+  - el 64 % de los eventos de este modelo son baches, contra el 32 % de a1, el mismo sin promediar;
+  - los dos encuentran 21 baches distintos.
+  - Detalle en `informes/videos_scz_20261122/revision/RESULTADOS.md`.
 - **Más detalle:**
   - `informes/entrenamiento_amd.md`: cómo se eligió el modelo y sus límites.
   - `MODEL_CARD.md`: el modelo en sí.
@@ -113,6 +117,8 @@ herramientas/         detección y evaluación
   preview.py            detecta baches y grietas en imágenes; dibuja daño, severidad y confianza
   visor.py              ventana para probar la detección sobre los videos de videos/
   comparar_videos.py    corre detectores sobre videos sin etiquetas: un video por detector, una grilla, CSV y tabla
+  revisar_eventos.py    revisión a ciegas de las marcas en los videos: hojas de recortes y precisión por modelo
+  difuminar_videos.py   difumina caras y placas de los videos y les quita el audio antes de publicarlos
   evaluar.py            mide contra las etiquetas, por conjunto y clase; busca umbrales en val
   preparar_splits.py    arma splits.csv
   exportar_web.py       lleva el modelo a la app web (ONNX) y verifica que dé lo mismo
@@ -177,7 +183,8 @@ y el test se mide una sola vez.
 
 ## Videos de Santa Cruz
 
-En `videos/` y en Hugging Face (`videos_scz/`). No se suben a este repositorio porque muestran personas y placas. Todos son de 848 × 478, comprimidos por WhatsApp.
+Los originales están en `videos/`. En Hugging Face (`videos_scz/`) se publican con caras y placas difuminadas y sin
+audio; los procesa `herramientas/difuminar_videos.py`. No se suben a este repositorio. Todos son de 848 × 478, comprimidos por WhatsApp.
 
 | Video | Cámara y calle |
 |---|---|
@@ -189,8 +196,8 @@ En `videos/` y en Hugging Face (`videos_scz/`). No se suben a este repositorio p
 
 ## Límites
 
-- **Santa Cruz sin medir:** no hay fotos ni video de Santa Cruz etiquetados, así que todos los números son de
-  conjuntos de otros países.
+- **Santa Cruz a medias:** no hay fotos ni video de Santa Cruz etiquetados. La revisión a ciegas de los videos
+  mide qué parte de las marcas son baches, pero no los baches que ningún modelo marcó.
 - **Videos laterales:** con la cámara al costado entra la carrocería en el cuadro, y las juntas del hormigón
   pueden salir como grietas.
 - **Severidad:** es provisional.

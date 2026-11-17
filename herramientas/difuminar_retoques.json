@@ -1,0 +1,44 @@
+{
+ "scz_01_lateral_auto_hormigon": [
+  {
+   "desde": 0,
+   "hasta": 99999,
+   "tipo": "zona",
+   "caja": [
+    600,
+    0,
+    850,
+    155
+   ],
+   "motivo": "espejo lateral del auto: el reflejo puede mostrar a quien graba"
+  }
+ ],
+ "scz_02_frontal_avenida": [
+  {
+   "desde": 819,
+   "hasta": 831,
+   "tipo": "placa",
+   "caja": [
+    102.7,
+    187.2,
+    118.2,
+    194.9
+   ],
+   "motivo": "placa lejana que los detectores no vieron (control del 23-nov)"
+  }
+ ],
+ "scz_04_lateral_micro_losas": [
+  {
+   "desde": 51,
+   "hasta": 63,
+   "tipo": "placa",
+   "caja": [
+    449.2,
+    57.3,
+    461.9,
+    63.5
+   ],
+   "motivo": "placa lejana que los detectores no vieron (control del 23-nov)"
+  }
+ ]
+}

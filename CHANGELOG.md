@@ -1,5 +1,16 @@
 # Cambios
 
+## [1.2.0] - 2026-11-23
+
+- **Revisión a ciegas de los videos de Santa Cruz** (`herramientas/revisar_eventos.py`): se juzgaron los 355
+  eventos de cinco modelos, con resultados en `informes/videos_scz_20261122/revision/`.
+  - El 64 % de los eventos de Baches SCZ v1 son baches, contra el 32 % de a1, que no encuentra más baches.
+  - El artículo suma la tabla 5 y lo dice en el resumen.
+- **Privacidad:** `herramientas/difuminar_videos.py` difumina caras y placas y quita el audio de los videos que se
+  publican en Hugging Face.
+- **Artículo:** carrera y correo de Dana Gabriela Quisberth Sursi.
+- **App:** a1 (solo baches) se suma a los modelos para comparar.
+
 ## [1.1.0] - 2026-11-22
 
 - **Artículo** en `docs/`, en el formato de la Revista 3i (`.docx` y `.pdf`), con sus figuras y los scripts que lo
