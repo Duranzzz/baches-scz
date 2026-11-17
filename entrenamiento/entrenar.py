@@ -107,6 +107,7 @@ def main():
                     help="aumentos que imitan video de celular por WhatsApp: compresión, menos resolución, movimiento")
     ap.add_argument("--reanudar", action="store_true")
     ap.add_argument("--device", default="0", help="0 = primera GPU; cpu para probar sin GPU")
+    ap.add_argument("--semilla", type=int, default=HIPER["seed"], help="otra semilla repite la corrida con otro azar")
     args = ap.parse_args()
 
     from ultralytics import YOLO
@@ -124,7 +125,7 @@ def main():
     pesos = MODELOS.get(args.modelo, args.modelo)
     cache = "ram" if args.cache_ram else "disk" if args.cache_disco else HIPER["cache"]
     hiper = dict(HIPER, epochs=args.epocas, batch=args.batch, imgsz=args.imgsz, workers=args.workers,
-                 amp=not args.sin_amp, cache=cache)
+                 amp=not args.sin_amp, cache=cache, seed=args.semilla)
     fraccion = 1.0
     if args.prueba:
         fraccion = args.fraccion_prueba
