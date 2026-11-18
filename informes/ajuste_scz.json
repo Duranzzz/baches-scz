@@ -1,0 +1,73 @@
+{
+ "v1": {
+  "scz_prueba50": 0.0869,
+  "scz_prueba30": 0.2194,
+  "egipto": 0.4718,
+  "test": 0.2758,
+  "hrp4k_a": 0.0293,
+  "hrp4k_b": 0.0588
+ },
+ "candidatos": {
+  "v2_a025": {
+   "scz_prueba50": 0.1249,
+   "scz_prueba30": 0.2985,
+   "egipto": 0.4957,
+   "test": 0.3316,
+   "hrp4k_a": 0.0223,
+   "hrp4k_b": 0.0384,
+   "alfa": 0.25,
+   "condiciones": {
+    "santa_cruz": true,
+    "egipto": true,
+    "hrp4k_a": false
+   },
+   "cumple": false
+  },
+  "v2_a05": {
+   "scz_prueba50": 0.218,
+   "scz_prueba30": 0.4228,
+   "egipto": 0.4818,
+   "test": 0.3958,
+   "hrp4k_a": 0.0158,
+   "hrp4k_b": 0.0172,
+   "alfa": 0.5,
+   "condiciones": {
+    "santa_cruz": true,
+    "egipto": true,
+    "hrp4k_a": false
+   },
+   "cumple": false
+  },
+  "v2_a075": {
+   "scz_prueba50": 0.2746,
+   "scz_prueba30": 0.4056,
+   "egipto": 0.4777,
+   "test": 0.4578,
+   "hrp4k_a": 0.013,
+   "hrp4k_b": 0.0118,
+   "alfa": 0.75,
+   "condiciones": {
+    "santa_cruz": true,
+    "egipto": true,
+    "hrp4k_a": false
+   },
+   "cumple": false
+  },
+  "v2_a10": {
+   "scz_prueba50": 0.2142,
+   "scz_prueba30": 0.3491,
+   "egipto": 0.4186,
+   "test": 0.4767,
+   "hrp4k_a": 0.0067,
+   "hrp4k_b": 0.0138,
+   "alfa": 1.0,
+   "condiciones": {
+    "santa_cruz": true,
+    "egipto": false,
+    "hrp4k_a": false
+   },
+   "cumple": false
+  }
+ },
+ "ganador": null
+}

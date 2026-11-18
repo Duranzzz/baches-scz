@@ -1,5 +1,22 @@
 # Cambios
 
+## [1.3.0] - 2026-11-23
+
+- **Cuadros de Santa Cruz etiquetados** (`entrenamiento/scz_cuadros.py`, `informes/scz_cuadros/`): 200 cuadros de
+  los cinco videos con cajas de bache, 120 de ajuste y 80 de prueba.
+  - AP50 a 640 px en los 200: a2, 0,299; a1, 0,158, y Baches SCZ v1, 0,067.
+  - También están en Hugging Face, en la config `santa_cruz`.
+- **Ajuste v2 con esos cuadros** (`informes/ajuste_scz.md`), con una regla fijada antes de etiquetar y de entrenar:
+  - el AP50 en los 80 cuadros de prueba sube de 0,087 a hasta 0,275, pero baja en HRP4K-A;
+  - ninguna variante cumple la regla, así que Baches SCZ v1 sigue en la app;
+  - la regla la aplica `entrenamiento/decidir_ajuste.py`; pesos y logs, en Hugging Face (`resultados/amd_20261123/`).
+- **Corrección:** `armar_dataset.py` nombra la clase "Pothole (D40)" para que ultralytics reuse la fila de bache del
+  modelo de partida; con "D40" la dejaba al azar.
+- **Entrenamiento:** `entrenar.py --semilla`.
+- **Videos:** retoques a mano del difuminado (un reflejo en scz_01 y dos placas lejanas).
+- **App:** a2 se suma a los modelos para comparar.
+- **Artículo:** tabla 6 con los cuadros etiquetados y el resultado de v2; resúmenes al día.
+
 ## [1.2.0] - 2026-11-23
 
 - **Revisión a ciegas de los videos de Santa Cruz** (`herramientas/revisar_eventos.py`): se juzgaron los 355

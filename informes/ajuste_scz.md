@@ -54,3 +54,42 @@ el mismo promedio de v1 (α = 0,25, 4 clases), para ver cuánto varía el result
 - **Corrección (23-nov, 07:50 UTC):** se renombró la clase a "Pothole (D40)" (ahora 708/708) y v2 se volvió a
   entrenar sola en la GPU. Desde entonces, `armar_dataset.py` escribe ese nombre.
 - **Estabilidad:** de las repeticiones se rehace solo la semilla 1, después de v2, si alcanza el tiempo de máquina.
+
+## Resultados (23-nov)
+
+**v2:** 96 épocas en 1,35 h en la MI300X, desde v1 (708/708). Luego se promedió con v1 a α = 0,25, 0,5, 0,75 y 1.
+
+AP50 de baches a 640 px:
+
+| Modelo | Santa Cruz, prueba | ídem, AP30 | Egipto | HRP4K-A | HRP4K-B | Test total |
+|---|---:|---:|---:|---:|---:|---:|
+| v1 | 0,087 | 0,219 | 0,472 | **0,029** | **0,059** | 0,276 |
+| v2, α = 0,25 | 0,125 | 0,298 | **0,496** | 0,022 | 0,038 | 0,332 |
+| v2, α = 0,5 | 0,218 | **0,423** | 0,482 | 0,016 | 0,017 | 0,396 |
+| v2, α = 0,75 | **0,275** | 0,406 | 0,478 | 0,013 | 0,012 | 0,458 |
+| v2, α = 1 | 0,214 | 0,349 | 0,419 | 0,007 | 0,014 | **0,477** |
+| Mínimo que pide la regla | 0,117 | | 0,462 | 0,024 | | |
+
+**Decisión: ninguna variante cumple la regla, así que v1 sigue en la app.**
+- Todas bajan en HRP4K-A más de 0,005: de 0,029 a entre 0,022 y 0,007.
+- La de α = 1 baja además en Egipto.
+
+**Lectura:**
+- **Los cuadros de la ciudad sirven en la ciudad.** Todas las variantes suben en la prueba de Santa Cruz; con
+  α = 0,75, a más del triple de v1.
+- **Se repite el patrón de a1 (22-nov).** Suben también en los conjuntos que el entrenamiento ya veía, pero bajan en
+  HRP4K, el único que no vio. La caída se repite en la mitad B, que no entra en la regla.
+- **HRP4K a 640 px está cerca del piso** (todos por debajo de 0,06), así que las diferencias son chicas en valor
+  absoluto.
+- **a2 sigue primero en la prueba de Santa Cruz** (0,325). Con IoU 0,3, v2 con α = 0,5 queda a la par (0,423 frente
+  a 0,413).
+- **Las etiquetas pueden jugar en contra de v2.** Salieron de las cajas de v1, a1, a2, B0 y la referencia, no de
+  las de v2. Con IoU 0,3 esto pesa menos.
+- **La prueba viene de los mismos cinco videos que el ajuste**, más adelante en el tiempo: mismas cámaras y días.
+  La mejora puede ser menor en otras calles o con otros teléfonos.
+
+**Archivos:**
+- `informes/ajuste_scz.json`: la regla aplicada (`entrenamiento/decidir_ajuste.py`).
+- `informes/ajuste_tabla_amd.json`: la tabla de la AMD (`entrenamiento/tabla_ajuste.py`).
+- `informes/scz_cuadros/eval_prueba_640*.json`: el AP en los cuadros de prueba.
+- Pesos, curvas y logs: Hugging Face, `resultados/amd_20261123/`.

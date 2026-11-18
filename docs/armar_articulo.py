@@ -203,6 +203,16 @@ n_rev = sum(f["eventos"] for f in rev["modelos"])
 p100 = lambda x: f"{round(100 * x)} %"
 for cota in (lambda f: f["B"] / f["eventos"], lambda f: (f["B"] + f["D"]) / f["eventos"]):
     assert max(rev["modelos"], key=cota) is rfin, "el modelo final ya no es el primero con alguna cota de los dudosos"
+# Cuadros de Santa Cruz etiquetados con cajas (entrenamiento/scz_cuadros.py) y ajuste v2 (informes/ajuste_scz.md)
+SCZ = INF / "scz_cuadros"
+leer = lambda nombre: json.loads((SCZ / f"{nombre}.json").read_text(encoding="utf-8"))
+scz50, scz30 = leer("eval_todos_640"), leer("eval_todos_640_iou30")
+scz50p, scz30p = leer("eval_prueba_640"), leer("eval_prueba_640_iou30")
+AJ = INF / "ajuste_scz.json"
+ajuste = json.loads(AJ.read_text(encoding="utf-8")) if AJ.exists() else None
+SCZ_ORDEN = [("referencia", "Referencia"), ("B0", "Iniciales"), ("v1", "Final"), ("a1", "Entrenado"), ("a2", "Con HRP4K")]
+c3 = lambda x: coma(x, 3)
+assert max(scz50["ap50"], key=scz50["ap50"].get) == "a2", "a2 ya no es el que más encuentra en los cuadros"
 a2_01 = videos["scz_01_lateral_auto_hormigon"]["modelos"]["a2_y26s_hrp4k"]
 
 # ---------------------------------------------------------------- título, autores y resúmenes
@@ -239,43 +249,52 @@ for i, original in enumerate(bloque):
     elif i == 5:
         poner(p, CORREO_COAUTORA)
 
+# Los resúmenes dicen que ninguna variante v2 cumplió la regla (informes/ajuste_scz.md)
+assert ajuste and not ajuste["ganador"], "los resúmenes suponen que ninguna v2 cumplió la regla"
+v1d = ajuste["v1"]
+mejor = max(ajuste["candidatos"].values(), key=lambda d: d["scz_prueba50"])
+n_aj = scz50["cuadros"] - scz50p["cuadros"]
+assert scz50["ap50"]["a1"] > scz50["ap50"]["v1"], "el modelo sin promediar ya no halla más baches en los cuadros"
 RESUMEN = (
     "El objetivo es implementar y evaluar una aplicación web que detecta baches y grietas con inteligencia artificial "
-    "en el teléfono móvil y registra cada daño como un punto en la cartografía de Santa Cruz de la Sierra. Se "
-    "recopilaron 12.204 fotografías de seis conjuntos públicos, se depuraron y, con 6.507 de entrenamiento, se entrenó "
-    "en una GPU AMD MI300X un detector YOLO26s; el modelo final promedia sus pesos con los iniciales según una regla "
-    f"fijada de antemano. La evaluación usa una prueba congelada de 2.721 fotografías y una revisión a ciegas de {n_rev} "
-    "marcas en cinco videos de la ciudad. El modelo final obtiene un AP50 de 0,276 en baches, frente a 0,128 del "
-    "detector anterior, y de 0,472 frente a 0,151 en el conjunto más limpio; el modelo sin promediar llega a "
-    f"0,496, pero baja de 0,048 a 0,017 en un conjunto que no vio. En los videos, el {p100(rfin['precision_bache'])} de "
-    f"las marcas del modelo final son baches, frente al {p100(ra1['precision_bache'])} del modelo sin promediar, que no "
-    "encuentra más baches. La aplicación procesa entre 8 y 12 cuadros por segundo en una laptop sin GPU dedicada. En "
-    "conclusión, promediar pesos mejora la detección sin perder robustez.")
+    "en el teléfono móvil y los registra en la cartografía de Santa Cruz de la Sierra. Se recopilaron 12.204 "
+    "fotografías de seis conjuntos públicos y, con 6.507 depuradas de entrenamiento, se entrenó en una GPU AMD MI300X "
+    "un detector YOLO26s; el modelo final promedia sus pesos con los iniciales según una regla prefijada. Se "
+    f"evalúa con una prueba congelada de 2.721 fotografías, {n_rev} marcas revisadas a ciegas en cinco videos y "
+    f"{scz50['cuadros']} cuadros etiquetados de la ciudad. El modelo final obtiene un AP50 de 0,276 en baches, frente a "
+    "0,128 del detector anterior; sin promediar llega a 0,496, pero baja de 0,048 a 0,017 en un conjunto no visto. En "
+    f"los videos, el {p100(rfin['precision_bache'])} de las marcas del modelo final son baches, frente al "
+    f"{p100(ra1['precision_bache'])} del modelo sin promediar, que en los cuadros halla más baches. Ajustar con {n_aj} "
+    f"cuadros locales sube el AP50 en otros {scz50p['cuadros']} de {c3(v1d['scz_prueba50'])} a "
+    f"{c3(mejor['scz_prueba50'])}, pero resta robustez: no se adopta. La aplicación procesa de 8 a 12 cuadros por "
+    "segundo en una laptop. Promediar pesos da robustez; la ciudad requiere datos propios.")
 ABSTRACT = (
     "The objective is to implement and evaluate a web application that detects potholes and cracks with artificial "
-    "intelligence on the mobile phone and records each damage as a point on the cartography of Santa Cruz de la Sierra. "
-    "We collected 12,204 photographs from six public datasets, curated them and, with 6,507 training photographs, "
-    "trained a YOLO26s detector on an AMD MI300X GPU; the final model averages its weights with the initial ones "
-    f"according to a rule fixed in advance. The evaluation uses a frozen test set of 2,721 photographs and a blind "
-    f"review of {n_rev} detections in five videos of the city. The final model obtains an AP50 of 0.276 for potholes, "
-    "compared with 0.128 for the previous detector, and 0.472 compared with 0.151 on the cleanest dataset; the model "
-    "trained without averaging reaches 0.496 but drops from 0.048 to 0.017 on a dataset it did not see. In the videos, "
-    f"{round(100 * rfin['precision_bache'])}% of the final model's detections are potholes, compared with "
-    f"{round(100 * ra1['precision_bache'])}% for the model without averaging, which finds no more potholes. The "
-    "application processes between 8 and 12 frames per second on a laptop without a dedicated GPU. In conclusion, "
-    "weight averaging improves detection without losing robustness.")
+    "intelligence on the mobile phone and records them on the cartography of Santa Cruz de la Sierra. We collected "
+    "12,204 photographs from six public datasets and, with 6,507 curated training photographs, trained a YOLO26s "
+    "detector on an AMD MI300X GPU; the final model averages its weights with the initial ones by a pre-registered "
+    f"rule. The evaluation uses a frozen test set of 2,721 photographs, {n_rev} detections reviewed blindly in "
+    f"five videos and {scz50['cuadros']} labeled frames of the city. The final model obtains an AP50 of 0.276 for "
+    "potholes, compared with 0.128 for the previous detector; without averaging it reaches 0.496 but drops from 0.048 "
+    f"to 0.017 on an unseen dataset. In the videos, {round(100 * rfin['precision_bache'])}% of the final model's "
+    f"detections are potholes, compared with {round(100 * ra1['precision_bache'])}% for the model without averaging, "
+    f"which finds more potholes in the labeled frames. Fine-tuning with {n_aj} local frames raises the AP50 on another "
+    f"{scz50p['cuadros']} from {v1d['scz_prueba50']:.3f} to {mejor['scz_prueba50']:.3f} but reduces robustness and is "
+    "not adopted. The application processes 8 to 12 frames per second on a laptop. Weight averaging provides "
+    "robustness; the city requires its own data.")
 RESUMO = (
     "O objetivo é implementar e avaliar uma aplicação web que detecta buracos e fissuras com inteligência artificial "
-    "no telefone celular e registra cada dano como um ponto na cartografia de Santa Cruz de la Sierra. Foram reunidas "
-    "12.204 fotografias de seis conjuntos públicos, que foram depuradas e, com 6.507 de treinamento, foi treinado em "
-    "uma GPU AMD MI300X um detector YOLO26s; o modelo final faz a média de seus pesos com os iniciais segundo uma regra "
-    f"fixada de antemão. A avaliação usa um teste congelado de 2.721 fotografias e uma revisão às cegas de {n_rev} "
-    "marcações em cinco vídeos da cidade. O modelo final obtém AP50 de 0,276 em buracos, frente a 0,128 do detector "
-    "anterior, e de 0,472 frente a 0,151 no conjunto mais limpo; o modelo treinado sem média chega a 0,496, mas cai de "
-    f"0,048 para 0,017 em um conjunto que não viu. Nos vídeos, {p100(rfin['precision_bache'])} das marcações do modelo "
-    f"final são buracos, frente a {p100(ra1['precision_bache'])} do modelo sem média, que não encontra mais buracos. A "
-    "aplicação processa entre 8 e 12 quadros por segundo em um laptop sem GPU dedicada. Em conclusão, a média de pesos "
-    "melhora a detecção sem perder robustez.")
+    "no telefone celular e os registra na cartografia de Santa Cruz de la Sierra. Foram reunidas 12.204 fotografias de "
+    "seis conjuntos públicos e, com 6.507 depuradas de treinamento, foi treinado em uma GPU AMD MI300X um detector "
+    "YOLO26s; o modelo final faz a média de seus pesos com os iniciais segundo uma regra prefixada. A avaliação "
+    f"usa um teste congelado de 2.721 fotografias, {n_rev} marcações revisadas às cegas em cinco vídeos e "
+    f"{scz50['cuadros']} quadros rotulados da cidade. O modelo final obtém AP50 de 0,276 em buracos, frente a 0,128 do "
+    "detector anterior; sem média chega a 0,496, mas cai de 0,048 para 0,017 em um conjunto não visto. Nos vídeos, "
+    f"{p100(rfin['precision_bache'])} das marcações do modelo final são buracos, frente a "
+    f"{p100(ra1['precision_bache'])} do modelo sem média, que encontra mais buracos nos quadros rotulados. Ajustar com "
+    f"{n_aj} quadros locais eleva o AP50 em outros {scz50p['cuadros']} de {c3(v1d['scz_prueba50'])} para "
+    f"{c3(mejor['scz_prueba50'])}, mas reduz a robustez: não é adotado. A aplicação processa de 8 a 12 quadros por "
+    "segundo em um laptop. A média de pesos dá robustez; a cidade requer dados próprios.")
 poner(buscar("[Resumen:"), RESUMEN)
 poner(buscar("Palabras clave:"), " inteligencia artificial, cartografía, teléfono móvil", desde=1)
 poner(buscar("[Abstract:"), ABSTRACT)
@@ -393,6 +412,20 @@ for t in [
     "vehículo o marca vial) o dudosa.",
 ]:
     c.parrafo(t)
+c.parrafo(
+    f"Para medir la detección con cajas en la ciudad, se etiquetaron {scz50['cuadros']} cuadros de los cinco videos, "
+    "tomados de las versiones con caras y placas difuminadas. En cada video, el 60 % inicial sirve para ajustar y el "
+    f"40 % final, después de 2 s de separación, para probar: {scz50['cuadros'] - scz50p['cuadros']} y "
+    f"{scz50p['cuadros']} cuadros. La mitad se eligió al azar y la otra mitad entre los cuadros que algún modelo "
+    "marcó. Un solo revisor vio en cada cuadro las cajas propuestas por los cinco modelos, sin saber de cuál era cada "
+    "una, aceptó las que eran baches y agregó los que ninguno marcó. Como las cajas aceptadas vienen de los modelos y "
+    "la extensión de un bache es ambigua, además del AP50 se informa el AP con una superposición mínima de 0,3 (AP30).")
+if ajuste:
+    c.parrafo(
+        "Con los cuadros de ajuste se entrenó una variante del modelo final, v2, que los suma, repetidos cinco veces, a "
+        "las fotografías de entrenamiento, con la misma receta, y se promedió con el modelo final (α de 0,25 a 1). Antes "
+        "de etiquetar se fijó la regla para reemplazar al modelo de la aplicación: al menos 0,03 más de AP50 en los "
+        "cuadros de prueba, sin perder más de 0,01 en Egipto ni más de 0,005 en HRP4K-A.")
 c.parrafo("El código, el modelo y los informes están disponibles en https://github.com/Duranzzz/baches-scz; la "
           "aplicación, en https://duranzzz.github.io/baches-scz-app/ (código en "
           "https://github.com/Duranzzz/baches-scz-app), y los datos procesados, en "
@@ -539,8 +572,8 @@ c.parrafo(
     f"segunda corrida y el {p100(rref['precision_bache'])} del detector de referencia, que marca sobre todo grietas "
     f"como si fueran baches. Entre todos los modelos aparecen {rev['baches_distintos']} baches distintos: el modelo "
     f"final encuentra {rfin['baches_hallados']}; el modelo sin promediar, {ra1['baches_hallados']}, con casi el doble "
-    f"de eventos ({ra1['eventos']} frente a {rfin['eventos']}), y la segunda corrida, {ra2['baches_hallados']}. Las "
-    "marcas adicionales del modelo sin promediar no son baches nuevos, sino sobre todo grietas, manchas y juntas.")
+    f"de eventos ({ra1['eventos']} frente a {rfin['eventos']}), y la segunda corrida, {ra2['baches_hallados']}. En "
+    "esta revisión, las marcas adicionales del modelo sin promediar son sobre todo grietas, manchas y juntas.")
 c.tabla("Revisión a ciegas de los eventos de bache en los videos de Santa Cruz de la Sierra",
         ["Modelo", "Eventos", "Bache", "Otro daño", "No es daño", "Dudoso", "Precisión", "Baches hallados"],
         [[nombre, str(REV[k]["eventos"]), str(REV[k]["B"]), str(REV[k]["O"]), str(REV[k]["N"]), str(REV[k]["D"]),
@@ -552,6 +585,43 @@ c.tabla("Revisión a ciegas de los eventos de bache en los videos de Santa Cruz 
         "baches distintos que marcó al menos un modelo, cuántos marcó cada uno; los que ningún modelo marcó no "
         "cuentan. Un solo revisor, con video de 848 × 478 píxeles.", tam=8.5)
 
+c.sub("Cuadros etiquetados de Santa Cruz de la Sierra")
+n_t6 = Cursor.n_tabla + 1
+a50, a30 = scz50["ap50"], scz30["ap50"]
+c.parrafo(
+    f"En los {scz50['cuadros']} cuadros etiquetados, con {scz50['baches']} baches, la segunda corrida es la que más "
+    f"baches encuentra, con un AP50 de {c3(a50['a2'])}, seguida del modelo sin promediar ({c3(a50['a1'])}) y del "
+    f"modelo final ({c3(a50['v1'])}), que apenas supera al detector de referencia ({c3(a50['referencia'])}) y a los "
+    f"pesos iniciales ({c3(a50['B0'])}) (tabla {n_t6}). Con una superposición mínima de 0,3, el modelo final sube a "
+    f"{c3(a30['v1'])} y se acerca al modelo sin promediar ({c3(a30['a1'])}): muchas de sus cajas encuentran el bache, "
+    "pero con otra extensión. Así, ordenadas por confianza, las marcas de los modelos ajustados por completo encuentran "
+    f"más baches de la ciudad, aunque con el umbral de la aplicación son baches con menos frecuencia (tabla {n_t5}).")
+filas6 = [[nombre, c3(a50[k]), c3(a30[k]), c3(scz50p["ap50"][k]), c3(scz30p["ap50"][k])] for k, nombre in SCZ_ORDEN]
+cand = list(ajuste["candidatos"].values())
+filas6 += [[f"v2, α = {coma(v['alfa'], 2)}", "–", "–", c3(v["scz_prueba50"]), c3(v["scz_prueba30"])] for v in cand]
+c.tabla("AP de baches en los cuadros etiquetados de Santa Cruz de la Sierra",
+        ["Modelo", "AP50, 200 cuadros", "AP30, 200 cuadros", "AP50, prueba", "AP30, prueba"], filas6,
+        [3.6, 3.1, 3.1, 3.1, 3.1],
+        f"A 640 píxeles. AP50 y AP30: acierto con una superposición (IoU) de al menos 0,5 y 0,3. Prueba: los "
+        f"{scz50p['cuadros']} cuadros del 40 % final de cada video, con {scz50p['baches']} baches. Etiquetas de un solo "
+        "revisor, que aceptó o descartó las cajas propuestas por los cinco modelos y agregó las que faltaban. Las "
+        f"variantes v2 se ajustaron con los otros {n_aj} cuadros, por eso solo se miden en la prueba, y no propusieron "
+        "cajas para las etiquetas.",
+        tam=8.5)
+# Ninguna v2 cumple: todas mejoran en Santa Cruz y bajan en HRP4K-A (y en HRP4K-B); una baja además en Egipto
+assert all(v["condiciones"]["santa_cruz"] and not v["condiciones"]["hrp4k_a"] for v in cand)
+assert all(v["hrp4k_b"] < v1d["hrp4k_b"] for v in cand)
+egipto_falla = [v for v in cand if not v["condiciones"]["egipto"]]
+assert len(egipto_falla) == 1
+c.parrafo(
+    f"Todas las variantes v2 mejoran en los cuadros de prueba: la mejor, con α = {coma(mejor['alfa'], 2)}, obtiene "
+    f"un AP50 de {c3(mejor['scz_prueba50'])}, frente a {c3(v1d['scz_prueba50'])} del modelo final. También suben en "
+    f"la prueba congelada, hasta {c3(max(v['test'] for v in cand))} frente a {c3(v1d['test'])}, pero bajan en "
+    f"HRP4K-A, de {c3(v1d['hrp4k_a'])} a entre {c3(min(v['hrp4k_a'] for v in cand))} y "
+    f"{c3(max(v['hrp4k_a'] for v in cand))}, y lo mismo ocurre en HRP4K-B, que no entra en la regla; la de "
+    f"α = {coma(egipto_falla[0]['alfa'], 2)} baja además en Egipto, de {c3(v1d['egipto'])} a "
+    f"{c3(egipto_falla[0]['egipto'])}. Ninguna cumple la regla, de modo que el modelo final sigue en la aplicación.")
+
 c.sub("Discusión")
 for t in [
     "La caída del modelo entrenado en HRP4K coincide con Kumar et al. (2022), para quienes ajustar todos los pesos "
@@ -559,7 +629,9 @@ for t in [
     "robustez sin entrenar de nuevo, como reportan Wortsman et al. (2021), y aquí se observa en detección de objetos. "
     "En Egipto, el conjunto de prueba más limpio, los promedios incluso superan al modelo entrenado: 0,471 con α = 0,25 "
     "y 0,534 con α = 0,50, frente a 0,442, en línea con la observación de que promediar pesos puede mejorar también "
-    "dentro de la distribución (Wortsman et al., 2022).",
+    "dentro de la distribución (Wortsman et al., 2022). Las variantes v2 repiten el patrón: el ajuste con cuadros de "
+    "la ciudad mejora en ella y en los conjuntos que el entrenamiento ya veía, pero empeora en HRP4K, incluso "
+    "promediado.",
     "La ventaja de partir de pesos entrenados con imágenes de varios países concuerda con la propuesta de Arya et al. "
     "(2021). En HRP4K, con fotografías 4K en perspectiva (Chen et al., 2026), los baches lejanos ocupan pocos píxeles a "
     "640 y todos los modelos quedan por debajo de 0,05, de modo que las diferencias pequeñas deben leerse con cautela; "
@@ -575,12 +647,20 @@ for t in [
     "de la visualización geoespacial de baches de Sahoo et al. (2025) y de la idea de Maeda et al. (2018) de usar el "
     "teléfono como sensor. La confirmación en 2 de 3 cuadros reduce las marcas aisladas, y el recorrido de prueba "
     "permite mostrar el mapa con videos grabados, aunque entonces la posición del punto es simulada.",
-    "Las limitaciones son la falta de fotografías etiquetadas de Santa Cruz de la Sierra, por lo que en los videos se "
-    "mide la precisión de las marcas, con un solo revisor, pero no los baches que ningún modelo marcó; el uso de una "
+    "Las dos medidas en la ciudad no se contradicen: la revisión mira las marcas con el umbral de la aplicación, donde "
+    "el modelo final es el más preciso, y el AP recorre todos los umbrales, donde los modelos ajustados por completo, "
+    "sobre todo el entrenado con HRP4K, encuentran más baches. La regla de selección, que protegía la robustez fuera de "
+    "los datos de entrenamiento, favoreció la precisión; elegir con cuadros de la ciudad el umbral de esos modelos "
+    "podría reunir las dos ventajas. Además, los cuadros de prueba vienen de los mismos cinco videos que los de "
+    "ajuste, con las mismas cámaras y días, así que la mejora de las variantes v2 puede ser menor en otras calles o "
+    "con otros teléfonos.",
+    "Las limitaciones son que los cuadros de Santa Cruz de la Sierra los etiquetó un solo revisor, a partir de las "
+    "cajas de los modelos, y que vienen de solo cinco videos; el uso de una "
     "mitad de HRP4K para elegir; las 243 fotografías dudosas que siguen en "
     "el entrenamiento; las etiquetas de Brasil, que marcan solo el carril propio; la severidad, estimada por el área de "
-    "la caja, y el error de varios metros del GPS del teléfono. Etiquetar fotografías de calles cruceñas, por ejemplo "
-    "las de los puntos que la aplicación ya registra, permitiría medir también los baches que se pierden y entrenar con ese dominio.",
+    "la caja, y el error de varios metros del GPS del teléfono. Etiquetar más fotografías de calles cruceñas, por "
+    "ejemplo las de los puntos que la aplicación ya registra, y con más de un revisor, daría una medida más firme y "
+    "más datos para ajustar.",
 ]:
     c.parrafo(t)
 
@@ -595,14 +675,17 @@ cc = Cursor(p)
 cc.parrafo("El entrenamiento con datos propios especializa el modelo: mejora en los conjuntos que vio y empeora en uno "
            "que no vio. Promediar sus pesos con los iniciales, con una regla fijada de antemano, aprovecha el "
            "entrenamiento sin perder robustez, algo útil para una ciudad sin datos etiquetados propios. En los videos de la "
-           "ciudad, sus marcas son baches con más frecuencia que las de los demás modelos, y encuentra tantos baches "
-           "como el modelo sin promediar con poco más de la mitad de las marcas. Sumar más "
+           "ciudad, sus marcas son baches con más frecuencia que las de los demás modelos; en cambio, en los cuadros "
+           "etiquetados, los modelos ajustados por completo encuentran más baches, de modo que la elección depende de si "
+           "importa más evitar falsas alarmas o no perder baches. Sumar más "
            "fotografías de otra fuente, como en la segunda corrida, mejora esa fuente, pero no garantiza una mejora en "
-           "las demás.")
+           f"las demás. Lo mismo ocurre al ajustar con cuadros de la ciudad: el AP50 en sus cuadros de prueba sube de "
+           f"{c3(v1d['scz_prueba50'])} a {c3(mejor['scz_prueba50'])}, pero baja en HRP4K, y la regla mantuvo el "
+           "modelo final.")
 cc.parrafo("La aplicación funciona como propuesta de un sistema de inspección: cualquier teléfono con navegador puede "
-           "recorrer la ciudad, marcar daños y exportarlos a un sistema de información geográfica. Con fotografías "
-           "locales etiquetadas, la misma regla de selección permitirá elegir el modelo directamente para las calles "
-           "cruceñas.")
+           "recorrer la ciudad, marcar daños y exportarlos a un sistema de información geográfica. Los cuadros "
+           "etiquetados permiten ya medir los modelos en las calles cruceñas; con más fotografías locales, la misma "
+           "regla podrá elegir el modelo directamente para la ciudad.")
 
 # ---------------------------------------------------------------- Referencias (APA 7.ª edición)
 I = True   # cursiva

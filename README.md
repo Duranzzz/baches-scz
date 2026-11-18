@@ -52,6 +52,13 @@ AP50 en el test congelado (`splits.csv`), a 640 px, el tamaño de la app:
   - el 64 % de los eventos de este modelo son baches, contra el 32 % de a1, el mismo sin promediar;
   - los dos encuentran 21 baches distintos.
   - Detalle en `informes/videos_scz_20261122/revision/RESULTADOS.md`.
+- **En 200 cuadros de Santa Cruz etiquetados con cajas** (`informes/scz_cuadros/`), este modelo obtiene un AP50
+  de 0,067 (0,162 con IoU 0,3).
+  - Sus marcas suelen ser baches, pero encuentra menos que a1 (0,158) y a2 (0,299), ajustados por completo.
+- **Ajuste con cuadros de la ciudad (v2):** con 120 de esos cuadros, el AP50 en los otros 80 sube de 0,087 a hasta
+  0,275, pero baja en HRP4K, el conjunto que el entrenamiento no ve.
+  - Por la regla fijada antes de entrenar, este modelo sigue en la app.
+  - Detalle en `informes/ajuste_scz.md`.
 - **Más detalle:**
   - `informes/entrenamiento_amd.md`: cómo se eligió el modelo y sus límites.
   - `MODEL_CARD.md`: el modelo en sí.
@@ -66,8 +73,9 @@ pestaña de datos muestra 300 fotos del test con sus cajas.
 | `muestra/` | la vista previa: 50 fotos del test por fuente, con sus cajas (la arma `entrenamiento/hf_muestra.py`) |
 | `paquete/` | 12.204 fotos de seis conjuntos públicos (reducidas a 1.280 px) y sus etiquetas en un esquema común |
 | `correcciones/` | las 14 etiquetas corregidas y la lista de las 619 fotos retiradas del train |
-| `videos_scz/` | los cinco videos de Santa Cruz, sin etiquetas (ver abajo) |
-| `resultados/` | lo que dejó el entrenamiento del 22-nov: curvas, pesos y evaluaciones |
+| `videos_scz/` | los cinco videos de Santa Cruz, con caras y placas difuminadas (ver abajo) |
+| `santa_cruz/` | 200 cuadros de esos videos con cajas de bache: 120 de ajuste y 80 de prueba |
+| `resultados/` | lo que dejaron los entrenamientos del 22 y del 23-nov: curvas, pesos y evaluaciones |
 
 El train y el valid de HRP4K (3.186 fotos más) se bajan de su copia pública
 [dronefreak/HRP4K](https://huggingface.co/datasets/dronefreak/HRP4K) con `entrenamiento/importar_hrp4k_hf.py`.
@@ -180,6 +188,9 @@ y el test se mide una sola vez.
 - `informes/videos_scz/` y `informes/videos_scz_20261122/`: los cinco videos de Santa Cruz.
   - Contiene los cuadros con marca y los eventos de cada detector, y el CSV de cada detección.
   - No tienen etiquetas: son marcas, no aciertos.
+- `informes/scz_cuadros/`: los 200 cuadros etiquetados (`entrenamiento/scz_cuadros.py`): cajas, juicios y el AP de
+  cada modelo.
+- `informes/ajuste_scz.md`: el ajuste v2 con esos cuadros, con su regla (fijada antes de etiquetar) y el resultado.
 
 ## Videos de Santa Cruz
 
@@ -196,8 +207,9 @@ audio; los procesa `herramientas/difuminar_videos.py`. No se suben a este reposi
 
 ## Límites
 
-- **Santa Cruz a medias:** no hay fotos ni video de Santa Cruz etiquetados. La revisión a ciegas de los videos
-  mide qué parte de las marcas son baches, pero no los baches que ningún modelo marcó.
+- **Santa Cruz a medias:** hay 200 cuadros etiquetados, pero de solo cinco videos y por un solo revisor, que partió
+  de las cajas propuestas por los modelos. La revisión a ciegas de los videos mide qué parte de las marcas son
+  baches.
 - **Videos laterales:** con la cámara al costado entra la carrocería en el cuadro, y las juntas del hormigón
   pueden salir como grietas.
 - **Severidad:** es provisional.

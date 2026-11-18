@@ -62,6 +62,12 @@ AP50 (IoU ≥ 0,5, 101 puntos de exhaustividad) en el test congelado de `splits.
   números son optimistas. Egipto es el más limpio.
 - **Videos de Santa Cruz:** en los cinco videos, sin etiquetas, marca baches en el 4,4 % de los cuadros (451 de
   10.162).
+  - **Revisión a ciegas:** el 64 % de sus eventos de bache son baches. Los modelos ajustados por completo
+    obtienen menos.
+  - **Cuadros etiquetados:** en 200 cuadros de esos videos, con 58 baches, obtiene un AP50 de 0,067 y un AP30 de
+    0,162 (`informes/scz_cuadros/`). Los modelos ajustados por completo encuentran más baches: 0,158 y 0,299.
+  - **Ajuste con cuadros de la ciudad (v2):** sube en Santa Cruz, pero baja en HRP4K. Por la regla fijada antes
+    (`informes/ajuste_scz.md`), este modelo sigue en la app.
 
 ## Usos previstos y no previstos
 
@@ -77,8 +83,8 @@ AP50 (IoU ≥ 0,5, 101 puntos de exhaustividad) en el test congelado de `splits.
 
 ## Limitaciones y sesgos
 
-- **Santa Cruz sin medir:** no hay fotos de Santa Cruz de la Sierra etiquetadas, así que la precisión local no
-  está medida.
+- **Santa Cruz, medido a medias:** los 200 cuadros etiquetados vienen de solo cinco videos y los etiquetó un solo
+  revisor, a partir de las cajas que propusieron los modelos. En ellos, el AP50 es bajo (0,067).
 - **Datos de otros países:** las fotos son de Brasil, Eslovaquia, Egipto y otras fuentes, con pavimentos,
   cámaras y luz distintos a los de la ciudad.
 - **Baches lejanos:** los chicos y lejanos casi no se detectan a 640 px (HRP4K: 0,040).
@@ -89,8 +95,9 @@ AP50 (IoU ≥ 0,5, 101 puntos de exhaustividad) en el test congelado de `splits.
 
 ## Consideraciones éticas
 
-- **Personas y placas:** los videos de la calle muestran personas y placas. La app procesa en el teléfono y no
-  envía video a ningún servidor.
+- **Personas y placas:** los videos de la calle muestran personas y placas.
+  - La app procesa en el teléfono y no envía video a ningún servidor.
+  - Los videos que se publican en Hugging Face llevan caras y placas difuminadas y no tienen audio.
 - **Ubicación:** cada daño se guarda en el teléfono con su ubicación GPS; solo sale del dispositivo si la
   persona lo exporta.
 
