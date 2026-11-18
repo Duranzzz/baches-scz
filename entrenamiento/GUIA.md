@@ -6,8 +6,10 @@ Probado en CPU el 21-nov: `armar_dataset.py` da 7.126 fotos de train (5.315 con 
 y `entrenar.py --prueba` corre completo.
 
 > **Corrida real del 22-nov-2026 (`informes/entrenamiento_amd.md`), con estos cambios a lo de abajo:**
-> - **Modelo de partida:** el 22-nov fueron unos pesos públicos preentrenados (ver `MODEL_CARD.md`); desde ahora, por defecto, `modelos/baches_scz_v1.pt`. La clase del `data.yaml` se renombra
->   a "Pothole (D40)" para que ultralytics reuse su fila de bache.
+> - **Modelo de partida:** el 22-nov fueron unos pesos públicos preentrenados (ver `MODEL_CARD.md`); desde ahora, por defecto, `modelos/baches_scz_v1.pt`. La clase del `data.yaml` se llama
+>   "Pothole (D40)" para que ultralytics reuse su fila de bache. Desde el 23-nov, `armar_dataset.py` la escribe así:
+>   - con "D40", el log dice "Transferred 696/708" y la fila queda al azar;
+>   - con el nombre correcto dice 708/708.
 > - **Caché:** `--cache-disco`. Con `--cache-ram`, Python 3.14 copia la caché en cada worker y se acaba la RAM
 >   (235 GB).
 > - **Tope de horas:** `--horas` es un freno de seguridad. El `time` de ultralytics estiraba las épocas para

@@ -43,3 +43,14 @@ Un candidato reemplaza a v1 en la app solo si cumple las tres condiciones, todas
 
 La receta de a1 se repite desde B0 con las semillas 1 y 2 (`entrenar.py --semilla`). A cada corrida se le aplica
 el mismo promedio de v1 (α = 0,25, 4 clases), para ver cuánto varía el resultado con el azar del entrenamiento.
+
+## Notas de la ejecución
+
+- **Primer intento, descartado:** la primera v2 y las repeticiones con las semillas 1 y 2 se entrenaron con la
+  clase "D40" en el `data.yaml`.
+  - Ultralytics no emparejó esa clase con la de bache del modelo de partida: el log dice "Transferred 696/708" y
+    la fila de bache quedó al azar, distinta de la receta de a1.
+  - Se descartaron esas corridas.
+- **Corrección (23-nov, 07:50 UTC):** se renombró la clase a "Pothole (D40)" (ahora 708/708) y v2 se volvió a
+  entrenar sola en la GPU. Desde entonces, `armar_dataset.py` escribe ese nombre.
+- **Estabilidad:** de las repeticiones se rehace solo la semilla 1, después de v2, si alcanza el tiempo de máquina.

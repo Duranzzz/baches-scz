@@ -3,7 +3,8 @@
     python entrenamiento/armar_dataset.py --salida /datos/ds_baches
     python entrenamiento/armar_dataset.py --salida /datos/ds_prueba --fraccion 0.05     # una prueba chica
 
-- Una sola clase, 0 = "D40" (bache), para que preview.py y evaluar.py la reconozcan sin cambios.
+- Una sola clase, 0 = "Pothole (D40)" (bache). Con ese nombre, ultralytics reusa la fila de bache del modelo de
+  partida (con "D40" no la empareja y la deja al azar), y preview.py y evaluar.py la reconocen sin cambios.
   Grietas y tapas quedan como fondo.
 - train: el split train, también las fotos no evaluables (aumentadas, atardecer), que sirven para entrenar.
   val: solo val evaluable. El test no se copia: se mide aparte con evaluar.py.
@@ -91,7 +92,7 @@ def main():
 
     (salida / "data.yaml").write_text(
         f"# Generado por entrenamiento/armar_dataset.py\npath: {salida.as_posix()}\n"
-        "train: images/train\nval: images/val\nnames:\n  0: D40\n", encoding="utf-8")
+        "train: images/train\nval: images/val\nnames:\n  0: Pothole (D40)\n", encoding="utf-8")
     with open(salida / "manifiesto.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
         w.writerow(["foto", "dataset", "split", "baches"])
