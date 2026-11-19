@@ -13,6 +13,10 @@
 - **Corrección:** `armar_dataset.py` nombra la clase "Pothole (D40)" para que ultralytics reuse la fila de bache del
   modelo de partida; con "D40" la dejaba al azar.
 - **Entrenamiento:** `entrenar.py --semilla`.
+- **Estabilidad:** la receta de a1 repetida con la semilla 1 da el mismo patrón.
+  - Pero su promedio α = 0,25 no pasa el margen de HRP4K-A de la regla del 22-nov: la elección de Baches SCZ v1
+    estuvo en el límite.
+  - Pesos y logs, en Hugging Face (`resultados/amd_20261123/`).
 - **Videos:** retoques a mano del difuminado (un reflejo en scz_01 y dos placas lejanas).
 - **App:** a2 se suma a los modelos para comparar.
 - **Artículo:** tabla 6 con los cuadros etiquetados y el resultado de v2; resúmenes al día.

@@ -210,6 +210,8 @@ audio; los procesa `herramientas/difuminar_videos.py`. No se suben a este reposi
 - **Santa Cruz a medias:** hay 200 cuadros etiquetados, pero de solo cinco videos y por un solo revisor, que partió
   de las cajas propuestas por los modelos. La revisión a ciegas de los videos mide qué parte de las marcas son
   baches.
+- **Elección en el límite:** con otra semilla de entrenamiento, el mismo promedio da 0,027 en HRP4K-A, por debajo
+  del margen de la regla (0,029). El resto del patrón se repite (`informes/ajuste_scz.md`).
 - **Videos laterales:** con la cámara al costado entra la carrocería en el cuadro, y las juntas del hormigón
   pueden salir como grietas.
 - **Severidad:** es provisional.

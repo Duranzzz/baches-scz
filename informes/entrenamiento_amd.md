@@ -157,8 +157,10 @@ Revisado a ojo en scz_03:
 
 ## Límites
 
-- No hay fotos de Santa Cruz etiquetadas. La revisión a ciegas mide la precisión de las marcas (un solo revisor),
-  pero no los baches que ningún modelo marcó.
+- El 22-nov no había fotos de Santa Cruz etiquetadas. La revisión a ciegas mide la precisión de las marcas (un
+  solo revisor), pero no los baches que ningún modelo marcó.
+  - Desde el 23-nov hay 200 cuadros etiquetados (`informes/scz_cuadros/`).
+  - Con ellos se probó un ajuste, que no cumplió su regla (`informes/ajuste_scz.md`).
 - Para elegir el modelo se usó la mitad A del test de HRP4K. Es la única señal fuera de dominio y por eso
   quedó separada la mitad B para informar. El resto del test se miró una sola vez.
 - En val hay fuga (Bucko, Brasil y Bisman), así que val favorece a los modelos más ajustados. Por eso la regla
@@ -166,6 +168,10 @@ Revisado a ojo en scz_03:
 - **La regla no fue la del plan.** El plan decía "deciden HRP4K y Egipto". La regla que se aplicó filtra por
   HRP4K y después ordena por val de todos los datasets. Con la del plan el ganador es el mismo: entre los que
   pasan el filtro (B0 y α = 0,25), Egipto en val a 640 px da 0,320 contra 0,283.
+- **Elección en el límite (comprobado el 23-nov):** con la semilla 1, el promedio α = 0,25 da 0,027 en HRP4K-A,
+  por debajo del filtro (0,029), y la regla habría dejado B0.
+  - v1 pasó por 0,0002, y entre semillas HRP4K-A cambia 0,002.
+  - Detalle en `ajuste_scz.md`.
 - **243 fotos dudosas quedaron en el train.** Las marcó la revisión del 1-nov y no está claro que sacarlas
   mejore.
 - **Brasil sin enmascarar.** Brasil etiqueta solo el carril propio: un bache en el carril de al lado cuenta

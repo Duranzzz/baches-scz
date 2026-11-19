@@ -85,6 +85,9 @@ AP50 (IoU ≥ 0,5, 101 puntos de exhaustividad) en el test congelado de `splits.
 
 - **Santa Cruz, medido a medias:** los 200 cuadros etiquetados vienen de solo cinco videos y los etiquetó un solo
   revisor, a partir de las cajas que propusieron los modelos. En ellos, el AP50 es bajo (0,067).
+- **Elección en el límite:** repetir el entrenamiento con otra semilla da un promedio con 0,027 en HRP4K-A, por
+  debajo del margen de la regla que eligió este modelo (0,029). En los demás conjuntos supera a los pesos iniciales,
+  como este modelo.
 - **Datos de otros países:** las fotos son de Brasil, Eslovaquia, Egipto y otras fuentes, con pavimentos,
   cámaras y luz distintos a los de la ciudad.
 - **Baches lejanos:** los chicos y lejanos casi no se detectan a 640 px (HRP4K: 0,040).

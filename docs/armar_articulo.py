@@ -425,7 +425,9 @@ if ajuste:
         "Con los cuadros de ajuste se entrenó una variante del modelo final, v2, que los suma, repetidos cinco veces, a "
         "las fotografías de entrenamiento, con la misma receta, y se promedió con el modelo final (α de 0,25 a 1). Antes "
         "de etiquetar se fijó la regla para reemplazar al modelo de la aplicación: al menos 0,03 más de AP50 en los "
-        "cuadros de prueba, sin perder más de 0,01 en Egipto ni más de 0,005 en HRP4K-A.")
+        "cuadros de prueba, sin perder más de 0,01 en Egipto ni más de 0,005 en HRP4K-A. Además, la receta del modelo "
+        "entrenado se repitió desde los pesos iniciales con otra semilla, con el mismo promedio, para estimar la "
+        "variación por el azar del entrenamiento.")
 c.parrafo("El código, el modelo y los informes están disponibles en https://github.com/Duranzzz/baches-scz; la "
           "aplicación, en https://duranzzz.github.io/baches-scz-app/ (código en "
           "https://github.com/Duranzzz/baches-scz-app), y los datos procesados, en "
@@ -622,11 +624,17 @@ c.parrafo(
     f"α = {coma(egipto_falla[0]['alfa'], 2)} baja además en Egipto, de {c3(v1d['egipto'])} a "
     f"{c3(egipto_falla[0]['egipto'])}. Ninguna cumple la regla, de modo que el modelo final sigue en la aplicación.")
 
+sem = ajuste["semillas"]
+assert c3(sem["wise4_s1"]["hrp4k"]["A"]) == "0,027" and round(sem["a1_s1"]["test"]["todos"], 3) in (0.48, 0.481)
+assert c3(sem["B0"]["hrp4k"]["A"] - 0.005) == "0,029"
+assert sem["wise4_s1"]["hrp4k"]["A"] < sem["B0"]["hrp4k"]["A"] - 0.005 <= v1d["hrp4k_a"]
+falta = sorted(v1d["hrp4k_a"] - 0.005 - v["hrp4k_a"] for v in cand)   # cuánto le falta a cada v2 para el mínimo
+assert falta[0] < 0.003 < falta[1], "ya no es solo α = 0,25 la que queda cerca del mínimo"
 c.sub("Discusión")
 for t in [
     "La caída del modelo entrenado en HRP4K coincide con Kumar et al. (2022), para quienes ajustar todos los pesos "
-    "deforma lo aprendido y empeora el desempeño fuera de la distribución del ajuste. El promedio de pesos recupera esa "
-    "robustez sin entrenar de nuevo, como reportan Wortsman et al. (2021), y aquí se observa en detección de objetos. "
+    "deforma lo aprendido y empeora el desempeño fuera de la distribución del ajuste. El promedio de pesos recupera buena "
+    "parte de esa robustez sin entrenar de nuevo, como reportan Wortsman et al. (2021), y aquí se observa en detección de objetos. "
     "En Egipto, el conjunto de prueba más limpio, los promedios incluso superan al modelo entrenado: 0,471 con α = 0,25 "
     "y 0,534 con α = 0,50, frente a 0,442, en línea con la observación de que promediar pesos puede mejorar también "
     "dentro de la distribución (Wortsman et al., 2022). Las variantes v2 repiten el patrón: el ajuste con cuadros de "
@@ -635,7 +643,11 @@ for t in [
     "La ventaja de partir de pesos entrenados con imágenes de varios países concuerda con la propuesta de Arya et al. "
     "(2021). En HRP4K, con fotografías 4K en perspectiva (Chen et al., 2026), los baches lejanos ocupan pocos píxeles a "
     "640 y todos los modelos quedan por debajo de 0,05, de modo que las diferencias pequeñas deben leerse con cautela; "
-    "a 1.280 píxeles los valores suben hasta 0,098. Una aplicación en el teléfono debe equilibrar ese tamaño con la "
+    "a 1.280 píxeles los valores suben hasta 0,098. La repetición con otra semilla reproduce el patrón, con 0,481 "
+    "frente a 0,496 en el total de la prueba, pero su promedio con α = 0,25 obtiene 0,027 en HRP4K-A, por debajo del "
+    "margen de la regla (0,029). Así, la elección del modelo final, como el descarte de la variante v2 con α = 0,25, "
+    "quedó dentro de la variación por el azar del entrenamiento; las demás variantes v2 quedan claramente por debajo "
+    "del mínimo. Una aplicación en el teléfono debe equilibrar ese tamaño con la "
     "velocidad, y 640 píxeles mantiene entre 8 y 12 cuadros por segundo.",
     "La métrica que se informa es el AP50, que resume precisión y exhaustividad en un solo valor (Lin et al., 2014; "
     "Padilla et al., 2021). Su valor depende de que la prueba sea independiente del entrenamiento: Barz y Denzler "
@@ -656,7 +668,8 @@ for t in [
     "con otros teléfonos.",
     "Las limitaciones son que los cuadros de Santa Cruz de la Sierra los etiquetó un solo revisor, a partir de las "
     "cajas de los modelos, y que vienen de solo cinco videos; el uso de una "
-    "mitad de HRP4K para elegir; las 243 fotografías dudosas que siguen en "
+    "mitad de HRP4K para elegir, con márgenes del orden de la variación entre semillas, estimada con una sola "
+    "repetición; las 243 fotografías dudosas que siguen en "
     "el entrenamiento; las etiquetas de Brasil, que marcan solo el carril propio; la severidad, estimada por el área de "
     "la caja, y el error de varios metros del GPS del teléfono. Etiquetar más fotografías de calles cruceñas, por "
     "ejemplo las de los puntos que la aplicación ya registra, y con más de un revisor, daría una medida más firme y "
@@ -674,7 +687,7 @@ poner(p, "El trabajo cumple su objetivo: la aplicación detecta baches y grietas
 cc = Cursor(p)
 cc.parrafo("El entrenamiento con datos propios especializa el modelo: mejora en los conjuntos que vio y empeora en uno "
            "que no vio. Promediar sus pesos con los iniciales, con una regla fijada de antemano, aprovecha el "
-           "entrenamiento sin perder robustez, algo útil para una ciudad sin datos etiquetados propios. En los videos de la "
+           "entrenamiento con poca pérdida de robustez, algo útil para una ciudad sin datos etiquetados propios. En los videos de la "
            "ciudad, sus marcas son baches con más frecuencia que las de los demás modelos; en cambio, en los cuadros "
            "etiquetados, los modelos ajustados por completo encuentran más baches, de modo que la elección depende de si "
            "importa más evitar falsas alarmas o no perder baches. Sumar más "

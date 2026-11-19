@@ -93,3 +93,36 @@ AP50 de baches a 640 px:
 - `informes/ajuste_tabla_amd.json`: la tabla de la AMD (`entrenamiento/tabla_ajuste.py`).
 - `informes/scz_cuadros/eval_prueba_640*.json`: el AP en los cuadros de prueba.
 - Pesos, curvas y logs: Hugging Face, `resultados/amd_20261123/`.
+
+## Estabilidad: resultado (semilla 1)
+
+- **a1_s1:** la receta de a1 repetida desde B0 con la semilla 1. Hizo 84 épocas en 1,08 h (708/708).
+- **wise4_s1:** su promedio con B0 (α = 0,25, 4 clases), hecho igual que v1.
+
+AP50 de baches a 640 px en el test congelado:
+
+| Modelo | Bisman | Brasil | Bucko | Egipto | Total | HRP4K-A | HRP4K-B |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| B0 (pesos iniciales) | 0,187 | 0,588 | 0,306 | 0,356 | 0,196 | 0,034 | 0,065 |
+| a1 (semilla 0, 22-nov) | 0,834 | 0,662 | 0,629 | 0,442 | 0,496 | 0,011 | 0,019 |
+| a1_s1 (semilla 1) | 0,839 | 0,663 | 0,593 | 0,452 | 0,481 | 0,009 | 0,017 |
+| v1 (promedio α = 0,25 de a1) | 0,346 | 0,607 | 0,408 | 0,472 | 0,276 | 0,029 | 0,059 |
+| wise4_s1 (ídem, de a1_s1) | 0,327 | 0,624 | 0,377 | 0,476 | 0,260 | 0,027 | 0,043 |
+
+- **La medición es reproducible:** B0 da lo mismo que el 22-nov.
+- **El patrón se repite.**
+  - El ajuste completo sube mucho en los conjuntos que vio y baja en HRP4K, y el promedio recupera buena parte de
+    HRP4K.
+  - Entre semillas, cada conjunto cambia hasta 0,04, el total 0,016 y HRP4K-A 0,002.
+- **La elección del 22-nov estuvo en el límite.**
+  - La regla pedía HRP4K-A ≥ B0 − 0,005 = 0,0291, y v1 la pasó con 0,0293, por 0,0002.
+  - wise4_s1 queda en 0,0269. Con la semilla 1, el promedio α = 0,25 no habría pasado y la regla habría dejado
+    B0.
+  - El margen por el que pasó v1 es diez veces menor que la diferencia entre semillas, así que esa elección
+    dependió del azar del entrenamiento.
+  - Aun así, wise4_s1 supera a B0 en todos los conjuntos salvo HRP4K, igual que v1.
+- **El descarte de v2 es firme salvo con α = 0,25.**
+  - Esa variante queda 0,002 por debajo del mínimo, del orden de la variación entre semillas.
+  - Las otras quedan entre 0,008 y 0,018 por debajo.
+- **La variación es una estimación gruesa:** hubo una sola repetición, porque la de la semilla 2 se descartó con el
+  primer intento.
