@@ -1,5 +1,14 @@
 # Cambios
 
+## [1.3.1] - 2026-11-24
+
+- **Artículo** (`docs/armar_articulo.py`), para el envío del 28-nov:
+  - fecha de envío: "Recibido: 28-11-2026";
+  - las figuras 2 a 5 pasan a gráficos editables de Word, con su hoja de Excel (se arman con python-pptx). En la
+    hoja, los valores van ×100 para que la coma decimal salga igual en cualquier configuración de Windows;
+  - cinco ecuaciones numeradas con el editor de Word: promedio de pesos, regla de selección, IoU, AP y F1;
+  - metadatos al día (título, autores y palabras clave) y sin restos de la plantilla.
+
 ## [1.3.0] - 2026-11-23
 
 - **Cuadros de Santa Cruz etiquetados** (`entrenamiento/scz_cuadros.py`, `informes/scz_cuadros/`): 200 cuadros de

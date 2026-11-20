@@ -1,17 +1,33 @@
 """Arma el artículo del 2do parcial (formato Revista 3i) sobre docs/plantilla_articulo_2do_parcial.docx.
 Todas las cifras salen de informes/ (entrenamiento_amd.md, eval_*.json, corridas/ y videos_scz_20261122/).
-Antes: python docs/figuras/figura1_wise.py y python docs/figuras/generar_figuras.py
+Antes: python docs/figuras/generar_figuras.py (las fotografías y el esquema; los gráficos con datos se arman aquí,
+editables, con python-pptx: pip install python-docx python-pptx)
     python docs/armar_articulo.py
 Deja docs/articulo_2do_parcial.docx."""
 import copy
+import csv
 import json
+import re
+from datetime import datetime, timezone
 from pathlib import Path
 
 from docx import Document
+from docx.opc.constants import CONTENT_TYPE as CT
 from docx.opc.constants import RELATIONSHIP_TYPE as RT
-from docx.oxml.ns import qn
+from docx.opc.packuri import PackURI
+from docx.opc.part import Part
+from docx.oxml import parse_xml
+from docx.oxml.ns import nsdecls, qn
 from docx.shared import Cm, Pt
 from docx.text.paragraph import Paragraph
+from lxml import etree
+from pptx import Presentation
+from pptx.chart.data import CategoryChartData, XyChartData
+from pptx.dml.color import RGBColor
+from pptx.enum.chart import XL_CHART_TYPE, XL_LABEL_POSITION, XL_LEGEND_POSITION, XL_MARKER_STYLE
+from pptx.enum.dml import MSO_LINE_DASH_STYLE
+from pptx.util import Cm as PCm
+from pptx.util import Pt as PPt
 
 RAIZ = Path(__file__).resolve().parents[1]
 DOCS = RAIZ / "docs"
@@ -87,8 +103,17 @@ class Cursor:
         return Paragraph(elem, CUERPO) if elem.tag == qn("w:p") else elem
 
     def parrafo(self, texto, proto=P_CUERPO):
+        """Párrafo con el formato del prototipo; "_{x}" escribe x como subíndice (AP_{val})."""
         p = self._poner(copy.deepcopy(proto))
-        poner(p, texto)
+        partes = re.split(r"_\{([^}]*)\}", texto)
+        poner(p, partes[0])
+        base = p.runs[0]._r.rPr
+        for i, parte in enumerate(partes[1:], 1):
+            if parte:
+                r = p.add_run(parte)
+                if base is not None:
+                    r._r.insert(0, copy.deepcopy(base))
+                r.font.subscript = i % 2 == 1
         return p
 
     def sub(self, texto):
@@ -153,6 +178,209 @@ class Cursor:
             q.paragraph_format.keep_with_next = True
         poner(self._poner(copy.deepcopy(P_NOTA_FIG)), "Nota. " + nota)
         return Cursor.n_figura
+
+    def grafico(self, titulo, graficos, nota):
+        """Como figura(), con gráficos editables de Office: graficos = [(gráfico de pptx, ancho_cm, alto_cm), ...]."""
+        Cursor.n_figura += 1
+        et = self._poner(copy.deepcopy(P_FIG_ETIQ))
+        poner(et, f"Figura {Cursor.n_figura}.")
+        tit = self._poner(copy.deepcopy(P_FIG_TIT))
+        poner(tit, titulo)
+        img = self._poner(copy.deepcopy(P_FIG_IMG))
+        for r in list(img.runs):
+            r._r.getparent().remove(r._r)
+        for i, (gf, ancho, alto) in enumerate(graficos):
+            if i:
+                img.add_run(" ")
+            img._p.append(incrustar(gf, ancho, alto))
+        img.alignment = 1
+        for q in (et, tit, img):
+            q.paragraph_format.keep_with_next = True
+        poner(self._poner(copy.deepcopy(P_NOTA_FIG)), "Nota. " + nota)
+        return Cursor.n_figura
+
+    n_ecuacion = 0
+
+    def ecuacion(self, *hijos):
+        """Ecuación del editor de Word (OMML) en su propio párrafo, centrada y con el número entre corchetes al
+        margen derecho: es la numeración nativa de Word (escribir "#[1]" al final de la ecuación)."""
+        Cursor.n_ecuacion += 1
+        p = self._poner(copy.deepcopy(P_CUERPO))
+        for hijo in list(p._p):
+            if hijo.tag != qn("w:pPr"):
+                p._p.remove(hijo)
+        p.paragraph_format.first_line_indent = p.paragraph_format.left_indent = Cm(0)
+        numero = mpar(mt(str(Cursor.n_ecuacion)), abre="[", cierra="]")
+        arreglo = _m("eqArr", _m("eqArrPr", _m("maxDist", val="1")), _m("e", *hijos, mt("#"), numero))
+        p._p.append(_m("oMathPara", _m("oMath", arreglo)))
+        return Cursor.n_ecuacion
+
+
+# ---------------------------------------------------------------- ecuaciones (OMML)
+def _m(etiqueta, *hijos, **atributos):
+    e = etree.Element(qn(f"m:{etiqueta}"))
+    for k, v in atributos.items():
+        e.set(qn(f"m:{k}"), v)
+    for h in hijos:
+        e.append(h)
+    return e
+
+
+def mt(texto, recto=False, texto_normal=False):
+    """Texto de la ecuación: variables en cursiva; recto=True para nombres (IoU, máx); texto_normal=True para
+    números con coma decimal, que el editor separaría como si fuera una lista."""
+    r = _m("r")
+    if texto_normal:
+        r.append(_m("rPr", _m("nor")))
+    elif recto:
+        r.append(_m("rPr", _m("sty", val="p")))
+    t = _m("t")
+    t.text = texto
+    t.set("{http://www.w3.org/XML/1998/namespace}space", "preserve")
+    r.append(t)
+    return r
+
+
+def msub(base, sub):
+    return _m("sSub", _m("e", *base), _m("sub", *sub))
+
+
+def msup(base, sup):
+    return _m("sSup", _m("e", *base), _m("sup", *sup))
+
+
+def mfrac(num, den):
+    return _m("f", _m("num", *num), _m("den", *den))
+
+
+def mpar(*hijos, abre="(", cierra=")"):
+    return _m("d", _m("dPr", _m("begChr", val=abre), _m("endChr", val=cierra)), _m("e", *hijos))
+
+
+def mfunc(nombre, limite, argumento):
+    """Función con límite debajo, como máx o argmáx."""
+    return _m("func", _m("fName", _m("limLow", _m("e", mt(nombre, recto=True)), _m("lim", *limite))),
+              _m("e", *argumento))
+
+
+def msuma(sub, cuerpo):
+    return _m("nary", _m("naryPr", _m("chr", val="∑"), _m("limLoc", val="undOvr"), _m("supHide", val="1")),
+              _m("sub", *sub), _m("sup"), _m("e", *cuerpo))
+
+
+# ---------------------------------------------------------------- gráficos editables (python-pptx)
+# La plantilla pide gráficos de Office editables ("copie de Excel la figura y pegue con formato de origen"): se
+# arman con python-pptx, con su hoja de Excel incrustada, y se pasan al .docx.
+# Word escribe los números de un gráfico con el separador decimal de Windows (punto en una PC en inglés). Para que
+# la coma salga en cualquier computadora, los valores van multiplicados por 100 y el formato pone la coma como texto:
+# 61 con el formato 0\,00 se ve 0,61.
+X100, COMA2 = 100, "0\\,00"
+COL = dict(azul="2A78D6", naranja="EB6834", agua="1BAF7A", gris="8A8A8A", tinta="222222", rejilla="E2E2E0",
+           nota="555555")
+rgb = RGBColor.from_string
+_PRS = Presentation()
+_n_graf = 0
+
+
+def grafico_nuevo(tipo, datos, ancho, alto, leyenda=XL_LEGEND_POSITION.BOTTOM, titulo=None):
+    gf = _PRS.slides.add_slide(_PRS.slide_layouts[6]).shapes.add_chart(tipo, 0, 0, PCm(ancho), PCm(alto), datos)
+    ch = gf.chart
+    ch.font.name, ch.font.size = "Arial", PPt(8.5)
+    ch.font.color.rgb = rgb(COL["tinta"])
+    ch.has_title = titulo is not None
+    if titulo:
+        tf = ch.chart_title.text_frame
+        tf.text = titulo
+        f = tf.paragraphs[0].runs[0].font
+        f.size, f.bold = PPt(9), True
+    ch.has_legend = leyenda is not None
+    if leyenda is not None:
+        ch.legend.position, ch.legend.include_in_layout = leyenda, False
+        ch.legend.font.size = PPt(8)
+    return gf, ch
+
+
+def ejes(ch, x_titulo, y_titulo, y, x=None, fmt_x=None):
+    """y y x: (mínimo, máximo, paso), en las unidades de los datos (×100). Rejilla horizontal suave, sin línea del
+    eje vertical."""
+    va, ca = ch.value_axis, ch.category_axis
+    va.minimum_scale, va.maximum_scale = y[0], y[1]
+    va.major_unit = y[2]
+    va.has_major_gridlines = True
+    va.major_gridlines.format.line.color.rgb = rgb(COL["rejilla"])
+    va.major_gridlines.format.line.width = PPt(0.6)
+    va.format.line.fill.background()
+    va.tick_labels.number_format, va.tick_labels.number_format_is_linked = COMA2, False
+    ca.format.line.color.rgb = rgb(COL["gris"])
+    ca.has_major_gridlines = False
+    if x:
+        ca.minimum_scale, ca.maximum_scale = x[0], x[1]
+        ca.major_unit = x[2]
+    if fmt_x:
+        ca.tick_labels.number_format, ca.tick_labels.number_format_is_linked = fmt_x, False
+    for eje, texto in ((ca, x_titulo), (va, y_titulo)):
+        eje.has_title = texto is not None
+        if texto is None:
+            continue
+        tf = eje.axis_title.text_frame
+        tf.text = texto
+        f = tf.paragraphs[0].runs[0].font
+        f.size, f.bold = PPt(8.5), False
+
+
+def linea(s, color, ancho=1.6, guion=None, marca=None, tam=5):
+    s.smooth = False
+    ln = s.format.line
+    ln.color.rgb, ln.width = rgb(color), PPt(ancho)
+    if guion is not None:
+        ln.dash_style = guion
+    if marca is None:
+        s.marker.style = XL_MARKER_STYLE.NONE
+    else:
+        s.marker.style, s.marker.size = marca, tam
+        s.marker.format.fill.solid()
+        s.marker.format.fill.fore_color.rgb = rgb(color)
+        s.marker.format.line.color.rgb = rgb(color)
+
+
+def rotular(s, i, texto, pos=XL_LABEL_POSITION.ABOVE, color=None, tam=6):
+    """Rótulo en un punto y, si se da el color, una marca circular llena en ese punto."""
+    pt = s.points[i]
+    dl = pt.data_label
+    dl.has_text_frame = True
+    dl.text_frame.text = texto
+    dl.position = pos
+    f = dl.text_frame.paragraphs[0].runs[0].font
+    f.size = PPt(7)
+    f.color.rgb = rgb(COL["nota"])
+    if color:
+        pt.marker.style, pt.marker.size = XL_MARKER_STYLE.CIRCLE, tam
+        pt.marker.format.fill.solid()
+        pt.marker.format.fill.fore_color.rgb = rgb(color)
+        pt.marker.format.line.color.rgb = rgb(color)
+
+
+def incrustar(gf, ancho, alto):
+    """Pasa el gráfico (y su hoja de Excel) al .docx y devuelve el w:r con el dibujo."""
+    global _n_graf
+    _n_graf += 1
+    pkg, cp = d.part.package, gf.chart_part
+    graf = Part(PackURI(f"/word/charts/grafico{_n_graf}.xml"), CT.DML_CHART, b"", pkg)
+    hoja = Part(PackURI(f"/word/embeddings/grafico{_n_graf}.xlsx"), CT.SML_SHEET, cp.chart_workbook.xlsx_part.blob, pkg)
+    cs = copy.deepcopy(cp._element)
+    cs.find(qn("c:externalData")).set(qn("r:id"), graf.relate_to(hoja, RT.PACKAGE))
+    # Sin el marco redondeado que Word dibuja por defecto alrededor del gráfico
+    cs.insert(0, parse_xml(f'<c:roundedCorners {nsdecls("c")} val="0"/>'))
+    cs.find(qn("c:chart")).addnext(parse_xml(f'<c:spPr {nsdecls("c", "a")}><a:noFill/><a:ln><a:noFill/></a:ln></c:spPr>'))
+    graf._blob = etree.tostring(cs, xml_declaration=True, encoding="UTF-8", standalone=True)
+    rid = d.part.relate_to(graf, RT.CHART)
+    n = d.part.next_id
+    return parse_xml(
+        f'<w:r {nsdecls("w", "wp", "a", "c", "r")}><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0">'
+        f'<wp:extent cx="{round(ancho * 360000)}" cy="{round(alto * 360000)}"/>'
+        f'<wp:effectExtent l="0" t="0" r="0" b="0"/><wp:docPr id="{n}" name="Gráfico {n}"/><wp:cNvGraphicFramePr/>'
+        '<a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/chart">'
+        f'<c:chart r:id="{rid}"/></a:graphicData></a:graphic></wp:inline></w:drawing></w:r>')
 
 
 # ---------------------------------------------------------------- datos de los informes
@@ -220,6 +448,10 @@ poner(buscar("[Título del manuscrito"), "Cartografía de baches y grietas con i
 poner(buscar("[Título traducido al inglés"),
       "Cartography of potholes and cracks with artificial intelligence on the mobile phone")
 poner(buscar("[Título em português"), "Cartografia de buracos e fissuras com inteligência artificial no telefone celular")
+recibido = buscar("Recibido:")
+poner(recibido, "28-11-2026", desde=1)   # fecha de envío, con el formato de la plantilla (31-10-2025)
+for color in recibido.runs[1]._r.findall(".//" + qn("w:color")):   # la plantilla marca en rojo lo que falta llenar
+    color.getparent().remove(color)
 
 # Segunda autora: el mismo bloque que el primero (nombre, carrera, departamento, universidad, ORCID y correo)
 nombre1 = buscar("Leonardo Duran Cuenca")
@@ -385,19 +617,44 @@ c.tabla("Configuración del entrenamiento",
         [4.6, 11.4],
         "Entre paréntesis, la probabilidad de aplicar cada aumento. Pesos iniciales: TamAko783 (s. f.); biblioteca: "
         "Ultralytics (2026).", tam=9)
+θ_ = lambda sub: msub([mt("θ")], [mt(sub, recto=True)])
+c.parrafo("Para conservar la robustez de los pesos iniciales, se promedian peso por peso con los ajustados, sin "
+          "entrenar de nuevo (ecuación [1]), donde α es la proporción del modelo ajustado; se prueban α = 0,25, 0,50 "
+          "y 0,75.")
+assert c.ecuacion(mt("θ"), mpar(mt("α")), mt("="), mt("α"), mt("·"), θ_("ajustado"), mt("+"),
+                  mpar(mt("1"), mt("−"), mt("α")), mt("·"), θ_("inicial")) == 1
+c.parrafo("La regla de selección se fija antes de ver estos resultados: HRP4K, que no participa del ajuste, se divide "
+          "en dos mitades fijas de 467 y 432 fotografías, A para elegir y B para informar, y a 640 píxeles, el tamaño "
+          "de la aplicación, se elige el modelo de mayor AP50 de validación entre los que no empeoran más de 0,005 en "
+          "la mitad A (ecuación [2]):")
+AP_ = lambda sub, arg: [msub([mt("AP", recto=True)], [mt(sub, recto=True)]), mpar(*arg)]
+assert c.ecuacion(msup([mt("θ")], [mt("*")]), mt("="),
+                  mfunc("argmáx", [mt("θ"), mt("∈"), mt("C")], AP_("val", [mt("θ")])), mt(","), mt("  "),
+                  mt("C"), mt("="),
+                  mpar(mt("θ"), mt(":"), *AP_("A", [mt("θ")]), mt("≥"), *AP_("A", [θ_("inicial")]), mt("−"),
+                       mt("0,005", texto_normal=True), abre="{", cierra="}")) == 2
+c.parrafo("donde AP_{val} es el AP50 de validación, AP_{A} el de la mitad A y θ recorre los pesos iniciales, los "
+          "promedios y el modelo entrenado. El modelo final conserva las cuatro clases iniciales: las filas de grietas "
+          "quedan intactas y solo se promedia la de baches.")
+c.parrafo("Una detección es correcta si su caja coincide al menos en un 50 % con una etiqueta de la misma clase, medido "
+          "como intersección sobre unión (IoU, ecuación [3]), donde B_{p} es la caja predicha y B_{e}, la etiquetada.")
+B_ = lambda sub: msub([mt("B")], [mt(sub)])
+assert c.ecuacion(mt("IoU", recto=True), mt("="),
+                  mfrac([mt("área", recto=True), mpar(B_("p"), mt("∩"), B_("e"))],
+                        [mt("área", recto=True), mpar(B_("p"), mt("∪"), B_("e"))])) == 3
+c.parrafo("Con esos emparejamientos, ordenados por confianza, se calcula el AP con 101 puntos de exhaustividad r "
+          "(ecuación [4]), donde p(r′) es la precisión cuando la exhaustividad es r′; el AP50 exige una IoU de 0,5.")
+assert c.ecuacion(mt("AP", recto=True), mt("="), mfrac([mt("1")], [mt("101")]),
+                  msuma([mt("r"), mt("∈"), mpar(mt("0; 0,01; …; 1", texto_normal=True), abre="{", cierra="}")],
+                        [mfunc("máx", [mt("r′"), mt("≥"), mt("r")], [mt("p"), mpar(mt("r′"))])])) == 4
+c.parrafo("Se comparan el modelo final, el entrenado sin promediar, la segunda corrida, los promedios con otras "
+          "proporciones, los pesos iniciales y el detector que usaba la aplicación, como referencia. Los umbrales de "
+          "confianza de la aplicación se eligen en validación por F1, la media armónica de la precisión P y la "
+          "exhaustividad R (ecuación [5]), y la prueba se mide una sola vez, salvo la mitad de HRP4K destinada a "
+          "elegir.")
+assert c.ecuacion(msub([mt("F")], [mt("1")]), mt("="),
+                  mfrac([mt("2"), mt("·"), mt("P"), mt("·"), mt("R")], [mt("P"), mt("+"), mt("R")])) == 5
 for t in [
-    "Para conservar la robustez de los pesos iniciales, se promedian con los ajustados en proporciones α del ajustado "
-    "de 0,25, 0,50 y 0,75. La regla de selección se fija antes de ver estos resultados: HRP4K, que no participa del "
-    "ajuste, se divide en dos mitades fijas de 467 y 432 fotografías, una para elegir y otra para informar, y a 640 "
-    "píxeles, el tamaño de la aplicación, se elige el modelo de mayor AP50 de validación entre los que no empeoran más "
-    "de 0,005 en la primera mitad. El modelo final conserva las cuatro clases iniciales: las filas de grietas quedan "
-    "intactas y solo se promedia la de baches.",
-    "Una detección es correcta si su caja coincide al menos en un 50 % con una etiqueta de la misma clase, medido como "
-    "intersección sobre unión; con esos emparejamientos se calcula el AP50 con 101 puntos de exhaustividad. Se "
-    "comparan el modelo final, el entrenado sin promediar, la segunda corrida, los promedios con otras proporciones, "
-    "los pesos iniciales y el detector que usaba la aplicación, como referencia. Los umbrales de confianza de la "
-    "aplicación se eligen en validación por F1, y la prueba se mide una sola vez, salvo la mitad de HRP4K destinada a "
-    "elegir.",
     "La aplicación es una página web instalable que ejecuta el modelo, exportado a ONNX, dentro del teléfono: en su GPU "
     "mediante WebGPU o, si no la hay, en su CPU. Un daño se registra cuando aparece en 2 de 3 cuadros seguidos y se "
     "dibuja como un punto en un mapa de OpenStreetMap, en la posición del GPS o en la de un recorrido de prueba que "
@@ -456,8 +713,29 @@ c.parrafo(
     "rápido durante las primeras 20 épocas y luego se estabiliza entre 0,72 y 0,78 (figura 2). Estos valores son altos "
     "porque la validación comparte caminos con el entrenamiento en algunos conjuntos; por eso los modelos se comparan "
     "en la prueba congelada y en un conjunto no visto.")
-c.figura("mAP50 de baches en validación durante el entrenamiento", "figura_curvas.png", 16.0,
-         "Valor que calcula la biblioteca de entrenamiento en cada época. Elaboración propia.")
+def grafico_curvas():
+    datos, estilos = XyChartData(), []
+    for nombre, etiqueta, color, guion in (
+            ("a1_y26s", "Corrida 1: 6.507 fotografías", COL["azul"], None),
+            ("a2_y26s_hrp4k", "Corrida 2: + HRP4K (9.693)", COL["naranja"], MSO_LINE_DASH_STYLE.DASH)):
+        with open(INF / "corridas" / nombre / "results.csv", encoding="utf-8") as f:
+            filas = [{k.strip(): v for k, v in r.items()} for r in csv.DictReader(f)]
+        ys = [float(r["metrics/mAP50(B)"]) for r in filas]
+        s = datos.add_series(etiqueta, number_format="0.0")
+        for r, y in zip(filas, ys):
+            s.add_data_point(int(float(r["epoch"])), y * X100)
+        estilos.append((color, guion, ys))
+    gf, ch = grafico_nuevo(XL_CHART_TYPE.XY_SCATTER_LINES_NO_MARKERS, datos, 16.0, 7.0)
+    ejes(ch, "Época", "mAP50 de baches en validación", (50, 85, 5), x=(0, 100, 10), fmt_x="0")
+    for s, (color, guion, ys) in zip(ch.plots[0].series, estilos):
+        linea(s, color, 1.5, guion)
+        i = max(range(len(ys)), key=ys.__getitem__)
+        rotular(s, i, f"máximo {coma(ys[i])}", color=color)
+    return [(gf, 16.0, 7.0)]
+
+
+c.grafico("mAP50 de baches en validación durante el entrenamiento", grafico_curvas(),
+          "Valor que calcula la biblioteca de entrenamiento en cada época. Gráfico editable. Elaboración propia.")
 
 c.sub("Efecto del entrenamiento y del promedio de pesos")
 n_t3 = Cursor.n_tabla + 1
@@ -486,9 +764,38 @@ c.parrafo(
     "dentro del margen; con α = 0,50 o más, la caída fuera de los datos conocidos supera el margen. La regla elige "
     "α = 0,25, que en la mitad para informar obtiene 0,059, frente a 0,065 de los pesos iniciales y 0,044 del detector "
     "de referencia; a 1.280 píxeles, este promedio incluso supera a los pesos iniciales en HRP4K (0,098 frente a 0,095).")
-c.figura("AP50 de baches según la proporción del modelo entrenado en el promedio de pesos", "figura1_wise.png", 16.0,
-         "A 640 píxeles. La franja marca el modelo elegido y la línea punteada, el límite de la regla de selección. "
-         "Elaboración propia.")
+def grafico_promedio():
+    """Los mismos valores de la tabla anterior (informes/entrenamiento_amd.md), en dos paneles."""
+    categorias = ["0", "0,25", "0,50", "0,75", "1"]
+    paneles = [
+        ("Conjuntos usados en el ajuste", (0, 80, 20), [
+            ("Validación, total", [0.191, 0.299, 0.478, 0.680, 0.732]),
+            ("Prueba, Egipto", [0.356, 0.471, 0.534, 0.484, 0.442])]),
+        ("HRP4K, no visto al entrenar", (0, 8, 2), [
+            ("Mitad A (elegir)", [0.034, 0.029, 0.025, 0.015, 0.011]),
+            ("Mitad B (informar)", [0.065, 0.059, 0.040, 0.019, 0.019]),
+            ("Límite de la regla", [0.029] * 5)]),
+    ]
+    estilos = [(COL["azul"], None, XL_MARKER_STYLE.CIRCLE), (COL["naranja"], MSO_LINE_DASH_STYLE.DASH,
+               XL_MARKER_STYLE.SQUARE), (COL["gris"], MSO_LINE_DASH_STYLE.ROUND_DOT, None)]
+    graficos = []
+    for titulo, y, series in paneles:
+        datos = CategoryChartData(number_format="0.0")
+        datos.categories = categorias
+        for nombre, valores in series:
+            datos.add_series(nombre, [v * X100 for v in valores])
+        gf, ch = grafico_nuevo(XL_CHART_TYPE.LINE_MARKERS, datos, 8.0, 7.4, titulo=titulo)
+        ejes(ch, "Proporción α del modelo entrenado", "AP50 de baches", y)
+        for s, (color, guion, marca) in zip(ch.plots[0].series, estilos):
+            linea(s, color, 1.6 if marca else 1.0, guion, marca)
+        graficos.append((gf, 8.0, 7.4))
+    return graficos
+
+
+c.grafico("AP50 de baches según la proporción del modelo entrenado en el promedio de pesos", grafico_promedio(),
+          "A 640 píxeles. α = 0: pesos iniciales; α = 1: modelo entrenado; la regla eligió α = 0,25. La línea "
+          "punteada gris marca el límite de la regla de selección (ecuación [2]). Gráficos editables. Elaboración "
+          "propia.")
 
 c.sub("Modelo final")
 n_f4 = Cursor.n_figura + 1
@@ -497,16 +804,61 @@ c.parrafo(
     f"HRP4K, donde queda entre ambos (figura {n_f4}): en el total de la prueba pasa de 0,128 y 0,196 a 0,276, y en "
     "Egipto, de 0,151 y 0,356 a 0,472. También mantiene la detección de grietas, con un AP50 de 0,199 en Egipto y de "
     "0,063 en Brasil, frente a 0,114 y 0,070 de los pesos iniciales y 0,075 y 0,061 del detector de referencia.")
-c.figura("AP50 de baches por conjunto en la prueba congelada", "figura_barras.png", 16.0,
-         "A 640 píxeles. Elaboración propia con los resultados de la prueba congelada.")
+def grafico_barras():
+    conjuntos = ["bisman", "brazil", "bucko", "egypt", "hrp4k", "todos"]
+    series = [("Detector de referencia", "yolo12s_RDD2022_best", COL["agua"]),
+              ("Pesos iniciales", "rdd_yolo26s_dist", COL["naranja"]),
+              ("Modelo final (aplicación)", "wise4_a25", COL["azul"])]
+    datos = CategoryChartData(number_format="0.0")
+    datos.categories = ["Bisman", "Brasil", "Bucko", "Egipto", "HRP4K", "Total"]
+    for etiqueta, nombre, _ in series:
+        datos.add_series(etiqueta, [ap(nombre, "test", 640, x) * X100 for x in conjuntos])
+    gf, ch = grafico_nuevo(XL_CHART_TYPE.COLUMN_CLUSTERED, datos, 16.0, 7.5, XL_LEGEND_POSITION.TOP)
+    ejes(ch, None, "AP50 de baches (prueba, 640 px)", (0, 70, 10))
+    plot = ch.plots[0]
+    plot.gap_width, plot.overlap = 60, -5
+    for s, (_, _, color) in zip(plot.series, series):
+        s.format.fill.solid()
+        s.format.fill.fore_color.rgb = rgb(color)
+    plot.has_data_labels = True
+    dl = plot.data_labels
+    dl.number_format, dl.number_format_is_linked = COMA2, False
+    dl.position = XL_LABEL_POSITION.OUTSIDE_END
+    dl.font.size = PPt(6.5)
+    return [(gf, 16.0, 7.5)]
+
+
+c.grafico("AP50 de baches por conjunto en la prueba congelada", grafico_barras(),
+          "A 640 píxeles. Gráfico editable. Elaboración propia con los resultados de la prueba congelada.")
 n_f5 = Cursor.n_figura + 1
 c.parrafo(
     f"Los umbrales de la aplicación se eligen en validación (figura {n_f5}). Para baches, el F1 cae a medida que sube "
     "el umbral, y se usa 0,10, el mínimo que admite la aplicación, con un F1 de 0,338. Para grietas, el F1 apenas "
     "cambia entre 0,10 y 0,25, de modo que se usa 0,25, el valor más alto de ese tramo, para reducir las falsas "
     "alarmas.")
-c.figura("F1 en validación según el umbral de confianza del modelo final", "figura_umbral.png", 16.0,
-         "Media del F1 de los conjuntos con cada clase, con el detector solo y a 640 píxeles. Elaboración propia.")
+def grafico_umbral():
+    """Los valores de docs/figuras/generar_figuras.py (F1 medio en validación del modelo final, 640 px)."""
+    conf = [0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.40]
+    curvas_f1 = [("Baches", [0.365, 0.338, 0.329, 0.307, 0.294, 0.277, 0.242]),
+                 ("Grietas", [0.156, 0.149, 0.149, 0.144, 0.142, 0.125, 0.121])]
+    datos = XyChartData()
+    for nombre, ys in curvas_f1:
+        s = datos.add_series(nombre, number_format="0.0")
+        for x, y in zip(conf, ys):
+            s.add_data_point(x * X100, y * X100)
+    gf, ch = grafico_nuevo(XL_CHART_TYPE.XY_SCATTER_LINES, datos, 16.0, 6.8)
+    ejes(ch, "Umbral de confianza", "F1 medio entre conjuntos (validación)", (10, 40, 5), x=(0, 45, 5), fmt_x=COMA2)
+    s_b, s_g = ch.plots[0].series
+    linea(s_b, COL["azul"], 1.6, None, XL_MARKER_STYLE.CIRCLE)
+    linea(s_g, COL["naranja"], 1.6, MSO_LINE_DASH_STYLE.DASH, XL_MARKER_STYLE.SQUARE)
+    rotular(s_b, conf.index(0.10), "umbral de la aplicación: 0,10", color=COL["azul"], tam=9)
+    rotular(s_g, conf.index(0.25), "umbral de la aplicación: 0,25", color=COL["naranja"], tam=9)
+    return [(gf, 16.0, 6.8)]
+
+
+c.grafico("F1 en validación según el umbral de confianza del modelo final", grafico_umbral(),
+          "Media del F1 de los conjuntos con cada clase, con el detector solo y a 640 píxeles. Gráfico editable. "
+          "Elaboración propia.")
 
 c.sub("Segunda corrida con HRP4K")
 a2_cuadros = tot["a2_y26s_hrp4k"][0]
@@ -835,6 +1187,39 @@ for t in copy_p._element.iter(qn("w:t")):
         break
 else:
     raise SystemExit("no encontré el nombre en los derechos de uso")
+
+# ---------------------------------------------------------------- metadatos y partes sobrantes de la plantilla
+cp = d.core_properties
+cp.title = "Cartografía de baches y grietas con inteligencia artificial en el teléfono móvil"
+cp.subject = "Artículo científico, formato Revista 3i"
+cp.author = f"Leonardo Duran Cuenca; {COAUTORA}"
+cp.last_modified_by = "Leonardo Duran Cuenca"
+cp.keywords = "inteligencia artificial, cartografía, teléfono móvil"
+cp.comments = cp.category = cp.content_status = ""
+cp.language = "es-BO"
+cp.created = cp.modified = datetime.now(timezone.utc).replace(microsecond=0, tzinfo=None)
+cp.revision = 1
+for viejo in cp._element.findall(qn("cp:lastPrinted")):
+    cp._element.remove(viejo)
+# El gráfico de ejemplo, imágenes que la plantilla ya no muestra y su lista vacía de fuentes bibliográficas: partes
+# relacionadas desde el documento que nada referencia (r:id, r:embed o r:link).
+usados = set(d.part._element.xpath("//@r:id | //@r:embed | //@r:link"))
+sobrantes = [r for r in d.part.rels.values() if not r.is_external and r.rId not in usados
+             and r.reltype in (RT.IMAGE, RT.CHART, RT.CUSTOM_XML)]
+for r in sobrantes:
+    d.part.rels.pop(r.rId)
+print("partes sobrantes quitadas:", sorted(str(r.target_part.partname) for r in sobrantes))
+# docProps/app.xml trae las estadísticas del último guardado de la plantilla (12 páginas, 35 minutos de edición):
+# se quitan, y Word las vuelve a calcular al abrir el archivo.
+EXT = "{http://schemas.openxmlformats.org/officeDocument/2006/extended-properties}"
+for parte in d.part.package.iter_parts():
+    if str(parte.partname) == "/docProps/app.xml":
+        app = etree.fromstring(parte.blob)
+        for campo in ("TotalTime", "Pages", "Words", "Characters", "Lines", "Paragraphs", "CharactersWithSpaces",
+                      "Company", "Manager", "HyperlinkBase"):
+            for e in app.findall(EXT + campo):
+                app.remove(e)
+        parte._blob = etree.tostring(app, xml_declaration=True, encoding="UTF-8", standalone=True)
 
 salida = DOCS / "articulo_2do_parcial.docx"
 d.save(salida)
